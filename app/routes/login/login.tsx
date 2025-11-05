@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 // `react-router` does not export MetaFunction/LinksFunction in this setup.
 // Export an untyped `meta` instead so SSR and Vite don't try to import
@@ -17,12 +17,24 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState("");
 
+  const navigate = useNavigate();
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    // Simple client-side role redirect. In a real app you'd authenticate first.
+    if (role === "admin") {
+      navigate("/admin");
+    } else {
+      navigate("/");
+    }
+  }
+
   return (
     <main className="min-h-screen w-full bg-cover bg-center flex items-center justify-center" style={{ backgroundImage: "url('/assets/login_signup_forgetpass.jpg')" }}>
       <div className="absolute inset-0 bg-black/30" aria-hidden />
 
       <form
-        onSubmit={(e) => e.preventDefault()}
+        onSubmit={handleSubmit}
         className="relative z-10 w-[760px] max-w-[95%] bg-white/20 backdrop-blur-md border border-white/20 rounded-3xl p-8 shadow-lg"
       >
         <div className="flex flex-col items-center gap-2 mb-4">

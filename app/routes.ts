@@ -5,4 +5,5 @@ export default [
 	index("routes/login/login.tsx"),
 	route("reset-password", "routes/login/reset_password.tsx"),
 	route("signup", "routes/login/signup.tsx"),
+	route("admin", "routes/admin_dashboard/admin_dashboard.tsx"),
 ] satisfies RouteConfig;
