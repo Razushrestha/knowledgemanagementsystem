@@ -23,7 +23,13 @@ export default function Login() {
     e.preventDefault();
     // Simple client-side role redirect. In a real app you'd authenticate first.
     if (role === "admin") {
-      navigate("/admin");
+      navigate("/admin_dashboard");
+    } else if (role === "student") {
+      navigate("/student_dashboard");
+    } else if (role === "teacher") {
+      navigate("/partner_dashboard");
+    } else if (role === "school") {
+      navigate("/school_dashboard");
     } else {
       navigate("/");
     }
@@ -86,9 +92,10 @@ export default function Login() {
               className="mt-1 w-full border rounded-md px-4 py-3 bg-white/80 dark:bg-gray-900/50"
             >
               <option value="">Select role</option>
-              <option value="student">Student</option>
-              <option value="teacher">Teacher</option>
               <option value="admin">Admin</option>
+              <option value="partner">Partner</option>
+              <option value="school">School</option>
+              <option value="student">Student</option>
             </select>
           </label>
 
@@ -98,9 +105,6 @@ export default function Login() {
             <Link to="/reset-password" className="underline">Forgot Password?</Link>
             <div className="mt-2">Don't have an Account ? <Link to="/signup" className="font-semibold underline">Sign Up</Link></div>
           </div>
-
-          
-
         </div>
       </form>
     </main>
