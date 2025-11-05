@@ -23,7 +23,7 @@ export default function Login() {
     e.preventDefault();
     // Simple client-side role redirect. In a real app you'd authenticate first.
     if (role === "admin") {
-      navigate("/admin_dashboard");
+      navigate("/admin");
     } else if (role === "student") {
       navigate("/student_dashboard");
     } else if (role === "teacher") {
