@@ -21,23 +21,48 @@ export default function AdminDashboard() {
 
           <nav className="space-y-2 mt-4">
             <a className="flex items-center gap-3 px-3 py-2 rounded-lg bg-white/10">
-              <span className="w-8 h-8 rounded bg-white/20 flex items-center justify-center">🏠</span>
+              <span className="w-8 h-8 rounded bg-white/20 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.5z" />
+                </svg>
+              </span>
               <span className="font-medium">Dashboard</span>
             </a>
             <a className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5">
-              <span className="w-8 h-8 rounded bg-white/10 flex items-center justify-center">📅</span>
+              <span className="w-8 h-8 rounded bg-white/10 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <rect x="3" y="4" width="18" height="18" rx="2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M16 2v4M8 2v4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
               Attendance
             </a>
             <a className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5">
-              <span className="w-8 h-8 rounded bg-white/10 flex items-center justify-center">📝</span>
+              <span className="w-8 h-8 rounded bg-white/10 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M12 20h9" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M16 4H8a2 2 0 00-2 2v12a2 2 0 002 2h8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M8 2v4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
               Examination
             </a>
             <a className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5">
-              <span className="w-8 h-8 rounded bg-white/10 flex items-center justify-center">📚</span>
+              <span className="w-8 h-8 rounded bg-white/10 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M2 7a2 2 0 012-2h14a2 2 0 012 2v11" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M7 7v13" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
               Courses
             </a>
             <a className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5">
-              <span className="w-8 h-8 rounded bg-white/10 flex items-center justify-center">📊</span>
+              <span className="w-8 h-8 rounded bg-white/10 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M3 3v18h18" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M7 13v5M12 8v10M17 3v15" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
               Reports
             </a>
           </nav>
