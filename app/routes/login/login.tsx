@@ -21,17 +21,26 @@ export default function Login() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    // Simple client-side role redirect. In a real app you'd authenticate first.
-    if (role === "admin") {
-      navigate("/admin");
-    } else if (role === "student") {
-      navigate("/student_dashboard");
-    } else if (role === "teacher") {
-      navigate("/partner_dashboard");
-    } else if (role === "school") {
-      navigate("/school_dashboard");
-    } else {
-      navigate("/");
+    
+    // Store the selected role in localStorage for persisting user type
+    localStorage.setItem('userRole', role);
+    
+    // Redirect based on role
+    switch (role) {
+      case "admin":
+        navigate("/admin_dashboard");
+        break;
+      case "school":
+        navigate("/school_dashboard");
+        break;
+        case "student":
+        navigate("/student_dashboard");
+        break;
+      case "tutor":
+        navigate("/tutor_dashboard");
+        break;
+      default:
+        navigate("/");
     }
   }
 
@@ -93,9 +102,9 @@ export default function Login() {
             >
               <option value="">Select role</option>
               <option value="admin">Admin</option>
-              <option value="partner">Partner</option>
               <option value="school">School</option>
               <option value="student">Student</option>
+              <option value="tutor">Tutor</option>
             </select>
           </label>
 
