@@ -1,5 +1,9 @@
+
+
 import React, { useState } from "react";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
+import { Icon } from "@iconify/react";
+
 
 interface TaskRecord {
   task: string;
@@ -15,6 +19,11 @@ interface TaskRecord {
 
 export default function StudentDashboard() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+
+
 
   const [taskRecords, setTaskRecords] = useState<TaskRecord[]>([
     {
@@ -23,10 +32,7 @@ export default function StudentDashboard() {
       assignedDate: "Nov 2",
       dueDate: "Nov 8",
       progress: 65,
-      status: {
-        submitted: true,
-        pending: true,
-      },
+      status: { submitted: true, pending: true },
     },
     {
       task: "Complete Quiz 5",
@@ -34,10 +40,7 @@ export default function StudentDashboard() {
       assignedDate: "Nov 2",
       dueDate: "Nov 8",
       progress: 65,
-      status: {
-        submitted: true,
-        pending: true,
-      },
+      status: { submitted: true, pending: true },
     },
     {
       task: "Complete Quiz 5",
@@ -45,64 +48,65 @@ export default function StudentDashboard() {
       assignedDate: "Nov 2",
       dueDate: "Nov 8",
       progress: 65,
-      status: {
-        submitted: true,
-        pending: true,
-      },
+      status: { submitted: true, pending: true },
     },
   ]);
 
-  // Sidebar items
   const sidebarItems = [
     {
       label: "Dashboard",
       icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-        </svg>
+       <Icon icon="iconamoon:home-duotone" width={24} height={24} />
       ),
     },
     {
       label: "Learning Material",
       icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C6.228 6.228 2 10.228 2 15s4.228 8.772 10 8.772c5.772 0 10-3.93 10-8.772 0-4.772-4.228-8.747-10-8.747z"/>
-        </svg>
+        <Icon icon="mingcute:calendar-2-line" width={24} height={24} />
+        
       ),
     },
     {
       label: "Task",
       icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
-        </svg>
+        <Icon icon="hugeicons:task-02" width={24} height={24} />
       ),
     },
     {
       label: "Examination",
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+          />
         </svg>
       ),
     },
     {
       label: "Progress",
       icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-        </svg>
+        <Icon icon="streamline-plump:graph-bar-increase-solid" width={24} height={24} />
       ),
     },
     {
       label: "Complain Box",
       icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-        </svg>
+        <Icon icon="streamline-freehand:customer-action-complaint" width={24} height={24} />
       ),
     },
   ];
+
+  const routeMap: Record<string, string> = {
+    "Dashboard": "/student_dashboard",
+    "Learning Material": "/student_dashboard/learning_material",
+    "Task": "/student_dashboard/task",
+    "Examination": "/student_dashboard/examination",
+    "Progress": "/student_dashboard/progress",
+    "Complain Box": "/student_dashboard/complain_box",
+  };
 
   return (
     <div className="flex min-h-screen bg-[#fdfbf0]">
@@ -110,50 +114,49 @@ export default function StudentDashboard() {
       <aside className="w-[220px] flex flex-col bg-[#3A7D7D] min-h-screen p-4">
         <div className="text-2xl font-bold mb-8 text-white">LOGO</div>
         <nav className="flex-1 space-y-2">
-          {sidebarItems.map((item, index) => {
-            const routeMap: Record<string, string> = {
-              "Dashboard": "/student_dashboard",
-              "Learning Material": "/student_dashboard/learning_material",
-              "Task": "/student_dashboard/task",
-              "Examination": "/student_dashboard/examination",
-              "Progress": "/student_dashboard/progress",
-              "Complain Box": "/student_dashboard/complain_box",
-            };
+          {sidebarItems.map((item) => {
+            const isActive = location.pathname.startsWith(routeMap[item.label]);
             return (
-              <Link
+              <button
                 key={item.label}
-                to={routeMap[item.label] || "#"}
-                className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 
-                           ${index === 0 
-                             ? 'bg-white text-[#3A7D7D] font-medium shadow-lg transform -translate-y-0.5' 
-                             : 'text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-lg hover:-translate-y-0.5 hover:font-medium'}`}
+                onClick={() => navigate(routeMap[item.label])}
+                className={`w-full text-left flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 ${isActive
+                    ? "bg-[#3A7D7D] text-white border font-semibold shadow-lg -translate-y-0.5"
+                    : "text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-lg hover:-translate-y-0.5 hover:font-medium"
+                  }`}
               >
                 {item.icon}
                 {item.label}
-              </Link>
+              </button>
             );
           })}
         </nav>
-        <Link 
+
+        <Link
           to="/"
           className="mt-auto flex items-center gap-2 px-4 py-2 rounded-lg bg-[#f3dada] text-[#dc2626]"
-          onClick={() => {
-            localStorage.removeItem('authToken');
-          }}
+          onClick={() => localStorage.removeItem("authToken")}
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+            />
           </svg>
           Log Out
         </Link>
       </aside>
 
       {/* Main Content */}
+
+
       <main className="flex-1 p-8 bg-[#fdfbf0]">
         {/* Top Bar */}
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-gray-800">Hello Joey,</h1>
-          
+
           <div className="flex items-center space-x-4">
             <div className="relative w-[280px]">
               <input
@@ -162,13 +165,13 @@ export default function StudentDashboard() {
                 className="w-full pl-10 pr-4 py-2.5 bg-white rounded-full text-sm border border-gray-300 focus:outline-none focus:border-[#3A7D7D] text-gray-700"
               />
               <svg className="w-5 h-5 text-gray-400 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
 
             <button className="relative">
               <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
               </svg>
               <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
             </button>
@@ -246,7 +249,7 @@ export default function StudentDashboard() {
               </div>
               <div className="bg-blue-100 p-3 rounded-lg">
                 <svg className="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
                 </svg>
               </div>
             </div>
@@ -259,7 +262,7 @@ export default function StudentDashboard() {
               <div className="text-4xl font-bold text-gray-800">75%</div>
               <div className="w-20 h-20">
                 <svg viewBox="0 0 36 36" className="circular-chart">
-                  <circle cx="18" cy="18" r="15.9155" fill="none" stroke="#eee" strokeWidth="3"/>
+                  <circle cx="18" cy="18" r="15.9155" fill="none" stroke="#eee" strokeWidth="3" />
                   <path
                     d="M18 2.0845 a 15.9155 15.9155 0 0 1 15.9155 15.9155"
                     fill="none"
@@ -294,7 +297,7 @@ export default function StudentDashboard() {
                 <div className="flex items-center gap-3 mb-4">
                   <div className="bg-[#3A7D7D] p-3 rounded-lg">
                     <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z"/>
+                      <path d="M8 5v14l11-7z" />
                     </svg>
                   </div>
                   <div>
@@ -312,7 +315,7 @@ export default function StudentDashboard() {
                 <div className="flex items-center gap-3 mb-4">
                   <div className="bg-[#3A7D7D] p-3 rounded-lg">
                     <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M19 2H5c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H5V4h14v16zm-5.04-6.71l-2.75 3.54-1.3-1.54c-.3-.36-.77-.36-1.07 0-.3.36-.3.96 0 1.32l1.98 2.36c.3.36.77.36 1.07 0L17 9.63c.3-.36.3-.96 0-1.32-.3-.36-.77-.36-1.07 0z"/>
+                      <path d="M19 2H5c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H5V4h14v16zm-5.04-6.71l-2.75 3.54-1.3-1.54c-.3-.36-.77-.36-1.07 0-.3.36-.3.96 0 1.32l1.98 2.36c.3.36.77.36 1.07 0L17 9.63c.3-.36.3-.96 0-1.32-.3-.36-.77-.36-1.07 0z" />
                     </svg>
                   </div>
                   <div>
@@ -380,7 +383,7 @@ export default function StudentDashboard() {
                   <td className="text-center py-3">
                     <div className="flex items-center justify-center gap-2">
                       <div className="w-16 bg-gray-200 rounded-full h-2 overflow-hidden">
-                        <div className="bg-[#3A7D7D] h-2 rounded-full" style={{width: `${record.progress}%`}}></div>
+                        <div className="bg-[#3A7D7D] h-2 rounded-full" style={{ width: `${record.progress}%` }}></div>
                       </div>
                     </div>
                   </td>
@@ -396,6 +399,7 @@ export default function StudentDashboard() {
           </table>
         </div>
       </main>
+
     </div>
   );
 }
