@@ -351,17 +351,32 @@ export default function AdminDashboard() {
             </svg>
             Dashboard
           </div>
-          {sidebarItems.slice(1).map((item) => (
-            <Link
-              key={item.label}
-              to="#"
-              className="flex items-center gap-2 px-3 py-2 text-white/90 rounded-lg transition-all duration-200
-                         hover:bg-white hover:text-[#3A7D7D] hover:shadow-lg hover:-translate-y-0.5 hover:font-medium"
-            >
-              {item.icon}
-              {item.label}
-            </Link>
-          ))}
+          {sidebarItems.slice(1).map((item) => {
+            const routeMap: Record<string, string> = {
+              "Tutor": "/admin_dashboard/tutor",
+              "School": "/admin_dashboard/school",
+              "Examination": "/admin_dashboard/examination",
+              "Attendance": "/admin_dashboard/attendance",
+              "Activities": "/admin_dashboard/activities",
+              "Teacher KYC": "/admin_dashboard/teacher_kyc",
+              "Salary + Commission Partner": "/admin_dashboard/salary_commission",
+              "Components Delivery": "/admin_dashboard/components_delivery",
+              "Complain Box": "/admin_dashboard/complain_box",
+              "Teaching Learning Material": "/admin_dashboard/teaching_learning",
+              "Progress Tracking": "/admin_dashboard/progress_tracking",
+            };
+            return (
+              <Link
+                key={item.label}
+                to={routeMap[item.label] || "#"}
+                className="flex items-center gap-2 px-3 py-2 text-white/90 rounded-lg transition-all duration-200
+                           hover:bg-white hover:text-[#3A7D7D] hover:shadow-lg hover:-translate-y-0.5 hover:font-medium"
+              >
+                {item.icon}
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
         <Link 
           to="/"
