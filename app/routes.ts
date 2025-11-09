@@ -28,4 +28,12 @@ export default [
   route("school_dashboard/complain_box", "routes/school_dashboard/complain_box.tsx"),
   route("student_dashboard", "routes/student_dashboard/student_dashboard.tsx"),
   route("tutor_dashboard", "routes/tutor_dashboard/tutor_dashboard.tsx"),
+  route("partner_dashboard", "routes/partner_dashboard/partner_dashboard.tsx"),
+  route("partner_dashboard/profile_management", "routes/partner_dashboard/profile_management.tsx"),
+  route("partner_dashboard/assigned_schools", "routes/partner_dashboard/assigned_schools.tsx"),
+  route("partner_dashboard/tasks", "routes/partner_dashboard/tasks.tsx"),
+  route("partner_dashboard/progress_report", "routes/partner_dashboard/progress_report.tsx"),
+  route("partner_dashboard/leaderboard", "routes/partner_dashboard/leaderboard.tsx"),
+  route("partner_dashboard/salary_commission", "routes/partner_dashboard/salary_commission.tsx"),
+  route("partner_dashboard/component_reports", "routes/partner_dashboard/component_reports.tsx"),
 ] satisfies RouteConfig;

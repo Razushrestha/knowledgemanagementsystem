@@ -33,11 +33,14 @@ export default function Login() {
       case "school":
         navigate("/school_dashboard");
         break;
-        case "student":
+      case "student":
         navigate("/student_dashboard");
         break;
       case "tutor":
         navigate("/tutor_dashboard");
+        break;
+      case "partner":
+        navigate("/partner_dashboard");
         break;
       default:
         navigate("/");
@@ -105,6 +108,7 @@ export default function Login() {
               <option value="school">School</option>
               <option value="student">Student</option>
               <option value="tutor">Tutor</option>
+              <option value="partner">Partner</option>
             </select>
           </label>
 
