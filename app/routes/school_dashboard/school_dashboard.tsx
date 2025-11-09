@@ -165,19 +165,29 @@ export default function SchoolDashboard() {
       <aside className="w-[220px] flex flex-col bg-[#3A7D7D] min-h-screen p-4">
         <div className="text-2xl font-bold mb-8 text-white">LOGO</div>
         <nav className="flex-1 space-y-2">
-          {sidebarItems.map((item, index) => (
-            <Link
-              key={item.label}
-              to="#"
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 
-                         ${index === 0 
-                           ? 'bg-white text-[#3A7D7D] font-medium shadow-lg transform -translate-y-0.5' 
-                           : 'text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-lg hover:-translate-y-0.5 hover:font-medium'}`}
-            >
-              {item.icon}
-              {item.label}
-            </Link>
-          ))}
+          {sidebarItems.map((item, index) => {
+            const routeMap: Record<string, string> = {
+              "Dashboard": "/school_dashboard",
+              "Attendance": "/school_dashboard/attendance",
+              "Tutor": "/school_dashboard/tutor",
+              "Examination": "/school_dashboard/examination",
+              "Invoice": "/school_dashboard/invoice",
+              "Complain Box": "/school_dashboard/complain_box",
+            };
+            return (
+              <Link
+                key={item.label}
+                to={routeMap[item.label] || "#"}
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 
+                           ${index === 0 
+                             ? 'bg-white text-[#3A7D7D] font-medium shadow-lg transform -translate-y-0.5' 
+                             : 'text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-lg hover:-translate-y-0.5 hover:font-medium'}`}
+              >
+                {item.icon}
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
         <Link 
           to="/"

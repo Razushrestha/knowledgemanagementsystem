@@ -21,6 +21,11 @@ export default [
   route("admin_dashboard/teaching_learning", "routes/admin_dashboard/teaching_learning.tsx"),
   route("admin_dashboard/progress_tracking", "routes/admin_dashboard/progress_tracking.tsx"),
   route("school_dashboard", "routes/school_dashboard/school_dashboard.tsx"),
+  route("school_dashboard/attendance", "routes/school_dashboard/attendance.tsx"),
+  route("school_dashboard/tutor", "routes/school_dashboard/tutor.tsx"),
+  route("school_dashboard/examination", "routes/school_dashboard/examination.tsx"),
+  route("school_dashboard/invoice", "routes/school_dashboard/invoice.tsx"),
+  route("school_dashboard/complain_box", "routes/school_dashboard/complain_box.tsx"),
   route("student_dashboard", "routes/student_dashboard/student_dashboard.tsx"),
   route("tutor_dashboard", "routes/tutor_dashboard/tutor_dashboard.tsx"),
 ] satisfies RouteConfig;
