@@ -4,6 +4,7 @@ import { Link } from "react-router";
 export default function ComplainBox() {
   const [complaint, setComplaint] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleSubmit = () => {
     if (complaint.trim()) {
@@ -68,6 +69,64 @@ export default function ComplainBox() {
       </aside>
 
       <main className="flex-1 p-8 bg-[#fdfbf0]">
+        {/* Top Navigation Bar */}
+        <div className="flex justify-between items-center mb-8">
+          <div></div>
+          
+          <div className="flex items-center space-x-4">
+            {/* Search Bar */}
+            <div className="relative w-[280px]">
+              <input
+                type="search"
+                placeholder="Search"
+                className="w-full pl-10 pr-4 py-2.5 bg-white rounded-full text-sm border border-gray-300 focus:outline-none focus:border-[#3A7D7D] text-gray-700"
+              />
+              <svg className="w-5 h-5 text-gray-400 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+              </svg>
+            </div>
+
+            {/* Notification Bell */}
+            <button className="relative">
+              <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+              </svg>
+              <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+            </button>
+
+            {/* Profile Dropdown */}
+            <div className="relative">
+              <button
+                className="flex items-center space-x-1"
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              >
+                <div className="w-8 h-8 rounded-full bg-[#3A7D7D] flex items-center justify-center">
+                  <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {isDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-10">
+                  <Link
+                    to="/"
+                    className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+                    onClick={() => {
+                      setIsDropdownOpen(false);
+                      localStorage.removeItem('authToken');
+                    }}
+                  >
+                    Sign out
+                  </Link>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
         {/* Breadcrumb */}
         <div className="mb-6">
           <p className="text-sm text-gray-600">
