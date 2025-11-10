@@ -79,13 +79,45 @@ export default function ComplainBox() {
 
       {/* Main Content */}
       <main className="flex-1 p-8 bg-[#fdfbf0]">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">Complain Box</h1>
-          <p className="text-gray-600 mt-2">Manage and respond to complaints</p>
+        {/* Breadcrumb */}
+        <div className="mb-6">
+          <p className="text-sm text-gray-600">
+            Dashboard/ <span className="font-medium">Submit a Complaint</span>
+          </p>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 shadow-sm border-2 border-[#e8e4d8]">
-          <p className="text-gray-700">Complaint management content will be displayed here.</p>
+        {/* Page Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">Submit a Complaint</h1>
+          <p className="text-gray-600 text-sm">
+            Please provide details about your issue below. We will review your submission and get back to you shortly
+          </p>
+        </div>
+
+        {/* Complaint Form Card */}
+        <div className="bg-white rounded-2xl p-8 shadow-sm border-2 border-[#e8e4d8] max-w-4xl">
+          {/* Form Title */}
+          <div className="mb-6">
+            <h2 className="text-xl font-bold text-gray-800">Describe your Complaint in Detail</h2>
+          </div>
+
+          {/* Textarea */}
+          <div className="mb-6">
+            <textarea
+              placeholder="Please provide as much detail as possible..."
+              className="w-full h-64 p-4 border-2 border-[#e8e4d8] rounded-xl focus:outline-none focus:border-[#3A7D7D] resize-none text-gray-700 placeholder-gray-400"
+            />
+          </div>
+
+          {/* Buttons */}
+          <div className="flex justify-end gap-4">
+            <button className="px-6 py-2.5 rounded-lg border-2 border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors">
+              Cancel
+            </button>
+            <button className="px-6 py-2.5 rounded-lg bg-[#3A7D7D] text-white font-medium hover:bg-[#2f5f5f] transition-colors">
+              Submit
+            </button>
+          </div>
         </div>
       </main>
     </div>
