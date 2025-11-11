@@ -1,7 +1,7 @@
 
-
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import { Icon } from "@iconify/react";
 
 
@@ -23,7 +23,10 @@ export default function StudentDashboard() {
   const location = useLocation();
 
 
-
+const student = {
+    name: "John Doe",
+    attendance: 75,
+  };
 
   const [taskRecords, setTaskRecords] = useState<TaskRecord[]>([
     {
@@ -121,7 +124,7 @@ export default function StudentDashboard() {
                 key={item.label}
                 onClick={() => navigate(routeMap[item.label])}
                 className={`w-full text-left flex items-center gap-2 px-3 py-3 rounded-lg transition-all duration-200 backdrop-blur-sm ${isActive
-                    ? "bg-[#3A7D7D]/80 text-white border   font-semibold shadow-[inset_0_0_2px_rgba(255,255,255,0.3),0_4px_10px_rgba(0,0,0,0.3)] -translate-y-0.5"
+                    ? "bg-[#3A7D7D]/80 text-white border   font-semibold shadow-[inset_0_0_2px_rgba(255,255,255,0.6),0_4px_10px_rgba(0,0,0,0.3)] -translate-y-0.5"
                     : "bg-transparent text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:font-medium"
                   }`}
               >
@@ -135,17 +138,10 @@ export default function StudentDashboard() {
 
         <Link
           to="/"
-          className="mt-auto flex items-center gap-2 px-4 py-2 rounded-lg bg-[#f3dada] text-[#dc2626]"
+          className="mt-auto flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-[#f3dada] text-[#dc2626]"
           onClick={() => localStorage.removeItem("authToken")}
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-            />
-          </svg>
+          <Icon icon="ri:logout-circle-line" className="text-lg" />
           Log Out
         </Link>
       </aside>
@@ -168,7 +164,7 @@ export default function StudentDashboard() {
             />
             <Icon
               icon="mdi:magnify"
-              className="absolute left-3 top-3 text-gray-500 text-lg"
+              className="absolute left-3 top-3 text-[#999999] text-lg"
             />
           </div>
 
@@ -215,20 +211,31 @@ export default function StudentDashboard() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-4 gap-6 mb-8">
-          {/* Attendance Rate */}
-          <div className="bg-white rounded-xl p-6 border border-black flex flex-col items-start">
-            <p className="text-sm text-black font-medium mb-3">Attendance Rate</p>
-            <div className="relative flex items-center  justify-center w-full h-24">
-              <Icon
-                icon="material-symbols:progress-activity-sharp"
-                className="text-[#3A7D7D]  text-6xl w-28 h-28 "
-                style={{ strokeWidth: 3 }}
-              />
-              <span className="absolute text-xl font-semibold text-center text-black">
-                75%
-              </span>
-            </div>
-          </div>
+           {/* Attendance Rate */}
+  <div className="bg-white rounded-xl p-6 border border-black flex flex-col items-start">
+    <p className="text-sm text-black font-medium mb-3">Attendance Rate</p>
+
+    {/* Centered circular progress */}
+    <div className="flex justify-center items-center w-full">
+      <div className="w-26 h-26">
+        <CircularProgressbar
+  value={student.attendance}
+  text={`${student.attendance}%`}
+  strokeWidth={10} // ✅ top-level prop, NOT inside buildStyles
+  styles={buildStyles({
+    pathColor: "#3A7D7D",
+    textColor: "#000",
+    trailColor: "#e6e6e6",
+    textSize: "16px",
+    strokeLinecap: "round",
+    pathTransitionDuration: 0.5,
+    pathTransition: "stroke-dashoffset 0.5s ease 0s",
+  })}
+/>
+
+      </div>
+    </div>
+  </div>
 
           {/* Task Added */}
           <div className="bg-white rounded-xl p-6 border border-black flex flex-col justify-between">
@@ -282,7 +289,7 @@ export default function StudentDashboard() {
               <div className="bg-white rounded-2xl p-6 shadow-md border border-gray-200">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="">
-                    <Icon icon="mingcute:video-fill" className="w-12 h-12 text-[]" />
+                    <Icon icon="mingcute:video-fill" className="w-12 h-12 text-[#3A7D7D]" />
                   </div>
                   <div>
                     <div className="font-semibold text-gray-800">Video</div>
