@@ -25,11 +25,12 @@ export default function Task() {
               "Progress": "/student_dashboard/progress",
               "Complain Box": "/student_dashboard/complain_box",
             };
+            console.log("Current Path:", window.location.pathname);
             return (
               <Link
                 key={item.label}
                 to={routeMap[item.label] || "#"}
-                className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 
+                className={`flex items-cen  ter gap-2 px-3 py-2 rounded-lg transition-all duration-200 
                            ${index === 2
                              ? 'bg-white text-[#3A7D7D] font-medium shadow-lg transform -translate-y-0.5' 
                              : 'text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-lg hover:-translate-y-0.5 hover:font-medium'}`}

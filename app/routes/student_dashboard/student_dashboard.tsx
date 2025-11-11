@@ -56,14 +56,14 @@ export default function StudentDashboard() {
     {
       label: "Dashboard",
       icon: (
-       <Icon icon="iconamoon:home-duotone" width={24} height={24} />
+        <Icon icon="iconamoon:home-duotone" width={24} height={24} />
       ),
     },
     {
       label: "Learning Material",
       icon: (
         <Icon icon="mingcute:calendar-2-line" width={24} height={24} />
-        
+
       ),
     },
     {
@@ -111,23 +111,24 @@ export default function StudentDashboard() {
   return (
     <div className="flex min-h-screen bg-[#fdfbf0]">
       {/* Sidebar */}
-      <aside className="w-[220px] flex flex-col bg-[#3A7D7D] min-h-screen p-4">
-        <div className="text-2xl font-bold mb-8 text-white">LOGO</div>
-        <nav className="flex-1 space-y-2">
+      <aside className="max-w-60 min-w-60 flex flex-col bg-[#438582] min-h-screen p-4">
+        <div className="text-2xl text-center font-bold mb-8 text-white">LOGO</div>
+        <nav className="flex-1 space-y-6">
           {sidebarItems.map((item) => {
             const isActive = location.pathname.startsWith(routeMap[item.label]);
             return (
               <button
                 key={item.label}
                 onClick={() => navigate(routeMap[item.label])}
-                className={`w-full text-left flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 ${isActive
-                    ? "bg-[#3A7D7D] text-white border font-semibold shadow-lg -translate-y-0.5"
-                    : "text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-lg hover:-translate-y-0.5 hover:font-medium"
+                className={`w-full text-left flex items-center gap-2 px-3 py-3 rounded-lg transition-all duration-200 backdrop-blur-sm ${isActive
+                    ? "bg-[#3A7D7D]/80 text-white border   font-semibold shadow-[inset_0_0_2px_rgba(255,255,255,0.3),0_4px_10px_rgba(0,0,0,0.3)] -translate-y-0.5"
+                    : "bg-transparent text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:font-medium"
                   }`}
               >
                 {item.icon}
                 {item.label}
               </button>
+
             );
           })}
         </nav>
@@ -154,50 +155,54 @@ export default function StudentDashboard() {
 
       <main className="flex-1 p-8 bg-[#fdfbf0]">
         {/* Top Bar */}
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex justify-between items-center mb-8 px-10">
+          {/* Left: Greeting */}
           <h1 className="text-3xl font-bold text-gray-800">Hello Joey,</h1>
 
-          <div className="flex items-center space-x-4">
-            <div className="relative w-[280px]">
-              <input
-                type="search"
-                placeholder="Search"
-                className="w-full pl-10 pr-4 py-2.5 bg-white rounded-full text-sm border border-gray-300 focus:outline-none focus:border-[#3A7D7D] text-gray-700"
-              />
-              <svg className="w-5 h-5 text-gray-400 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </div>
+          {/* Middle: Search Bar */}
+          <div className="relative w-[780px]">
+            <input
+              type="search"
+              placeholder="Search"
+              className="w-full pl-10 pr-4 py-2.5 bg-[#E8E6DA] rounded-full text-sm focus:outline-none text-gray-600"
+            />
+            <Icon
+              icon="mdi:magnify"
+              className="absolute left-3 top-3 text-gray-500 text-lg"
+            />
+          </div>
 
+          {/* Right: Icons */}
+          <div className="flex items-center space-x-6">
+            {/* Notification */}
             <button className="relative">
-              <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-              </svg>
-              <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+              <Icon
+                icon="ri:notification-3-fill"
+                className="text-[#3A7D7D] text-3xl"
+              />
+              <span className="absolute top-0 right-0 w-3 h-3  bg-red-500 rounded-full"></span>
             </button>
 
+            {/* Profile */}
             <div className="relative">
               <button
-                className="flex items-center space-x-1"
+                className="flex items-center space-x-1 bg-[#3A7D7D] px-2 py-1 rounded-3xl"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
-                <div className="w-8 h-8 rounded-full bg-[#3A7D7D] flex items-center justify-center">
-                  <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                  </svg>
+                <div className="w-9 h-9 rounded-full bg-[#3A7D7D] flex items-center justify-center">
+                  <Icon icon="ix:user-profile-filled" className="text-white text-xl w-9 h-9" />
                 </div>
-                <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                </svg>
+                <Icon icon="mdi:chevron-down" className="text-white text-lg w-6 h-6" />
               </button>
+
               {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-10">
+                <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg py-1 z-10">
                   <Link
                     to="/"
-                    className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     onClick={() => {
                       setIsDropdownOpen(false);
-                      localStorage.removeItem('authToken');
+                      localStorage.removeItem("authToken");
                     }}
                   >
                     Sign out
@@ -209,96 +214,75 @@ export default function StudentDashboard() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-4 gap-4 mb-8">
-          {/* Attendance Rate Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border-2 border-[#e8e4d8]">
-            <div className="text-sm font-medium text-gray-700 mb-4">Attendance Rate</div>
-            <div className="flex items-end justify-between">
-              <div className="text-4xl font-bold text-gray-800">75%</div>
-              <div className="w-20 h-20">
-                <svg viewBox="0 0 36 36" className="circular-chart">
-                  <path
-                    d="M18 2.0845
-                      a 15.9155 15.9155 0 0 1 0 31.831
-                      a 15.9155 15.9155 0 0 1 0 -31.831"
-                    fill="none"
-                    stroke="#eee"
-                    strokeWidth="3"
-                  />
-                  <path
-                    d="M18 2.0845
-                      a 15.9155 15.9155 0 0 1 0 31.831
-                      a 15.9155 15.9155 0 0 1 0 -31.831"
-                    fill="none"
-                    stroke="#3A7D7D"
-                    strokeWidth="3"
-                    strokeDasharray="75, 100"
-                  />
-                </svg>
-              </div>
+        <div className="grid grid-cols-4 gap-6 mb-8">
+          {/* Attendance Rate */}
+          <div className="bg-white rounded-xl p-6 border border-black flex flex-col items-start">
+            <p className="text-sm text-black font-medium mb-3">Attendance Rate</p>
+            <div className="relative flex items-center  justify-center w-full h-24">
+              <Icon
+                icon="material-symbols:progress-activity-sharp"
+                className="text-[#3A7D7D]  text-6xl w-28 h-28 "
+                style={{ strokeWidth: 3 }}
+              />
+              <span className="absolute text-xl font-semibold text-center text-black">
+                75%
+              </span>
             </div>
           </div>
 
-          {/* Task Added Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border-2 border-[#e8e4d8]">
-            <div className="text-sm font-medium text-gray-700 mb-4">Task Added</div>
-            <div className="flex items-end justify-between">
+          {/* Task Added */}
+          <div className="bg-white rounded-xl p-6 border border-black flex flex-col justify-between">
+            <p className="text-sm text-black font-medium mb-3">Task Added</p>
+            <div className="flex items-center space-x-3">
+              <Icon
+                icon="fluent:clipboard-task-add-24-filled"
+                className="text-blue-600 text-4xl w-16 h-30 "
+              />
               <div>
-                <div className="text-4xl font-bold text-gray-800">3</div>
-                <div className="text-xs text-gray-500 mt-1">Total task 5</div>
-              </div>
-              <div className="bg-blue-100 p-3 rounded-lg">
-                <svg className="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                </svg>
+                <p className="text-3xl font-bold text-center text-gray-800 leading-none">3</p>
+                <p className="text-xs text-black mt-2 pl-8">Total task - 5</p>
               </div>
             </div>
           </div>
 
-          {/* Overall Progress Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border-2 border-[#e8e4d8]">
-            <div className="text-sm font-medium text-gray-700 mb-4">Overall progress</div>
-            <div className="flex items-end justify-between">
-              <div className="text-4xl font-bold text-gray-800">75%</div>
-              <div className="w-20 h-20">
-                <svg viewBox="0 0 36 36" className="circular-chart">
-                  <circle cx="18" cy="18" r="15.9155" fill="none" stroke="#eee" strokeWidth="3" />
-                  <path
-                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 15.9155 15.9155"
-                    fill="none"
-                    stroke="#22c55e"
-                    strokeWidth="4"
-                  />
-                </svg>
-              </div>
+          {/* Overall Progress */}
+          <div className="bg-white rounded-xl p-6 border border-black flex flex-col items-start">
+            <p className="text-sm text-black font-medium mb-3">Overall progress</p>
+            <div className="flex items-center space-x-4">
+              <svg viewBox="0 0 36 36" className="w-30 h-30">
+                <circle cx="18" cy="18" r="15.9155" fill="#22c55e" />
+                <path
+                  d="M18 18 L18 2 A16 16 0 0 1 34 18 Z"
+                  fill="#fff"
+                />
+              </svg>
+              <span className="text-3xl font-bold pl-4 text-gray-800">75%</span>
             </div>
           </div>
 
-          {/* New Materials Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border-2 border-[#e8e4d8]">
-            <div className="text-sm font-medium text-gray-700 mb-4">New materials</div>
-            <div className="flex items-end justify-between">
-              <div>
-                <div className="text-4xl font-bold text-gray-800">3</div>
-                <div className="text-xs text-gray-500 mt-1">added this week</div>
-              </div>
+          {/* New Materials */}
+          <div className="bg-white rounded-xl p-6 border border-black flex flex-col justify-between">
+            <div>
+              <p className="text-2xl text-black ">
+                New materials
+              </p>
+              <p className="text-black  text-2xl ">added this week</p>
             </div>
+            <p className="text-3xl flex items-center text-center justify-center  font-bold text-gray-800">3</p>
           </div>
         </div>
 
         {/* Learning Materials & Exam Section */}
         <div className="grid grid-cols-2 gap-6 mb-8">
           {/* Learning Materials */}
-          <div className="bg-[#f5f1e8] rounded-2xl p-6 border-2 border-[#d4cfc1]">
-            <h2 className="text-lg font-bold mb-6 text-center text-gray-800">Learning Materials</h2>
+          <div className="bg-[#fefce8] rounded-2xl p-6 border-2 border-black">
+            <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Learning Materials</h2>
             <div className="grid grid-cols-2 gap-4">
               {/* Video Card */}
               <div className="bg-white rounded-2xl p-6 shadow-md border border-gray-200">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="bg-[#3A7D7D] p-3 rounded-lg">
-                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
+                  <div className="">
+                    <Icon icon="mingcute:video-fill" className="w-12 h-12 text-[]" />
                   </div>
                   <div>
                     <div className="font-semibold text-gray-800">Video</div>
@@ -313,11 +297,9 @@ export default function StudentDashboard() {
               {/* Notes Card */}
               <div className="bg-white rounded-2xl p-6 shadow-md border border-gray-200">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="bg-[#3A7D7D] p-3 rounded-lg">
-                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M19 2H5c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H5V4h14v16zm-5.04-6.71l-2.75 3.54-1.3-1.54c-.3-.36-.77-.36-1.07 0-.3.36-.3.96 0 1.32l1.98 2.36c.3.36.77.36 1.07 0L17 9.63c.3-.36.3-.96 0-1.32-.3-.36-.77-.36-1.07 0z" />
-                    </svg>
-                  </div>
+
+                  <Icon icon="streamline-freehand:notes-book-1" className="w-12 h-12  text-[#3A7D7D]" />
+
                   <div>
                     <div className="font-semibold text-gray-800">Notes</div>
                     <div className="text-xs text-gray-500">1 lessons</div>
@@ -331,8 +313,8 @@ export default function StudentDashboard() {
           </div>
 
           {/* Exam Section */}
-          <div className="bg-[#f5f1e8] rounded-2xl p-6 border-2 border-[#d4cfc1]">
-            <h2 className="text-lg font-bold mb-6 text-center text-gray-800">Exam Section</h2>
+          <div className="bg-[#fefce8] rounded-2xl p-6 border-2 border-black">
+            <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Exam Section</h2>
             <div className="grid grid-cols-2 gap-4">
               {/* Previous Exam */}
               <div className="bg-white rounded-2xl p-4 shadow-md border border-gray-200">
@@ -360,7 +342,7 @@ export default function StudentDashboard() {
         </div>
 
         {/* Task Section */}
-        <div className="bg-[#f5f1e8] rounded-2xl p-6 border-2 border-[#d4cfc1]">
+        <div className="bg-[#fefce8] rounded-2xl p-6 border-2 border-black">
           <h2 className="text-lg font-bold mb-6 text-gray-800">Task</h2>
           <table className="w-full text-sm">
             <thead>
@@ -389,8 +371,8 @@ export default function StudentDashboard() {
                   </td>
                   <td className="text-center py-3">
                     <div className="flex gap-2 justify-center">
-                      <span className="px-3 py-1 text-xs font-medium rounded-full bg-[#4a9b8e] text-white">Submitted</span>
-                      <span className="px-3 py-1 text-xs font-medium rounded-full bg-[#9bc4ae] text-white">Pending</span>
+                      <span className="px-3 py-1 text-xs font-medium rounded-md shadow-lg bg-[#438582] text-white">Submitted</span>
+                      <span className="px-3 py-1 text-xs font-medium rounded-md shadow-lg bg-[#43858299] text-white">Pending</span>
                     </div>
                   </td>
                 </tr>
