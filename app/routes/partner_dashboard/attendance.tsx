@@ -85,6 +85,8 @@ export default function PartnerAttendance() {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState("11/13/2025");
   const [selectedSchool, setSelectedSchool] = useState<string | null>(null);
+  const [openMenuFor, setOpenMenuFor] = useState<number | null>(null);
+
   const [selectedGrade, setSelectedGrade] = useState("Grade 1");
   const location = useLocation();
 
@@ -215,11 +217,10 @@ export default function PartnerAttendance() {
               <Link
                 key={item.label}
                 to={item.path}
-                className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 ${
-                  active
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 ${active
                     ? "bg-[#3A7D7D]/80 text-white border font-semibold shadow-[inset_0_0_2px_rgba(255,255,255,0.6),0_4px_10px_rgba(0,0,0,0.3)] -translate-y-0.5"
                     : "bg-transparent text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:font-medium"
-                }`}
+                  }`}
               >
                 <Icon icon={item.icon} width={22} />
                 {item.label}
@@ -241,68 +242,68 @@ export default function PartnerAttendance() {
       {/* Navbar + Main */}
       <main className="flex-1 p-8 bg-[#fdfbf0]">
         {/* Search Bar and Profile */}
-                        <div className="flex justify-between items-center mb-8 px-4 md:px-10 gap-4">
-                          {/* Mobile Hamburger Menu */}
-                          <button
-                            className="md:hidden flex items-center justify-center"
-                            onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
-                          >
-                            <Icon icon="mdi:menu" className="text-[#3A7D7D] text-3xl" />
-                          </button>
-                
-                          {/* Middle: Search Bar */}
-                          <div className="relative flex-1 md:w-[900px]">
-                            <input
-                              type="search"
-                              placeholder="Search"
-                              className="w-full pl-10 pr-4 py-2.5 bg-[#E8E6DA] rounded-full text-sm focus:outline-none text-gray-600"
-                            />
-                            <Icon
-                              icon="mdi:magnify"
-                              className="absolute left-3 top-3 text-[#999999] text-lg"
-                            />
-                          </div>
-                
-                          {/* Right: Icons */}
-                          <div className="flex items-center space-x-3 md:space-x-6">
-                            {/* Notification */}
-                            <button className="relative">
-                              <Icon
-                                icon="ri:notification-3-fill"
-                                className="text-[#3A7D7D] text-2xl md:text-3xl"
-                              />
-                              <span className="absolute top-0 right-0 w-3 h-3  bg-red-500 rounded-full"></span>
-                            </button>
-                
-                            {/* Profile */}
-                            <div className="relative">
-                              <button
-                                className="flex items-center space-x-1 bg-[#3A7D7D] px-2 py-1 rounded-3xl"
-                                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                              >
-                                <div className="w-9 h-9 rounded-full bg-[#3A7D7D] flex items-center justify-center">
-                                  <Icon icon="ix:user-profile-filled" className="text-white text-xl w-9 h-9" />
-                                </div>
-                                <Icon icon="mdi:chevron-down" className="text-white text-lg w-6 h-6 hidden sm:block" />
-                              </button>
-                
-                              {isDropdownOpen && (
-                                <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg py-1 z-10">
-                                  <Link
-                                    to="/"
-                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                    onClick={() => {
-                                      setIsDropdownOpen(false);
-                                      localStorage.removeItem("authToken");
-                                    }}
-                                  >
-                                    Sign out
-                                  </Link>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        </div>  
+        <div className="flex justify-between items-center mb-8 px-4 md:px-10 gap-4">
+          {/* Mobile Hamburger Menu */}
+          <button
+            className="md:hidden flex items-center justify-center"
+            onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
+          >
+            <Icon icon="mdi:menu" className="text-[#3A7D7D] text-3xl" />
+          </button>
+
+          {/* Middle: Search Bar */}
+          <div className="relative flex-1 md:w-[900px]">
+            <input
+              type="search"
+              placeholder="Search"
+              className="w-full pl-10 pr-4 py-2.5 bg-[#E8E6DA] rounded-full text-sm focus:outline-none text-gray-600"
+            />
+            <Icon
+              icon="mdi:magnify"
+              className="absolute left-3 top-3 text-[#999999] text-lg"
+            />
+          </div>
+
+          {/* Right: Icons */}
+          <div className="flex items-center space-x-3 md:space-x-6">
+            {/* Notification */}
+            <button className="relative">
+              <Icon
+                icon="ri:notification-3-fill"
+                className="text-[#3A7D7D] text-2xl md:text-3xl"
+              />
+              <span className="absolute top-0 right-0 w-3 h-3  bg-red-500 rounded-full"></span>
+            </button>
+
+            {/* Profile */}
+            <div className="relative">
+              <button
+                className="flex items-center space-x-1 bg-[#3A7D7D] px-2 py-1 rounded-3xl"
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              >
+                <div className="w-9 h-9 rounded-full bg-[#3A7D7D] flex items-center justify-center">
+                  <Icon icon="ix:user-profile-filled" className="text-white text-xl w-9 h-9" />
+                </div>
+                <Icon icon="mdi:chevron-down" className="text-white text-lg w-6 h-6 hidden sm:block" />
+              </button>
+
+              {isDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg py-1 z-10">
+                  <Link
+                    to="/"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    onClick={() => {
+                      setIsDropdownOpen(false);
+                      localStorage.removeItem("authToken");
+                    }}
+                  >
+                    Sign out
+                  </Link>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
         {/* Filters */}
         <div className="mb-8 bg-[#fffdf4] rounded-xl p-5">
           <div className="flex flex-wrap items-center gap-6">
@@ -320,10 +321,10 @@ export default function PartnerAttendance() {
                   className="px-3 py-2 text-sm border border-black bg-white rounded-xl focus:outline-none focus:ring-1 focus:ring-black text-black"
                   style={{ width: "auto", minWidth: "130px" }}
                 />
-                <Icon
+                {/* <Icon
                   icon="uil:calender"
                   className="absolute right-3 top-2.5 text-black text-lg pointer-events-none"
-                />
+                /> */}
               </div>
             </div>
 
@@ -453,44 +454,82 @@ export default function PartnerAttendance() {
                       <td className="px-4 py-3 text-xs md:text-sm text-gray-600">{index + 1}</td>
                       <td className="px-4 py-3 text-xs md:text-sm text-gray-700 font-medium">{student.name}</td>
                       <td className="px-4 py-3 text-center">
-                        <div className="flex justify-center gap-2">
-                          <button
-                            onClick={() => handleAttendanceClick(student.id, "present")}
-                            className={`p-1.5 rounded-full ${
-                              !student.hasMarked ? "bg-green-100" :
-                              student.status === "present" ? "bg-green-100" : 
-                              "bg-gray-200"
-                            }`}
-                          >
-                            <Icon
-                              icon="mdi:check-circle"
-                              className={`text-lg ${
-                                !student.hasMarked ? "text-green-600" :
-                                student.status === "present" ? "text-green-600" : 
-                                "text-gray-400"
-                              }`}
-                            />
-                          </button>
+                        {/* If not marked yet → show two buttons */}
+                        {!student.hasMarked ? (
+                          <div className="flex justify-center gap-3">
+                            <button
+                              onClick={() => handleAttendanceClick(student.id, "present")}
+                              className="flex items-center gap-1 px-3 py-1.5 bg-green-500 text-white rounded-full text-xs font-semibold"
+                            >
+                              <Icon icon="mdi:check" className="text-sm" />
+                              Present
+                            </button>
 
-                          <button
-                            onClick={() => handleAttendanceClick(student.id, "absent")}
-                            className={`p-1.5 rounded-full ${
-                              !student.hasMarked ? "bg-red-100" :
-                              student.status === "absent" ? "bg-red-100" : 
-                              "bg-gray-200"
-                            }`}
-                          >
-                            <Icon
-                              icon="mdi:close-circle"
-                              className={`text-lg ${
-                                !student.hasMarked ? "text-red-600" :
-                                student.status === "absent" ? "text-red-600" : 
-                                "text-gray-400"
-                              }`}
-                            />
-                          </button>
-                        </div>
+                            <button
+                              onClick={() => handleAttendanceClick(student.id, "absent")}
+                              className="flex items-center gap-1 px-3 py-1.5 bg-red-500 text-white rounded-full text-xs font-semibold"
+                            >
+                              <Icon icon="mdi:close" className="text-sm" />
+                              Absent
+                            </button>
+                          </div>
+                        ) : (
+                          /* Marked → show selected button + menu */
+                          <div className="relative flex items-center justify-center gap-2">
+                            {/* Selected Button */}
+                            <button
+                              className={`flex items-center gap-1 px-3 py-1.5 text-white rounded-full text-xs font-semibold ${student.status === "present" ? "bg-green-500" : "bg-red-500"
+                                }`}
+                            >
+                              <Icon
+                                icon={student.status === "present" ? "mdi:check" : "mdi:close"}
+                                className="text-sm"
+                              />
+                              {student.status === "present" ? "Present" : "Absent"}
+                            </button>
+
+                            {/* Three Dot Menu Toggle */}
+                            <button
+                              onClick={() =>
+                                setOpenMenuFor(openMenuFor === student.id ? null : student.id)
+                              }
+                              className="p-1 rounded-full hover:bg-gray-200"
+                            >
+                              <Icon icon="mdi:dots-vertical" className="text-gray-600 text-xl" />
+                            </button>
+
+                            {/* Dropdown Menu */}
+                            {openMenuFor === student.id && (
+                              <div className="absolute right-0 mt-10 bg-white border shadow-md rounded-lg py-1 w-28 z-20">
+                                {student.status !== "present" && (
+                                  <button
+                                    onClick={() => {
+                                      handleAttendanceClick(student.id, "present");
+                                      setOpenMenuFor(null);
+                                    }}
+                                    className="w-full text-black text-left px-3 py-2 hover:bg-gray-200 text-sm"
+                                  >
+                                    Present
+                                  </button>
+                                )}
+
+                                {student.status !== "absent" && (
+                                  <button
+                                    onClick={() => {
+                                      handleAttendanceClick(student.id, "absent");
+                                      setOpenMenuFor(null);
+                                    }}
+                                    className="w-full text-black text-left px-3 py-2 hover:bg-gray-100 text-sm"
+                                  >
+                                     Absent
+                                  </button>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        )}
                       </td>
+
                       <td className="px-4 py-3 text-xs md:text-sm text-gray-600 text-center">{student.totalPresentDays}</td>
                       <td className="px-4 py-3 text-xs md:text-sm text-gray-600 text-center">{student.totalAbsentDays}</td>
                     </tr>
