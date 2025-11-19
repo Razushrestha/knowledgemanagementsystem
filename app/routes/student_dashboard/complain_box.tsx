@@ -13,6 +13,7 @@ export default function ComplainBoxPage() {
 
   const sidebarItems = [
     { label: "Dashboard", icon: <Icon icon="iconamoon:home-duotone" width={24} height={24} /> },
+    { label: "Attendance", icon: <Icon icon="mingcute:calendar-2-line" width={24} height={24} /> },
     { label: "Learning Material", icon: <Icon icon="mingcute:calendar-2-line" width={24} height={24} /> },
     { label: "Task", icon: <Icon icon="hugeicons:task-02" width={24} height={24} /> },
     { label: "Examination", icon: <Icon icon="mdi:file-document-outline" width={24} height={24} /> },
@@ -22,6 +23,7 @@ export default function ComplainBoxPage() {
 
   const routeMap: Record<string, string> = {
     Dashboard: "/student_dashboard",
+    Attendance: "/student_dashboard/attendance",
     "Learning Material": "/student_dashboard/learning_material",
     Task: "/student_dashboard/task",
     Examination: "/student_dashboard/examination",

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { Link, useLocation } from "react-router";
 import { Icon } from "@iconify/react";
 
@@ -11,6 +11,7 @@ interface StudentAttendance {
   schoolName: string;
   grade: string;
   date: string;
+  hasMarked?: boolean;
 }
 
 interface SchoolGradeData {
@@ -22,7 +23,9 @@ interface SchoolGradeData {
   status: string;
 }
 
-// Complete dummy data with all grades and schools
+/* -------------------------
+   Dummy data generator
+   ------------------------- */
 const generateStudentData = (): StudentAttendance[] => {
   const schools = [
     "Starlight Academy",
@@ -35,7 +38,18 @@ const generateStudentData = (): StudentAttendance[] => {
     "Crescent Public School",
   ];
 
-  const grades = ["Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5", "Grade 6", "Grade 7", "Grade 8", "Grade 9", "Grade 10"];
+  const grades = [
+    "Grade 1",
+    "Grade 2",
+    "Grade 3",
+    "Grade 4",
+    "Grade 5",
+    "Grade 6",
+    "Grade 7",
+    "Grade 8",
+    "Grade 9",
+    "Grade 10",
+  ];
   const dates = ["11/13/2025", "11/12/2025"];
 
   const firstNames = [
@@ -69,6 +83,7 @@ const generateStudentData = (): StudentAttendance[] => {
             schoolName: school,
             grade: grade,
             date: date,
+            hasMarked: false,
           });
         });
       }
@@ -80,24 +95,46 @@ const generateStudentData = (): StudentAttendance[] => {
 
 const allStudentData = generateStudentData();
 
+/* -------------------------
+   Component
+   ------------------------- */
 export default function PartnerAttendance() {
+  // UI states
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState("11/13/2025");
   const [selectedSchool, setSelectedSchool] = useState<string | null>(null);
+  const [selectedGrade, setSelectedGrade] = useState<string | null>("Grade 1");
   const [openMenuFor, setOpenMenuFor] = useState<number | null>(null);
 
-  const [selectedGrade, setSelectedGrade] = useState("Grade 1");
-  const location = useLocation();
+  // When a school is selected we first show the Grade Table (option A).
+  // showGradeSelection = true means show the Grade list (Grade 1-10).
+  const [showGradeSelection, setShowGradeSelection] = useState(false);
 
-  // State for attendance records
+  // Attendance records state (preserve logic)
   const [attendanceRecords, setAttendanceRecords] = useState(
-    allStudentData.map((student) => ({
-      ...student,
-      hasMarked: false,
-    }))
+    allStudentData.map((student) => ({ ...student }))
   );
 
+  const location = useLocation();
+
+  const grades = [
+    "Grade 1",
+    "Grade 2",
+    "Grade 3",
+    "Grade 4",
+    "Grade 5",
+    "Grade 6",
+    "Grade 7",
+    "Grade 8",
+    "Grade 9",
+    "Grade 10",
+  ];
+
+  /* -------------------------
+     Attendance click handler
+     (preserve original behavior)
+     ------------------------- */
   const handleAttendanceClick = (id: number, type: "present" | "absent") => {
     setAttendanceRecords((prev: any[]) =>
       prev.map((student: any) => {
@@ -150,27 +187,62 @@ export default function PartnerAttendance() {
     );
   };
 
-  const grades = ["Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5", "Grade 6", "Grade 7", "Grade 8", "Grade 9", "Grade 10"];
-
-  // Get unique schools
+  /* -------------------------
+     School names (unique)
+     ------------------------- */
   const schoolNames = useMemo(() => {
     return Array.from(new Set(attendanceRecords.map((s: any) => s.schoolName)));
   }, [attendanceRecords]);
 
-  // Calculate school data for table
+  /* -------------------------
+     Schools Table Data
+     (top-level table)
+     ------------------------- */
   const getSchoolsTableData = useMemo(() => {
     return schoolNames.map((school: string) => {
       const schoolStudents = attendanceRecords.filter(
-        (s: any) => s.schoolName === school && s.grade === selectedGrade && s.date === selectedDate
+        (s: any) => s.schoolName === school && s.grade === "Grade 1" && s.date === selectedDate
       );
       const presentCount = schoolStudents.filter((s: any) => s.status === "present").length;
       const absentCount = schoolStudents.filter((s: any) => s.status === "absent").length;
 
       return {
         schoolName: school,
-        totalStudents: schoolStudents.length,
-        noOfPresent: presentCount,
-        noOfAbsent: absentCount,
+        totalStudents: attendanceRecords.filter((s: any) => s.schoolName === school && s.date === selectedDate).length,
+        noOfPresent: attendanceRecords.filter((s: any) => s.schoolName === school && s.date === selectedDate && s.status === "present").length,
+        noOfAbsent: attendanceRecords.filter((s: any) => s.schoolName === school && s.date === selectedDate && s.status === "absent").length,
+        week: Math.floor(Math.random() * 5) + 1,
+        status: [
+          "First Module Introduction",
+          "Components of IoT",
+          "Worked on small Project",
+          "Presentation of Project",
+          "Grading of the Project",
+        ][Math.floor(Math.random() * 5)],
+      } as SchoolGradeData;
+    });
+  }, [schoolNames, attendanceRecords, selectedDate]);
+
+  /* -------------------------
+     Grade table data for the selected school
+     (shown right after a school click)
+     ------------------------- */
+  const gradeSummaryForSelectedSchool = useMemo(() => {
+    if (!selectedSchool) return [];
+
+    return grades.map((grade) => {
+      const gradeStudents = attendanceRecords.filter(
+        (s: any) => s.schoolName === selectedSchool && s.grade === grade && s.date === selectedDate
+      );
+
+      const presentCount = gradeStudents.filter((s: any) => s.status === "present").length;
+      const absentCount = gradeStudents.filter((s: any) => s.status === "absent").length;
+
+      return {
+        grade,
+        totalStudents: gradeStudents.length,
+        presentCount,
+        absentCount,
         week: Math.floor(Math.random() * 5) + 1,
         status: [
           "First Module Introduction",
@@ -181,18 +253,24 @@ export default function PartnerAttendance() {
         ][Math.floor(Math.random() * 5)],
       };
     });
-  }, [schoolNames, selectedGrade, selectedDate, attendanceRecords]);
+  }, [selectedSchool, attendanceRecords, selectedDate]);
 
-  // Filter students based on selected school, grade, and date
+  /* -------------------------
+     Filtered students for the selected school+grade+date
+     (students table)
+     ------------------------- */
   const filteredStudents = useMemo(() => {
     return attendanceRecords.filter(
       (s: any) =>
         (!selectedSchool || s.schoolName === selectedSchool) &&
-        s.grade === selectedGrade &&
+        (!selectedGrade || s.grade === selectedGrade) &&
         s.date === selectedDate
     );
   }, [attendanceRecords, selectedSchool, selectedGrade, selectedDate]);
 
+  /* -------------------------
+     Sidebar items (kept as-is)
+     ------------------------- */
   const sidebarItems = [
     { label: "Dashboard", path: "/partner_dashboard", icon: "mdi:view-dashboard-outline" },
     { label: "Profile Management", path: "/partner_dashboard/profile_management", icon: "mdi:account-outline" },
@@ -218,9 +296,9 @@ export default function PartnerAttendance() {
                 key={item.label}
                 to={item.path}
                 className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 ${active
-                    ? "bg-[#3A7D7D]/80 text-white border font-semibold shadow-[inset_0_0_2px_rgba(255,255,255,0.6),0_4px_10px_rgba(0,0,0,0.3)] -translate-y-0.5"
-                    : "bg-transparent text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:font-medium"
-                  }`}
+                  ? "bg-[#3A7D7D]/80 text-white border font-semibold shadow-[inset_0_0_2px_rgba(255,255,255,0.6),0_4px_10px_rgba(0,0,0,0.3)] -translate-y-0.5"
+                  : "bg-transparent text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:font-medium"
+                }`}
               >
                 <Icon icon={item.icon} width={22} />
                 {item.label}
@@ -304,7 +382,8 @@ export default function PartnerAttendance() {
             </div>
           </div>
         </div>
-        {/* Filters */}
+
+        {/* Filters (Date always visible) */}
         <div className="mb-8 bg-[#fffdf4] rounded-xl p-5">
           <div className="flex flex-wrap items-center gap-6">
             {/* Date Filter */}
@@ -321,70 +400,14 @@ export default function PartnerAttendance() {
                   className="px-3 py-2 text-sm border border-black bg-white rounded-xl focus:outline-none focus:ring-1 focus:ring-black text-black"
                   style={{ width: "auto", minWidth: "130px" }}
                 />
-                {/* <Icon
-                  icon="uil:calender"
-                  className="absolute right-3 top-2.5 text-black text-lg pointer-events-none"
-                /> */}
               </div>
             </div>
-
-            {/* School Filter */}
-            <div className="flex flex-col relative">
-              <label className="text-md font-medium text-black mb-1">School</label>
-
-              <div className="relative inline-block">
-                <select
-                  value={selectedSchool || ""}
-                  onChange={(e) => setSelectedSchool(e.target.value || null)}
-                  className="appearance-none px-3 py-2 pr-8 text-sm border border-black rounded-xl bg-white focus:outline-none focus:ring-1 focus:ring-black text-black"
-                  style={{ width: "auto", minWidth: "130px" }}
-                >
-                  <option value="">All School</option>
-                  {schoolNames.map((school: string) => (
-                    <option key={school} value={school}>
-                      {school}
-                    </option>
-                  ))}
-                </select>
-
-                {/* Custom dropdown icon */}
-                <Icon
-                  icon="nrk:arrow-dropdown"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-black text-lg pointer-events-none"
-                />
-              </div>
-            </div>
-
-            {/* Grade Filter - Always visible */}
-            <div className="flex flex-col relative">
-              <label className="text-md font-medium text-black mb-1">Class</label>
-
-              <div className="relative inline-block">
-                <select
-                  value={selectedGrade}
-                  onChange={(e) => setSelectedGrade(e.target.value)}
-                  className="appearance-none px-3 py-2 pr-8 text-sm border border-black rounded-xl bg-white focus:outline-none focus:ring-1 focus:ring-black text-black"
-                  style={{ width: "auto", minWidth: "130px" }}
-                >
-                  {grades.map((grade) => (
-                    <option key={grade} value={grade}>
-                      {grade}
-                    </option>
-                  ))}
-                </select>
-
-                {/* Custom dropdown icon */}
-                <Icon
-                  icon="nrk:arrow-dropdown"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-black text-lg pointer-events-none"
-                />
-              </div>
-            </div>
-
           </div>
         </div>
 
-        {/* Schools Table */}
+        {/* -------------------------
+            Top-level Schools Table
+           ------------------------- */}
         {!selectedSchool && (
           <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
             <div className="overflow-x-auto">
@@ -396,8 +419,6 @@ export default function PartnerAttendance() {
                     <th className="px-4 py-3 text-center text-xs md:text-sm font-semibold text-gray-700">Total Student</th>
                     <th className="px-4 py-3 text-center text-xs md:text-sm font-semibold text-gray-700">No of Present</th>
                     <th className="px-4 py-3 text-center text-xs md:text-sm font-semibold text-gray-700">No of Absent</th>
-                    <th className="px-4 py-3 text-center text-xs md:text-sm font-semibold text-gray-700">Week</th>
-                    <th className="px-4 py-3 text-left text-xs md:text-sm font-semibold text-gray-700">Status</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -405,15 +426,17 @@ export default function PartnerAttendance() {
                     <tr
                       key={school.schoolName}
                       className="border-b border-gray-200 hover:bg-gray-50 cursor-pointer"
-                      onClick={() => setSelectedSchool(school.schoolName)}
+                      onClick={() => {
+                        setSelectedSchool(school.schoolName);
+                        setShowGradeSelection(true); // show grades first (Option A)
+                        setSelectedGrade(null); // wait for user to pick a grade
+                      }}
                     >
                       <td className="px-4 py-3 text-xs md:text-sm text-gray-600">{index + 1}</td>
                       <td className="px-4 py-3 text-xs md:text-sm text-gray-700 font-medium">{school.schoolName}</td>
                       <td className="px-4 py-3 text-xs md:text-sm text-gray-600 text-center">{school.totalStudents}</td>
                       <td className="px-4 py-3 text-xs md:text-sm text-gray-600 text-center">{school.noOfPresent}</td>
                       <td className="px-4 py-3 text-xs md:text-sm text-gray-600 text-center">{school.noOfAbsent}</td>
-                      <td className="px-4 py-3 text-xs md:text-sm text-gray-600 text-center">{school.week}</td>
-                      <td className="px-4 py-3 text-xs md:text-sm text-gray-700">{school.status}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -422,21 +445,106 @@ export default function PartnerAttendance() {
           </div>
         )}
 
-        {/* Students Table */}
-        {selectedSchool && (
+        {/* -------------------------
+            Grade Table (shown right after a school is clicked)
+           ------------------------- */}
+        {selectedSchool && showGradeSelection && (
+          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden mb-6">
+            <div className="px-4 md:px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+              <h3 className="text-lg font-semibold text-gray-800">
+                {selectedSchool} 
+              </h3>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => {
+                    // Back to school list
+                    setSelectedSchool(null);
+                    setShowGradeSelection(false);
+                    setSelectedGrade("Grade 1");
+                  }}
+                  className="text-sm text-[#3A7D7D] hover:text-[#2A6D6D] cursor-pointer font-medium flex items-center gap-1"
+                >
+                  <Icon icon="mdi:arrow-left" width={18} />
+                  Back
+                </button>
+              </div>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-[#DDFFE7]">
+                  <tr className="border-b border-gray-200">
+                    <th className="px-4 py-3 text-left text-xs md:text-sm font-semibold text-gray-700">S.N.</th>
+                    <th className="px-4 py-3 text-left text-xs md:text-sm font-semibold text-gray-700">Class</th>
+                    <th className="px-4 py-3 text-center text-xs md:text-sm font-semibold text-gray-700">Total Student</th>
+                    <th className="px-4 py-3 text-center text-xs md:text-sm font-semibold text-gray-700">No. of Present</th>
+                    <th className="px-4 py-3 text-center text-xs md:text-sm font-semibold text-gray-700">No. of Absent</th>
+                    <th className="px-4 py-3 text-center text-xs md:text-sm font-semibold text-gray-700">Week</th>
+                    <th className="px-4 py-3 text-left text-xs md:text-sm font-semibold text-gray-700">Ongoing Lecture</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {gradeSummaryForSelectedSchool.map((g, idx) => (
+                    <tr
+                      key={g.grade}
+                      className="border-b border-gray-200 hover:bg-gray-50 cursor-pointer"
+                      onClick={() => {
+                        setSelectedGrade(g.grade);
+                        setShowGradeSelection(false); // hide grade list and show students table
+                      }}
+                    >
+                      <td className="px-4 py-3 text-xs md:text-sm text-gray-600">{idx + 1}</td>
+                      <td className="px-4 py-3 text-xs md:text-sm text-gray-700 font-medium">{g.grade}</td>
+                      <td className="px-4 py-3 text-xs md:text-sm text-gray-600 text-center">{g.totalStudents}</td>
+                      <td className="px-4 py-3 text-xs md:text-sm text-gray-600 text-center">{g.presentCount}</td>
+                      <td className="px-4 py-3 text-xs md:text-sm text-gray-600 text-center">{g.absentCount}</td>
+                      <td className="px-4 py-3 text-xs md:text-sm text-gray-600 text-center">{g.week}</td>
+                      <td className="px-4 py-3 text-xs md:text-sm text-gray-700">{g.status}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* -------------------------
+            Students Table (shown when a grade is selected)
+           ------------------------- */}
+        {selectedSchool && !showGradeSelection && selectedGrade && (
           <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
             <div className="px-4 md:px-6 py-4 border-b border-gray-200 flex justify-between items-center">
               <h3 className="text-lg font-semibold text-gray-800">
                 {selectedSchool} - {selectedGrade} Attendance
               </h3>
-              <button
-                onClick={() => setSelectedSchool(null)}
-                className="text-sm text-[#3A7D7D] hover:text-[#2A6D6D] font-medium flex items-center gap-1"
-              >
-                <Icon icon="mdi:arrow-left" width={18} />
-                Back
-              </button>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => {
+                    // go back to grade selection
+                    setShowGradeSelection(true);
+                    setSelectedGrade(null);
+                  }}
+                  className="text-sm text-[#3A7D7D] hover:text-[#2A6D6D] cursor-pointer font-medium flex items-center gap-1"
+                >
+                  <Icon icon="mdi:arrow-left" width={18} />
+                  Back to Grades
+                </button>
+
+                <button
+                  onClick={() => {
+                    // back to school list
+                    setSelectedSchool(null);
+                    setShowGradeSelection(false);
+                    setSelectedGrade("Grade 1");
+                  }}
+                  className="text-sm text-gray-600 hover:text-gray-800 cursor-pointer font-medium flex items-center gap-1"
+                >
+                  <Icon icon="mdi:home" width={18} />
+                  Schools
+                </button>
+              </div>
             </div>
+
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead className="bg-green-50">
@@ -521,7 +629,7 @@ export default function PartnerAttendance() {
                                     }}
                                     className="w-full text-black text-left px-3 py-2 hover:bg-gray-100 text-sm"
                                   >
-                                     Absent
+                                    Absent
                                   </button>
                                 )}
                               </div>
@@ -534,6 +642,15 @@ export default function PartnerAttendance() {
                       <td className="px-4 py-3 text-xs md:text-sm text-gray-600 text-center">{student.totalAbsentDays}</td>
                     </tr>
                   ))}
+
+                  {/* if no students */}
+                  {filteredStudents.length === 0 && (
+                    <tr>
+                      <td colSpan={5} className="px-4 py-6 text-center text-gray-500">
+                        No students found for {selectedGrade} on {selectedDate}.
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>

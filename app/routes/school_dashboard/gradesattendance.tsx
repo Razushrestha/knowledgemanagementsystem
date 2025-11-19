@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router";
 import { Icon } from "@iconify/react";
 
 
@@ -69,66 +70,96 @@ export default function GradesAttendance() {
   return (
     <div className="flex min-h-screen bg-[#fdfbf0]">
 
-      {/* SIDEBAR DESKTOP */}
+      {/* Sidebar - Desktop */}
       <aside className="hidden md:flex w-[220px] flex-col bg-[#3A7D7D] fixed top-0 left-0 h-screen p-4">
         <div className="text-2xl text-center font-bold mb-8 text-white">LOGO</div>
         <nav className="flex-1 space-y-4">
-          {sidebarItems.map((item) => (
-            <button
-              key={item.label}
-              className="flex items-center gap-2 px-3 py-2 w-full rounded-lg text-white/90 hover:bg-white hover:text-[#3A7D7D] transition shadow"
-            >
-              {item.icon}
-              {item.label}
-            </button>
-          ))}
+          {sidebarItems.map((item, index) => {
+            const routeMap: Record<string, string> = {
+              "Dashboard": "/school_dashboard",
+              "Attendance": "/school_dashboard/attendance",
+              "Tutor": "/school_dashboard/tutor",
+              "Examination": "/school_dashboard/examination",
+              "Invoice": "/school_dashboard/invoice",
+              "Complain Box": "/school_dashboard/complain_box",
+            };
+            return (
+              <Link
+                key={item.label}
+                to={routeMap[item.label] || "#"}
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 
+                           ${index === 0
+                    ? "bg-[#3A7D7D]/80 text-white border   font-semibold shadow-[inset_0_0_2px_rgba(255,255,255,0.6),0_4px_10px_rgba(0,0,0,0.3)] -translate-y-0.5"
+                    : "bg-transparent text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:font-medium"}`}
+              >
+                {item.icon}
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
-
-        <button
-          className="mt-auto flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-[#f3dada] text-[#dc2626]"
-          onClick={() => localStorage.removeItem("authToken")}
-        >
-          <Icon icon="ri:logout-circle-line" /> Log Out
-        </button>
-      </aside>
-
-      {/* MOBILE OVERLAY */}
-      {isMobileSidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 md:hidden z-40"
-          onClick={() => setIsMobileSidebarOpen(false)}
-        />
-      )}
-
-      {/* MOBILE SIDEBAR */}
-      <aside
-        className={`fixed top-0 left-0 h-screen w-[220px] bg-[#3A7D7D] p-4 md:hidden z-50 transform transition-transform duration-300 ${isMobileSidebarOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
-      >
-        <div className="text-2xl text-center font-bold mb-8 text-white">LOGO</div>
-
-        <nav className="flex-1 space-y-4">
-          {sidebarItems.map((item) => (
-            <button
-              key={item.label}
-              className="flex items-center gap-2 px-3 py-2 w-full rounded-lg text-white/90 hover:bg-white hover:text-[#3A7D7D] transition shadow"
-              onClick={() => setIsMobileSidebarOpen(false)}
-            >
-              {item.icon}
-              {item.label}
-            </button>
-          ))}
-        </nav>
-
-        <button
+        <Link
+          to="/"
           className="mt-auto flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-[#f3dada] text-[#dc2626]"
           onClick={() => {
-            localStorage.removeItem("authToken");
+            localStorage.removeItem('authToken');
+          }}
+        >
+          <Icon icon="ri:logout-circle-line" className="text-lg" />
+
+          Log Out
+        </Link>
+      </aside>
+
+      {/* Sidebar - Mobile */}
+      {isMobileSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 md:hidden z-40"
+          onClick={() => setIsMobileSidebarOpen(false)}
+        ></div>
+      )}
+      <aside className={`fixed top-0 left-0 h-screen w-[220px] bg-[#3A7D7D] p-4 flex flex-col md:hidden z-50 transform transition-transform duration-300 ${
+        isMobileSidebarOpen ? "translate-x-0" : "-translate-x-full"
+      }`}>
+        <div className="text-2xl text-center font-bold mb-8 text-white">LOGO</div>
+        <nav className="flex-1 space-y-4">
+          {sidebarItems.map((item, index) => {
+            const routeMap: Record<string, string> = {
+              "Dashboard": "/school_dashboard",
+              "Attendance": "/school_dashboard/attendance",
+              "Tutor": "/school_dashboard/tutor",
+              "Examination": "/school_dashboard/examination",
+              "Invoice": "/school_dashboard/invoice",
+              "Complain Box": "/school_dashboard/complain_box",
+            };
+            return (
+              <Link
+                key={item.label}
+                to={routeMap[item.label] || "#"}
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 
+                           ${index === 0
+                    ? "bg-[#3A7D7D]/80 text-white border   font-semibold shadow-[inset_0_0_2px_rgba(255,255,255,0.6),0_4px_10px_rgba(0,0,0,0.3)] -translate-y-0.5"
+                    : "bg-transparent text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:font-medium"}`}
+                onClick={() => setIsMobileSidebarOpen(false)}
+              >
+                {item.icon}
+                {item.label}
+              </Link>
+            );
+          })}
+        </nav>
+        <Link
+          to="/"
+          className="mt-auto flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-[#f3dada] text-[#dc2626]"
+          onClick={() => {
+            localStorage.removeItem('authToken');
             setIsMobileSidebarOpen(false);
           }}
         >
-          <Icon icon="ri:logout-circle-line" /> Log Out
-        </button>
+          <Icon icon="ri:logout-circle-line" className="text-lg" />
+
+          Log Out
+        </Link>
       </aside>
 
       {/* MAIN CONTENT */}
@@ -162,7 +193,7 @@ export default function GradesAttendance() {
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
                 <div className="w-9 h-9 rounded-full bg-[#3A7D7D] flex items-center justify-center">
-                  <Icon icon="ix:user-profile-filled" className="text-white text-xl" />
+                  <Icon icon="ix:user-profile-filled" className="text-white w-9 h-9" />
                 </div>
                 <Icon icon="mdi:chevron-down" className="text-white hidden sm:block" />
               </button>
@@ -170,7 +201,7 @@ export default function GradesAttendance() {
               {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg py-1 z-10">
                   <button
-                    className="block w-full px-4 py-2 text-sm text-left hover:bg-gray-100"
+                    className="block w-full px-4 py-2 text-sm text-black text-center  hover:bg-gray-100"
                     onClick={() => localStorage.removeItem("authToken")}
                   >
                     Sign Out
@@ -187,28 +218,30 @@ export default function GradesAttendance() {
           <div>
 
             {/* SMALL FILTER BAR */}
-            <div className="flex flex-col md:flex-row i md:items-center  justify-between items-center w-full gap-6 mb-8">
-              
-              {/* DATE */}
-              <div className="flex flex-col">
-                <label className="text-sm font-medium text-black mb-2">Date</label>
-                <input
-                  type="date"
-                  value={selectedDate.split("/").reverse().join("-")}
-                  onChange={(e) => {
-                    const [year, month, day] = e.target.value.split("-");
-                    setSelectedDate(`${month}/${day}/${year}`);
-                  }}
-                  className="border border-gray-300 rounded-lg bg-white text-black px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-[#3A7D7D]"
-                />
-              </div>
-              {/* tutor */}
-              <div className="flex text-center">
-                <Icon icon="iconamoon:profile-light" className="text-gray-500" width={24} />
-                <p className="text-black pl-4">Ram</p>
-              </div>
+<div className="flex flex-col md:flex-row justify-between items-end w-full gap-6 mb-8">
 
-            </div>
+  {/* DATE */}
+  <div className="flex flex-col">
+    <label className="text-sm font-medium text-black mb-2">Date</label>
+    <input
+      type="date"
+      value={selectedDate.split("/").reverse().join("-")}
+      onChange={(e) => {
+        const [year, month, day] = e.target.value.split("-");
+        setSelectedDate(`${month}/${day}/${year}`);
+      }}
+      className="border border-gray-300 rounded-lg bg-white text-black px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-[#3A7D7D]"
+    />
+  </div>
+
+  {/* TUTOR */}
+  <div className="flex items-center pr-10">
+    <Icon icon="iconamoon:profile-light" className="text-gray-500" width={24} />
+    <p className="text-black pl-2">Mr. Ram Bahadur</p>
+  </div>
+
+</div>
+
 
 
             <div className="bg-white rounded-xl border border-gray-300 pb-4">
@@ -299,15 +332,15 @@ export default function GradesAttendance() {
                   {/* Custom dropdown icon */}
                   <Icon
                     icon="nrk:arrow-dropdown"
-                    className="absolute right-2 top-[40px] text-black text-lg pointer-events-none"
+                    className="absolute right-2 top-10 text-black text-lg pointer-events-none"
                   />
                 </div>
 
               </div>
 
               {/* STATUS FILTER */}
-              <div>
-                <label className="text-sm font-medium text-black mb-2 block">Status</label>
+              <div className="pr-8">
+                <label className="text-sm text-center font-medium text-black mb-2 block">Status</label>
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
@@ -337,7 +370,7 @@ export default function GradesAttendance() {
     {/* Tutor */}
     <div className="flex items-center gap-2">
       <Icon icon="iconamoon:profile-light" className="text-gray-500" width={24} />
-      <p className="text-black">Ram</p>
+      <p className="text-black">Mr. Ram Bahadur</p>
     </div>
   </div>
 

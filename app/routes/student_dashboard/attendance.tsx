@@ -182,8 +182,8 @@ export default function AttendancePage() {
                 <div className="px-10 space-y-6">
 
                     {/* Student Info */}
-                    <div className="bg-white rounded-xl shadow p-6 border border-gray-200">
-                        <h2 className="text-2xl font-bold text-gray-800">Karthik Sharma</h2>
+                    <div className="bg-white rounded-xl shadow p-6 border border-black">
+                        <h2 className="text-2xl font-bold text-[#3A7D7D]">Karthik Sharma</h2>
                         <p className="text-gray-600 text-sm">Grade - 1</p>
                     </div>
 
