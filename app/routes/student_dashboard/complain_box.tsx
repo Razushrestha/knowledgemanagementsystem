@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router";
+import { Link } from "react-router";
+
 import { Icon } from "@iconify/react";
 
 export default function ComplainBoxPage() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("complaint");
 
   const sidebarItems = [
@@ -59,11 +63,76 @@ export default function ComplainBoxPage() {
 
       {/* Main */}
       <main className="flex-1 p-8 bg-[#fdfbf0]">
-        <h1 className="text-3xl font-bold text-gray-800">Complain Box</h1>
-        <p className="text-gray-600 mt-1 text-sm">Submit issues and view replies</p>
+        <div className="flex justify-between items-center mb-8 px-0 md:px-10 gap-4">
+                  {/* Mobile Hamburger Menu */}
+                  <button
+                    className="md:hidden flex items-center justify-center"
+                    onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
+                  >
+                    <Icon icon="mdi:menu" className="text-[#3A7D7D] text-3xl" />
+                  </button>
+        
+                  {/* Title and Subtitle */}
+                  <div className="flex-1">
+                    <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Submit a Complaint</h1>
+                  </div>
+                 
+        
+                   {/* Middle: Search Bar */}
+                            <div className="relative flex-1 md:w-[50px]">
+                              <input
+                                type="search"
+                                placeholder="Search"
+                                className="w-md pl-10 pr-4 py-2.5 bg-[#E8E6DA] rounded-full text-sm focus:outline-none text-gray-600"
+                                />
+                              <Icon
+                                icon="mdi:magnify"
+                                className="absolute left-3 top-3 text-[#999999] text-lg"
+                              />
+                            </div>
+                  {/* Right: Icons */}
+                  <div className="flex items-center space-x-3 md:space-x-6">
+                    {/* Notification */}
+                    <button className="relative">
+                      <Icon
+                        icon="ri:notification-3-fill"
+                        className="text-[#3A7D7D] text-2xl md:text-3xl"
+                        />
+                      <span className="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full"></span>
+                    </button>
+        
+                    {/* Profile */}
+                    <div className="relative">
+                      <button
+                        className="flex items-center space-x-1 bg-[#3A7D7D] px-2 py-1 rounded-3xl"
+                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                        >
+                        <div className="w-9 h-9 rounded-full bg-[#3A7D7D] flex items-center justify-center">
+                          <Icon icon="ix:user-profile-filled" className="text-white text-xl w-9 h-9" />
+                        </div>
+                        <Icon icon="mdi:chevron-down" className="text-white text-lg w-6 h-6 hidden sm:block" />
+                      </button>
+        
+                      {isDropdownOpen && (
+                        <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg py-1 z-10">
+                          <Link
+                            to="/"
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            onClick={() => {
+                              setIsDropdownOpen(false);
+                              localStorage.removeItem("authToken");
+                            }}
+                            >
+                            Sign out
+                          </Link>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  </div>
 
         {/* Tabs */}
-        <div className="flex gap-4 mt-6 ">
+        <div className="flex gap-4 mt-10 ml-10  ">
           <button
             onClick={() => setActiveTab("complaint")}
             className={`px-6 py-2 rounded-lg border transition-all ${
@@ -93,8 +162,8 @@ export default function ComplainBoxPage() {
             ></textarea>
 
             <div className="flex justify-end gap-4 mt-4">
-              <button className="text-gray-600 rounded-lg hover:underline">Cancel</button>
-              <button className="px-6 py-2 bg-[#2D8F78] shadow-lg text-white rounded-lg">Submit</button>
+              <button className="text-black rounded-lg border px-4 border-gray-500 bg-white hover:bg-gray-100">Cancel</button>
+              <button className="px-6 py-2 bg-[#2D8F78] hover:bg-[#32796a] shadow-lg text-white rounded-lg">Submit</button>
             </div>
           </div>
         )}
@@ -103,18 +172,23 @@ export default function ComplainBoxPage() {
         {activeTab === "resolved" && (
           <div className="bg-[#FFFBEA] p-6 rounded-2xl shadow-lg mt-6 border border-gray-300">
             <div className="bg-white p-4">
+            <div className="flex justify-between">
 
             <h2 className="text-xl font-semibold text-gray-800">Technical Issue with Robotics Module</h2>
+            <div className="flex justify-end text-sm text-gray-500 mt-1">2025-01-08 14:30</div>
+            </div>
             <p className="text-gray-700 mt-2">
               The robotics simulation software keeps crashing during the exercise.
             </p>
-            <div className="flex justify-end text-sm text-gray-500 mt-1">2025-01-08 14:30</div>
 
             <h3 className="font-semibold mt-4">Admin Reply:</h3>
-            <div className="bg-[#D9F6DD] p-4 rounded-xl mt-3 border-l-4 border-[#2D8F78]">
+            <div className="bg-[#D9F6DD] p-4 rounded-2xl mt-3 border-l-8 border-b-4 border-[#2D8F78]">
+              <div className="flex justify-between">
+
+              <p className="font-semibold text-black text-sm">Admin</p>
               <div className="flex justify-end text-sm text-gray-500 mt-1">
                 2025-01-08 15:00</div>
-              <p className="font-semibold text-black text-sm">Admin</p>
+              </div>
               <p className="mt-1 text-gray-700">
                 Thank you for reporting this issue. Our team is working on it.
               </p>

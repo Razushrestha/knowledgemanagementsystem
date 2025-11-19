@@ -70,7 +70,7 @@ export default function ComplainBox() {
       priority: "MEDIUM",
       submittedBy: "Marcus Wilson (Grade 8-A)",
       date: "2025-01-08",
-      status: "IN PROGRESS",
+      status: "PENDING",
       description: "My mathematics tutor didn't show up for our scheduled session yesterday. This is the second time this month.",
       conversation: [
         {
@@ -259,7 +259,20 @@ export default function ComplainBox() {
             <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Complaint Management</h1>
             <p className="text-sm md:text-base text-gray-600">View, file, and track all complaints within your school</p>
           </div>
+         
 
+           {/* Middle: Search Bar */}
+                    <div className="relative flex-1 md:w-[50px]">
+                      <input
+                        type="search"
+                        placeholder="Search"
+                        className="w-md pl-10 pr-4 py-2.5 bg-[#E8E6DA] rounded-full text-sm focus:outline-none text-gray-600"
+                        />
+                      <Icon
+                        icon="mdi:magnify"
+                        className="absolute left-3 top-3 text-[#999999] text-lg"
+                      />
+                    </div>
           {/* Right: Icons */}
           <div className="flex items-center space-x-3 md:space-x-6">
             {/* Notification */}
@@ -267,7 +280,7 @@ export default function ComplainBox() {
               <Icon
                 icon="ri:notification-3-fill"
                 className="text-[#3A7D7D] text-2xl md:text-3xl"
-              />
+                />
               <span className="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full"></span>
             </button>
 
@@ -276,7 +289,7 @@ export default function ComplainBox() {
               <button
                 className="flex items-center space-x-1 bg-[#3A7D7D] px-2 py-1 rounded-3xl"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              >
+                >
                 <div className="w-9 h-9 rounded-full bg-[#3A7D7D] flex items-center justify-center">
                   <Icon icon="ix:user-profile-filled" className="text-white text-xl w-9 h-9" />
                 </div>
@@ -292,22 +305,23 @@ export default function ComplainBox() {
                       setIsDropdownOpen(false);
                       localStorage.removeItem("authToken");
                     }}
-                  >
+                    >
                     Sign out
                   </Link>
                 </div>
               )}
             </div>
           </div>
-        </div>
+          </div>
+       
 
         {/* Tabs */}
         <div className="mb-8 flex flex-wrap gap-3 md:gap-4">
           <button
             onClick={() => setActiveTab("from-student")}
-            className={`px-4 py-2 rounded-lg font-medium text-sm md:text-base transition-all duration-200 border-2 ${
+            className={`px-4 py-3 rounded-lg font-medium text-sm md:text-base transition-all duration-200 border-2 ${
               activeTab === "from-student"
-                ? "bg-white text-gray-800 border-gray-300"
+                ? "bg-white text-gray-800 border-black"
                 : "bg-[#3A7D7D] text-white border-[#3A7D7D] hover:opacity-90"
             }`}
           >
@@ -316,9 +330,9 @@ export default function ComplainBox() {
 
           <button
             onClick={() => setActiveTab("to-admin")}
-            className={`px-4 py-2 rounded-lg font-medium text-sm md:text-base transition-all duration-200 border-2 ${
+            className={`px-4 py-3 rounded-lg font-medium text-sm md:text-base transition-all duration-200 border-2 ${
               activeTab === "to-admin"
-                ? "bg-white text-gray-800 border-gray-300"
+                ? "bg-white text-gray-800  border-black"
                 : "bg-[#3A7D7D] text-white border-[#3A7D7D] hover:opacity-90"
             }`}
           >
@@ -327,9 +341,9 @@ export default function ComplainBox() {
 
           <button
             onClick={() => setActiveTab("new-complaint")}
-            className={`px-4 py-2 rounded-lg font-medium text-sm md:text-base transition-all duration-200 border-2 ${
+            className={`px-4 py-3 rounded-lg font-medium text-sm md:text-base transition-all duration-200 border-2 ${
               activeTab === "new-complaint"
-                ? "bg-white text-gray-800 border-gray-300"
+                ? "bg-white text-gray-800 border-black"
                 : "bg-[#3A7D7D] text-white border-[#3A7D7D] hover:opacity-90"
             }`}
           >
@@ -339,8 +353,8 @@ export default function ComplainBox() {
         </div>
 
         {/* Filter and Action Bar */}
-        <div className="mb-6 flex flex-wrap justify-between items-center gap-4">
-          <select className="px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none">
+        <div className="mb-6 flex flex-wrap justify-end items-center gap-4">
+          <select className="px-3 py-2 border border-gray-700 text-black rounded-lg text-sm bg-white focus:outline-none">
             <option>All Status</option>
             <option>Pending</option>
             <option>In Progress</option>
@@ -356,64 +370,100 @@ export default function ComplainBox() {
                 key={complaint.id}
                 className="bg-white rounded-lg border border-gray-200 p-4 md:p-6 hover:shadow-md transition-shadow duration-200"
               >
-                {/* Header */}
-                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-2">{complaint.title}</h3>
-                    <div className="flex flex-wrap items-center gap-3 mb-3">
-                      <div className="flex items-center gap-1 text-sm text-gray-600">
-                        <Icon icon="mdi:account" width={16} height={16} />
-                        <span>{complaint.submittedBy}</span>
-                      </div>
-                      <div className="flex items-center gap-1 text-sm text-gray-600">
-                        <Icon icon="mdi:calendar" width={16} height={16} />
-                        <span>{complaint.date}</span>
-                      </div>
-                    </div>
-                  </div>
 
-                  {/* Badges */}
-                  <div className="flex flex-wrap gap-2">
-                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getPriorityColor(complaint.priority)}`}>
-                      {complaint.priority}
-                    </span>
-                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(complaint.status)}`}>
-                      {complaint.status}
-                    </span>
-                  </div>
-                </div>
+               {/* Header */}
+<div className="flex flex-col gap-4 mb-4 md:flex-row md:items-start md:justify-between">
+
+  {/* LEFT: Title + user info */}
+  <div className="flex-1">
+    
+    {/* Row: Title + Badges + Reply Button */}
+    <div className="flex items-center justify-between w-full">
+      <div className="flex items-center gap-3">
+
+      {/* Title */}
+      <h3 className="text-lg font-semibold text-gray-800">
+        {complaint.title}
+      </h3>
+
+      {/* Right Side: Badges + Reply */}
+
+        {/* Badges */}
+        <span
+          className={`px-3 py-1 rounded-full text-xs font-semibold ${getPriorityColor(
+            complaint.priority
+          )}`}
+        >
+          {complaint.priority}
+        </span>
+
+        <span
+          className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(
+            complaint.status
+          )}`}
+        >
+          {complaint.status}
+        </span>
+      </div>
+
+        {/* Reply Button */}
+        <button className="flex items-center gap-1 px-3 py-1.5 bg-[#DDFFE7] text-black rounded-lg hover:bg-[#438582] hover:text-white transition-colors duration-200">
+          <Icon icon="material-symbols-light:reply-rounded" width={20} height={20} />
+          Reply
+        </button>
+
+    </div>
+
+    {/* User + Date */}
+    <div className="flex items-center gap-3 mt-2 text-sm text-gray-600 flex-wrap">
+      <div className="flex items-center gap-1">
+        <Icon icon="iconamoon:profile" width={16} height={16} />
+        <span>{complaint.submittedBy}</span>
+      </div>
+
+      <div className="flex items-center gap-1">
+        <Icon icon="ant-design:calendar-outlined" width={16} height={16} />
+        <span>{complaint.date}</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+          
 
                 {/* Description */}
                 <p className="text-gray-700 mb-4 text-sm md:text-base">{complaint.description}</p>
 
                 {/* Conversation */}
-                <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                <div className="bg-gray-100 rounded-lg p-4 mb-4">
                   <h4 className="font-semibold text-gray-800 mb-3">Conversation:</h4>
                   <div className="space-y-3">
-                    {complaint.conversation.map((msg, idx) => (
-                      <div key={idx} className={`flex gap-3 ${msg.isAdmin ? "justify-start" : "justify-end"}`}>
-                        <div
-                          className={`max-w-xs md:max-w-md px-4 py-2 rounded-lg ${
-                            msg.isAdmin
-                              ? "bg-[#3A7D7D] text-white rounded-tl-none"
-                              : "bg-blue-100 text-gray-800 rounded-tr-none"
-                          }`}
-                        >
-                          <p className="text-sm">{msg.message}</p>
-                          <span className="text-xs opacity-75 mt-1 block">{msg.date}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+  {complaint.conversation.map((msg, idx) => (
+    <div key={idx} className="w-full">
+      <div
+        className={`
+          w-full 
+          px-4 py-3 
+          border-l-4 
+          border-[#3A7D7D] 
+          rounded-md 
+          ${msg.isAdmin 
+            ? "bg-[#DDFFE7] text-black" 
+            : "bg-blue-100 text-gray-800"
+          }
+        `}
+      >
+        <p className="text-sm">{msg.message}</p>
+        <span className="text-xs opacity-75 mt-1 block">{msg.date}</span>
+      </div>
+    </div>
+  ))}
+</div>
+
                 </div>
 
-                {/* Reply Button */}
-                <div className="flex justify-end">
-                  <button className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 text-sm md:text-base">
-                    <Icon icon="mdi:reply" width={18} height={18} />
-                    Reply
-                  </button>
-                </div>
               </div>
             ))}
           </div>
