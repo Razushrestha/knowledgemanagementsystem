@@ -1,9 +1,7 @@
-
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import { Icon } from "@iconify/react";
-
 
 interface TaskRecord {
   task: string;
@@ -22,8 +20,7 @@ export default function StudentDashboard() {
   const navigate = useNavigate();
   const location = useLocation();
 
-
-const student = {
+  const student = {
     name: "John Doe",
     attendance: 75,
   };
@@ -56,32 +53,10 @@ const student = {
   ]);
 
   const sidebarItems = [
-    {
-      label: "Dashboard",
-      icon: (
-        <Icon icon="iconamoon:home-duotone" width={24} height={24} />
-      ),
-    },
-    {
-      label: "Attendance",
-      icon: (
-        <Icon icon="mingcute:calendar-2-line" width={24} height={24} />
-      ),
-
-    },
-    {
-      label: "Learning Material",
-      icon: (
-        <Icon icon="mingcute:calendar-2-line" width={24} height={24} />
-
-      ),
-    },
-    {
-      label: "Task",
-      icon: (
-        <Icon icon="hugeicons:task-02" width={24} height={24} />
-      ),
-    },
+    { label: "Dashboard", icon: <Icon icon="iconamoon:home-duotone" width={24} /> },
+    { label: "Attendance", icon: <Icon icon="mingcute:calendar-2-line" width={24} /> },
+    { label: "Learning Material", icon: <Icon icon="mingcute:calendar-2-line" width={24} /> },
+    { label: "Task", icon: <Icon icon="hugeicons:task-02" width={24} /> },
     {
       label: "Examination",
       icon: (
@@ -95,51 +70,48 @@ const student = {
         </svg>
       ),
     },
-    {
-      label: "Progress",
-      icon: (
-        <Icon icon="streamline-plump:graph-bar-increase-solid" width={24} height={24} />
-      ),
-    },
-    {
-      label: "Complain Box",
-      icon: (
-        <Icon icon="streamline-freehand:customer-action-complaint" width={24} height={24} />
-      ),
-    },
+    { label: "Progress", icon: <Icon icon="streamline-plump:graph-bar-increase-solid" width={24} /> },
+    { label: "Complain Box", icon: <Icon icon="streamline-freehand:customer-action-complaint" width={24} /> },
   ];
 
   const routeMap: Record<string, string> = {
-    "Dashboard": "/student_dashboard",
-    "Attendance": "/student_dashboard/attendance",
+    Dashboard: "/student_dashboard",
+    Attendance: "/student_dashboard/attendance",
     "Learning Material": "/student_dashboard/learning_material",
-    "Task": "/student_dashboard/task",
-    "Examination": "/student_dashboard/examination",
-    "Progress": "/student_dashboard/progress",
+    Task: "/student_dashboard/task",
+    Examination: "/student_dashboard/examination",
+    Progress: "/student_dashboard/progress",
     "Complain Box": "/student_dashboard/complain_box",
   };
 
   return (
-    <div className="flex min-h-screen bg-[#fdfbf0]">
-      {/* Sidebar */}
-      <aside className="max-w-60 min-w-60 flex flex-col bg-[#438582] min-h-screen p-4">
+    <div className="flex bg-[#fdfbf0]">
+      {/* ============================================================
+                        SIDEBAR
+      ============================================================ */}
+      <aside className="w-60 fixed left-0 top-0 bottom-0 bg-[#438582] p-4 flex flex-col shadow-xl z-20">
         <div className="text-2xl text-center font-bold mb-8 text-white">LOGO</div>
-        <nav className="flex-1 space-y-6">
+
+        <nav className="flex-1 space-y-6 overflow-y-auto">
           {sidebarItems.map((item) => {
-            const isActive = location.pathname.startsWith(routeMap[item.label]);
+            const isActive =
+              item.label === "Dashboard"
+                ? location.pathname === "/student_dashboard"
+                : location.pathname.startsWith(routeMap[item.label]);
+
             return (
               <button
                 key={item.label}
                 onClick={() => navigate(routeMap[item.label])}
-                className={`w-full text-left flex items-center gap-2 px-3 py-3 rounded-lg transition-all duration-200 backdrop-blur-sm ${isActive
-                    ? "bg-[#3A7D7D]/80 text-white border hover:cursor-pointer   font-semibold shadow-[inset_0_0_2px_rgba(255,255,255,0.6),0_4px_10px_rgba(0,0,0,0.3)] -translate-y-0.5"
-                    : "bg-transparent text-white/90 hover:bg-white hover:cursor-pointer hover:text-[#3A7D7D] hover:shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:font-medium"
-                  }`}
+                className={`w-full text-left flex items-center gap-2 px-3 py-3 rounded-lg transition-all duration-200 ${
+                  isActive
+                    ? "bg-[#3A7D7D]/80 text-white border font-semibold shadow-[inset_0_0_2px_rgba(255,255,255,0.6),0_4px_10px_rgba(0,0,0,0.3)] -translate-y-0.5"
+                    : "bg-transparent text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:-translate-y-0.5"
+                }`}
               >
                 {item.icon}
                 {item.label}
               </button>
-
             );
           })}
         </nav>
@@ -154,59 +126,48 @@ const student = {
         </Link>
       </aside>
 
-      {/* Main Content */}
-
-
-      <main className="flex-1 p-8 bg-[#fdfbf0]">
-        {/* Top Bar */}
-        <div className="flex justify-between items-center mb-8 px-10">
-          {/* Left: Greeting */}
-          <h1 className="text-3xl font-bold text-gray-800">Hello Joey,</h1>
-
-          {/* Middle: Search Bar */}
-          <div className="relative w-[780px]">
+      {/* ============================================================
+                        NAVBAR
+      ============================================================ */}
+      <div className="fixed top-0 left-60 right-0 bg-[#fdfbf0] z-10">
+        <div className="flex justify-between items-center px-10 py-6">
+          {/* Search Bar */}
+          <div className="relative w-[900px]">
             <input
               type="search"
               placeholder="Search"
-              className="w-full pl-10 pr-4 py-2.5 bg-[#E8E6DA] rounded-full text-sm focus:outline-none text-gray-600"
+              className="w-full pl-10 pr-4 py-2.5 bg-[#E8E6DA] rounded-full text-sm text-gray-600 focus:outline-none"
             />
-            <Icon
-              icon="mdi:magnify"
-              className="absolute left-3 top-3 text-[#999999] text-lg"
-            />
+            <Icon icon="mdi:magnify" className="absolute left-3 top-3 text-[#999] text-lg" />
           </div>
 
-          {/* Right: Icons */}
+          {/* Right Icons */}
           <div className="flex items-center space-x-6">
-            {/* Notification */}
             <button className="relative">
-              <Icon
-                icon="ri:notification-3-fill"
-                className="text-[#3A7D7D] text-3xl"
-              />
-              <span className="absolute top-0 right-0 w-3 h-3  bg-red-500 rounded-full"></span>
+              <Icon icon="ri:notification-3-fill" className="text-[#3A7D7D] text-3xl" />
+              <span className="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full"></span>
             </button>
 
-            {/* Profile */}
+            {/* User Dropdown */}
             <div className="relative">
               <button
                 className="flex items-center space-x-1 bg-[#3A7D7D] px-2 py-1 rounded-3xl"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
                 <div className="w-9 h-9 rounded-full bg-[#3A7D7D] flex items-center justify-center">
-                  <Icon icon="ix:user-profile-filled" className="text-white text-xl w-9 h-9" />
+                  <Icon icon="ix:user-profile-filled" className="text-white w-9 h-9" />
                 </div>
                 <Icon icon="mdi:chevron-down" className="text-white text-lg w-6 h-6" />
               </button>
 
               {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg py-1 z-10">
+                <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg py-1 z-20">
                   <Link
                     to="/"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     onClick={() => {
-                      setIsDropdownOpen(false);
                       localStorage.removeItem("authToken");
+                      setIsDropdownOpen(false);
                     }}
                   >
                     Sign out
@@ -216,187 +177,194 @@ const student = {
             </div>
           </div>
         </div>
+      </div>
 
+      {/* ============================================================
+                        MAIN CONTENT (scrollable)
+      ============================================================ */}
+      <main className="pt-[120px] fixed top-0 left-60 px-10 pb-10 overflow-y-auto h-screen w-[calc(100%-240px)] bg-[#fdfbf0]">
+
+        {/* ALL YOUR ORIGINAL CONTENT BELOW THIS POINT */}
+        
         {/* Stats Cards */}
         <div className="grid grid-cols-4 gap-6 mb-8">
-           {/* Attendance Rate */}
-  <div className="bg-white rounded-xl p-6 border border-black flex flex-col items-start">
-    <p className="text-sm text-black font-medium mb-3">Attendance Rate</p>
 
-    {/* Centered circular progress */}
-    <div className="flex justify-center items-center w-full">
-      <div className="w-26 h-26">
-        <CircularProgressbar
-  value={student.attendance}
-  text={`${student.attendance}%`}
-  strokeWidth={10} // ✅ top-level prop, NOT inside buildStyles
-  styles={buildStyles({
-    pathColor: "#3A7D7D",
-    textColor: "#000",
-    trailColor: "#e6e6e6",
-    textSize: "16px",
-    strokeLinecap: "round",
-    pathTransitionDuration: 0.5,
-    pathTransition: "stroke-dashoffset 0.5s ease 0s",
-  })}
-/>
+          {/* Attendance */}
+          <div className="bg-white rounded-xl p-6 border border-black flex flex-col items-start">
+            <p className="text-sm text-black font-medium mb-3">Attendance Rate</p>
 
-      </div>
-    </div>
-  </div>
+            <div className="flex justify-center items-center w-full">
+              <div className="w-26 h-26">
+                <CircularProgressbar
+                  value={student.attendance}
+                  text={`${student.attendance}%`}
+                  strokeWidth={10}
+                  styles={buildStyles({
+                    pathColor: "#3A7D7D",
+                    textColor: "#000",
+                    trailColor: "#e6e6e6",
+                    textSize: "16px",
+                  })}
+                />
+              </div>
+            </div>
+          </div>
 
           {/* Task Added */}
-          <div className="bg-white rounded-xl p-6 border border-black flex flex-col justify-between">
+          <div className="bg-white rounded-xl p-6 border border-black">
             <p className="text-sm text-black font-medium mb-3">Task Added</p>
             <div className="flex items-center space-x-3">
-              <Icon
-                icon="fluent:clipboard-task-add-24-filled"
-                className="text-blue-600 text-4xl w-16 h-30 "
-              />
+              <Icon icon="fluent:clipboard-task-add-24-filled" className="text-blue-600 text-4xl" />
               <div>
-                <p className="text-3xl font-bold text-center text-gray-800 leading-none">3</p>
-                <p className="text-xs text-black mt-2 pl-8">Total task - 5</p>
+                <p className="text-3xl font-bold text-gray-800">3</p>
+                <p className="text-xs text-black mt-2">Total task - 5</p>
               </div>
             </div>
           </div>
 
           {/* Overall Progress */}
-          <div className="bg-white rounded-xl p-6 border border-black flex flex-col items-start">
+          <div className="bg-white rounded-xl p-6 border border-black">
             <p className="text-sm text-black font-medium mb-3">Overall progress</p>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center">
               <svg viewBox="0 0 36 36" className="w-30 h-30">
-                <circle cx="18" cy="18" r="15.9155" fill="#22c55e" />
-                <path
-                  d="M18 18 L18 2 A16 16 0 0 1 34 18 Z"
-                  fill="#fff"
-                />
+                <circle cx="18" cy="18" r="15.9" fill="#22c55e" />
+                <path d="M18 18 L18 2 A16 16 0 0 1 34 18 Z" fill="#fff" />
               </svg>
-              <span className="text-3xl font-bold pl-4 text-gray-800">75%</span>
+              <span className="text-3xl font-bold text-gray-800 ml-4">75%</span>
             </div>
           </div>
 
           {/* New Materials */}
           <div className="bg-white rounded-xl p-6 border border-black flex flex-col justify-between">
             <div>
-              <p className="text-2xl text-black ">
-                New materials
-              </p>
-              <p className="text-black  text-2xl ">added this week</p>
+              <p className="text-2xl text-black">New materials</p>
+              <p className="text-2xl text-black">added this week</p>
             </div>
-            <p className="text-3xl flex items-center text-center justify-center  font-bold text-gray-800">3</p>
+            <p className="text-3xl font-bold text-gray-800 text-center">3</p>
           </div>
         </div>
 
         {/* Learning Materials & Exam Section */}
         <div className="grid grid-cols-2 gap-6 mb-8">
+
           {/* Learning Materials */}
           <div className="bg-[#fefce8] rounded-2xl p-6 border-2 border-black">
-            <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Learning Materials</h2>
+            <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
+              Learning Materials
+            </h2>
             <div className="grid grid-cols-2 gap-4">
-              {/* Video Card */}
+
+              {/* Video */}
               <div className="bg-white rounded-2xl p-6 shadow-md border border-gray-200">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="">
-                    <Icon icon="mingcute:video-fill" className="w-12 h-12 text-[#3A7D7D]" />
-                  </div>
+                  <Icon icon="mingcute:video-fill" className="w-12 h-12 text-[#3A7D7D]" />
                   <div>
                     <div className="font-semibold text-gray-800">Video</div>
                     <div className="text-xs text-gray-500">Lessons</div>
                   </div>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                  <div className="bg-[#3A7D7D] h-2 rounded-full w-2/5"></div>
+                <div className="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+                  <div className="bg-[#3A7D7D] h-2 w-2/5 rounded-full"></div>
                 </div>
               </div>
 
-              {/* Notes Card */}
+              {/* Notes */}
               <div className="bg-white rounded-2xl p-6 shadow-md border border-gray-200">
                 <div className="flex items-center gap-3 mb-4">
-
-                  <Icon icon="streamline-freehand:notes-book-1" className="w-12 h-12  text-[#3A7D7D]" />
-
+                  <Icon icon="streamline-freehand:notes-book-1" className="w-12 h-12 text-[#3A7D7D]" />
                   <div>
                     <div className="font-semibold text-gray-800">Notes</div>
-                    <div className="text-xs text-gray-500">1 lessons</div>
+                    <div className="text-xs text-gray-500">1 lesson</div>
                   </div>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                  <div className="bg-[#3A7D7D] h-2 rounded-full w-3/5"></div>
+                <div className="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+                  <div className="bg-[#3A7D7D] h-2 w-3/5 rounded-full"></div>
                 </div>
               </div>
+
             </div>
           </div>
 
           {/* Exam Section */}
           <div className="bg-[#fefce8] rounded-2xl p-6 border-2 border-black">
-            <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Exam Section</h2>
+            <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
+              Exam Section
+            </h2>
             <div className="grid grid-cols-2 gap-4">
+
               {/* Previous Exam */}
               <div className="bg-white rounded-2xl p-4 shadow-md border border-gray-200">
-                <div className="text-sm font-semibold text-gray-800 mb-3">Previous Exam</div>
-                <div className="space-y-2">
-                  <div>
-                    <div className="font-medium text-gray-700">Robotics</div>
-                    <div className="text-xs text-gray-500">November 1</div>
-                  </div>
+                <div className="text-sm font-semibold mb-3 text-gray-800">Previous Exam</div>
+                <div>
+                  <div className="font-medium text-gray-700">Robotics</div>
+                  <div className="text-xs text-gray-500">November 1</div>
                 </div>
               </div>
 
               {/* Upcoming Exam */}
               <div className="bg-white rounded-2xl p-4 shadow-md border border-gray-200">
-                <div className="text-sm font-semibold text-gray-800 mb-3">Upcoming Exam</div>
-                <div className="space-y-2">
-                  <div>
-                    <div className="font-medium text-gray-700">IoT</div>
-                    <div className="text-xs text-gray-500">November 16</div>
-                  </div>
+                <div className="text-sm font-semibold mb-3 text-gray-800">Upcoming Exam</div>
+                <div>
+                  <div className="font-medium text-gray-700">IoT</div>
+                  <div className="text-xs text-gray-500">November 16</div>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
 
         {/* Task Section */}
-        <div className="bg-[#fefce8] rounded-2xl p-6 border-2 border-black">
+        <div className="bg-[#fefce8] rounded-2xl p-6 border-2 border-black mb-10">
           <h2 className="text-lg font-bold mb-6 text-gray-800">Task</h2>
+
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b-2 border-gray-300">
-                <th className="text-left py-3 font-semibold text-gray-700">Task</th>
-                <th className="text-left py-3 font-semibold text-gray-700">Tutor</th>
-                <th className="text-center py-3 font-semibold text-gray-700">Assigned Date</th>
-                <th className="text-center py-3 font-semibold text-gray-700">Due Date</th>
-                <th className="text-center py-3 font-semibold text-gray-700">Progress</th>
-                <th className="text-center py-3 font-semibold text-gray-700">Status</th>
+                <th className="py-3 text-left font-semibold text-gray-700">Task</th>
+                <th className="py-3 text-left font-semibold text-gray-700">Tutor</th>
+                <th className="py-3 text-center font-semibold text-gray-700">Assigned Date</th>
+                <th className="py-3 text-center font-semibold text-gray-700">Due Date</th>
+                <th className="py-3 text-center font-semibold text-gray-700">Progress</th>
+                <th className="py-3 text-center font-semibold text-gray-700">Status</th>
               </tr>
             </thead>
+
             <tbody>
               {taskRecords.map((record, index) => (
                 <tr key={index} className="border-b border-gray-200">
                   <td className="py-3 text-gray-600">{record.task}</td>
                   <td className="py-3 text-gray-600">{record.tutor}</td>
-                  <td className="text-center py-3 text-gray-600">{record.assignedDate}</td>
-                  <td className="text-center py-3 text-gray-600">{record.dueDate}</td>
-                  <td className="text-center py-3">
-                    <div className="flex items-center justify-center gap-2">
-                      <div className="w-16 bg-gray-200 rounded-full h-2 overflow-hidden">
-                        <div className="bg-[#3A7D7D] h-2 rounded-full" style={{ width: `${record.progress}%` }}></div>
+                  <td className="py-3 text-center text-gray-600">{record.assignedDate}</td>
+                  <td className="py-3 text-center text-gray-600">{record.dueDate}</td>
+                  <td className="py-3 text-center">
+                    <div className="flex justify-center">
+                      <div className="w-16 bg-gray-200 h-2 rounded-full overflow-hidden">
+                        <div
+                          className="bg-[#3A7D7D] h-2 rounded-full"
+                          style={{ width: `${record.progress}%` }}
+                        ></div>
                       </div>
                     </div>
                   </td>
-                  <td className="text-center py-3">
+                  <td className="py-3 text-center">
                     <div className="flex gap-2 justify-center">
-                      <span className="px-3 py-1 text-xs font-medium rounded-md shadow-lg bg-[#438582] text-white">Submitted</span>
-                      <span className="px-3 py-1 text-xs font-medium rounded-md shadow-lg bg-[#43858299] text-white">Pending</span>
+                      <span className="px-3 py-1 text-xs font-medium rounded-md bg-[#438582] text-white">
+                        Submitted
+                      </span>
+                      <span className="px-3 py-1 text-xs font-medium rounded-md bg-[#43858299] text-white">
+                        Pending
+                      </span>
                     </div>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </div>
-      </main>
 
+        </div>
+
+      </main>
     </div>
   );
 }
