@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import { Icon } from "@iconify/react";
 
 interface TaskRecord {
   task: string;
@@ -15,6 +17,13 @@ interface TaskRecord {
 
 export default function StudentDashboard() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const student = {
+    name: "John Doe",
+    attendance: 75,
+  };
 
   const [taskRecords, setTaskRecords] = useState<TaskRecord[]>([
     {
@@ -23,10 +32,7 @@ export default function StudentDashboard() {
       assignedDate: "Nov 2",
       dueDate: "Nov 8",
       progress: 65,
-      status: {
-        submitted: true,
-        pending: true,
-      },
+      status: { submitted: true, pending: true },
     },
     {
       task: "Complete Quiz 5",
@@ -34,10 +40,7 @@ export default function StudentDashboard() {
       assignedDate: "Nov 2",
       dueDate: "Nov 8",
       progress: 65,
-      status: {
-        submitted: true,
-        pending: true,
-      },
+      status: { submitted: true, pending: true },
     },
     {
       task: "Complete Quiz 5",
@@ -45,156 +48,126 @@ export default function StudentDashboard() {
       assignedDate: "Nov 2",
       dueDate: "Nov 8",
       progress: 65,
-      status: {
-        submitted: true,
-        pending: true,
-      },
+      status: { submitted: true, pending: true },
     },
   ]);
 
-  // Sidebar items
   const sidebarItems = [
-    {
-      label: "Dashboard",
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-        </svg>
-      ),
-    },
-    {
-      label: "Learning Material",
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C6.228 6.228 2 10.228 2 15s4.228 8.772 10 8.772c5.772 0 10-3.93 10-8.772 0-4.772-4.228-8.747-10-8.747z"/>
-        </svg>
-      ),
-    },
-    {
-      label: "Task",
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
-        </svg>
-      ),
-    },
+    { label: "Dashboard", icon: <Icon icon="iconamoon:home-duotone" width={24} /> },
+    { label: "Attendance", icon: <Icon icon="mingcute:calendar-2-line" width={24} /> },
+    { label: "Learning Material", icon: <Icon icon="mingcute:calendar-2-line" width={24} /> },
+    { label: "Task", icon: <Icon icon="hugeicons:task-02" width={24} /> },
     {
       label: "Examination",
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+          />
         </svg>
       ),
     },
-    {
-      label: "Progress",
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-        </svg>
-      ),
-    },
-    {
-      label: "Complain Box",
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-        </svg>
-      ),
-    },
+    { label: "Progress", icon: <Icon icon="streamline-plump:graph-bar-increase-solid" width={24} /> },
+    { label: "Complain Box", icon: <Icon icon="streamline-freehand:customer-action-complaint" width={24} /> },
   ];
 
+  const routeMap: Record<string, string> = {
+    Dashboard: "/student_dashboard",
+    Attendance: "/student_dashboard/attendance",
+    "Learning Material": "/student_dashboard/learning_material",
+    Task: "/student_dashboard/task",
+    Examination: "/student_dashboard/examination",
+    Progress: "/student_dashboard/progress",
+    "Complain Box": "/student_dashboard/complain_box",
+  };
+
   return (
-    <div className="flex min-h-screen bg-[#fdfbf0]">
-      {/* Sidebar */}
-      <aside className="w-[220px] flex flex-col bg-[#3A7D7D] min-h-screen p-4">
-        <div className="text-2xl font-bold mb-8 text-white">LOGO</div>
-        <nav className="flex-1 space-y-2">
-          {sidebarItems.map((item, index) => {
-            const routeMap: Record<string, string> = {
-              "Dashboard": "/student_dashboard",
-              "Learning Material": "/student_dashboard/learning_material",
-              "Task": "/student_dashboard/task",
-              "Examination": "/student_dashboard/examination",
-              "Progress": "/student_dashboard/progress",
-              "Complain Box": "/student_dashboard/complain_box",
-            };
+    <div className="flex bg-[#fdfbf0]">
+      {/* ============================================================
+                        SIDEBAR
+      ============================================================ */}
+      <aside className="w-60 fixed left-0 top-0 bottom-0 bg-[#438582] p-4 flex flex-col shadow-xl z-20">
+        <div className="text-2xl text-center font-bold mb-8 text-white">LOGO</div>
+
+        <nav className="flex-1 space-y-6 overflow-y-auto">
+          {sidebarItems.map((item) => {
+            const isActive =
+              item.label === "Dashboard"
+                ? location.pathname === "/student_dashboard"
+                : location.pathname.startsWith(routeMap[item.label]);
+
             return (
-              <Link
+              <button
                 key={item.label}
-                to={routeMap[item.label] || "#"}
-                className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 
-                           ${index === 0 
-                             ? 'bg-white text-[#3A7D7D] font-medium shadow-lg transform -translate-y-0.5' 
-                             : 'text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-lg hover:-translate-y-0.5 hover:font-medium'}`}
+                onClick={() => navigate(routeMap[item.label])}
+                className={`w-full text-left flex items-center gap-2 px-3 py-3 rounded-lg transition-all duration-200 ${
+                  isActive
+                    ? "bg-[#3A7D7D]/80 text-white border font-semibold shadow-[inset_0_0_2px_rgba(255,255,255,0.6),0_4px_10px_rgba(0,0,0,0.3)] -translate-y-0.5"
+                    : "bg-transparent text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:-translate-y-0.5"
+                }`}
               >
                 {item.icon}
                 {item.label}
-              </Link>
+              </button>
             );
           })}
         </nav>
-        <Link 
+
+        <Link
           to="/"
-          className="mt-auto flex items-center gap-2 px-4 py-2 rounded-lg bg-[#f3dada] text-[#dc2626]"
-          onClick={() => {
-            localStorage.removeItem('authToken');
-          }}
+          className="mt-auto flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-[#f3dada] text-[#dc2626]"
+          onClick={() => localStorage.removeItem("authToken")}
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-          </svg>
+          <Icon icon="ri:logout-circle-line" className="text-lg" />
           Log Out
         </Link>
       </aside>
 
-      {/* Main Content */}
-      <main className="flex-1 p-8 bg-[#fdfbf0]">
-        {/* Top Bar */}
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">Hello Joey,</h1>
-          
-          <div className="flex items-center space-x-4">
-            <div className="relative w-[280px]">
-              <input
-                type="search"
-                placeholder="Search"
-                className="w-full pl-10 pr-4 py-2.5 bg-white rounded-full text-sm border border-gray-300 focus:outline-none focus:border-[#3A7D7D] text-gray-700"
-              />
-              <svg className="w-5 h-5 text-gray-400 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-              </svg>
-            </div>
+      {/* ============================================================
+                        NAVBAR
+      ============================================================ */}
+      <div className="fixed top-0 left-60 right-0 bg-[#fdfbf0] z-10">
+        <div className="flex justify-between items-center px-10 py-6">
+          {/* Search Bar */}
+          <div className="relative w-[900px]">
+            <input
+              type="search"
+              placeholder="Search"
+              className="w-full pl-10 pr-4 py-2.5 bg-[#E8E6DA] rounded-full text-sm text-gray-600 focus:outline-none"
+            />
+            <Icon icon="mdi:magnify" className="absolute left-3 top-3 text-[#999] text-lg" />
+          </div>
 
+          {/* Right Icons */}
+          <div className="flex items-center space-x-6">
             <button className="relative">
-              <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
-              </svg>
-              <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+              <Icon icon="ri:notification-3-fill" className="text-[#3A7D7D] text-3xl" />
+              <span className="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full"></span>
             </button>
 
+            {/* User Dropdown */}
             <div className="relative">
               <button
-                className="flex items-center space-x-1"
+                className="flex items-center space-x-1 bg-[#3A7D7D] px-2 py-1 rounded-3xl"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
-                <div className="w-8 h-8 rounded-full bg-[#3A7D7D] flex items-center justify-center">
-                  <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                  </svg>
+                <div className="w-9 h-9 rounded-full bg-[#3A7D7D] flex items-center justify-center">
+                  <Icon icon="ix:user-profile-filled" className="text-white w-9 h-9" />
                 </div>
-                <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                </svg>
+                <Icon icon="mdi:chevron-down" className="text-white text-lg w-6 h-6" />
               </button>
+
               {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-10">
+                <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg py-1 z-20">
                   <Link
                     to="/"
-                    className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     onClick={() => {
+                      localStorage.removeItem("authToken");
                       setIsDropdownOpen(false);
-                      localStorage.removeItem('authToken');
                     }}
                   >
                     Sign out
@@ -204,197 +177,193 @@ export default function StudentDashboard() {
             </div>
           </div>
         </div>
+      </div>
 
+      {/* ============================================================
+                        MAIN CONTENT (scrollable)
+      ============================================================ */}
+      <main className="pt-[120px] fixed top-0 left-60 px-10 pb-10 overflow-y-auto h-screen w-[calc(100%-240px)] bg-[#fdfbf0]">
+
+        {/* ALL YOUR ORIGINAL CONTENT BELOW THIS POINT */}
+        
         {/* Stats Cards */}
-        <div className="grid grid-cols-4 gap-4 mb-8">
-          {/* Attendance Rate Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border-2 border-[#e8e4d8]">
-            <div className="text-sm font-medium text-gray-700 mb-4">Attendance Rate</div>
-            <div className="flex items-end justify-between">
-              <div className="text-4xl font-bold text-gray-800">75%</div>
-              <div className="w-20 h-20">
-                <svg viewBox="0 0 36 36" className="circular-chart">
-                  <path
-                    d="M18 2.0845
-                      a 15.9155 15.9155 0 0 1 0 31.831
-                      a 15.9155 15.9155 0 0 1 0 -31.831"
-                    fill="none"
-                    stroke="#eee"
-                    strokeWidth="3"
-                  />
-                  <path
-                    d="M18 2.0845
-                      a 15.9155 15.9155 0 0 1 0 31.831
-                      a 15.9155 15.9155 0 0 1 0 -31.831"
-                    fill="none"
-                    stroke="#3A7D7D"
-                    strokeWidth="3"
-                    strokeDasharray="75, 100"
-                  />
-                </svg>
+        <div className="grid grid-cols-4 gap-6 mb-8">
+
+          {/* Attendance */}
+          <div className="bg-white rounded-xl p-6 border border-black flex flex-col items-start">
+            <p className="text-sm text-black font-medium mb-3">Attendance Rate</p>
+
+            <div className="flex justify-center items-center w-full">
+              <div className="w-26 h-26">
+                <CircularProgressbar
+                  value={student.attendance}
+                  text={`${student.attendance}%`}
+                  strokeWidth={10}
+                  styles={buildStyles({
+                    pathColor: "#3A7D7D",
+                    textColor: "#000",
+                    trailColor: "#e6e6e6",
+                    textSize: "16px",
+                  })}
+                />
               </div>
             </div>
           </div>
 
-          {/* Task Added Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border-2 border-[#e8e4d8]">
-            <div className="text-sm font-medium text-gray-700 mb-4">Task Added</div>
-            <div className="flex items-end justify-between">
+          {/* Task Added */}
+          <div className="bg-white rounded-xl p-6 border border-black">
+            <p className="text-sm text-black font-medium mb-3">Task Added</p>
+            <div className="flex items-center space-x-3">
+              <Icon icon="fluent:clipboard-task-add-24-filled" className="text-blue-600 text-4xl" />
               <div>
-                <div className="text-4xl font-bold text-gray-800">3</div>
-                <div className="text-xs text-gray-500 mt-1">Total task 5</div>
-              </div>
-              <div className="bg-blue-100 p-3 rounded-lg">
-                <svg className="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                </svg>
+                <p className="text-3xl font-bold text-gray-800">3</p>
+                <p className="text-xs text-black mt-2">Total task - 5</p>
               </div>
             </div>
           </div>
 
-          {/* Overall Progress Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border-2 border-[#e8e4d8]">
-            <div className="text-sm font-medium text-gray-700 mb-4">Overall progress</div>
-            <div className="flex items-end justify-between">
-              <div className="text-4xl font-bold text-gray-800">75%</div>
-              <div className="w-20 h-20">
-                <svg viewBox="0 0 36 36" className="circular-chart">
-                  <circle cx="18" cy="18" r="15.9155" fill="none" stroke="#eee" strokeWidth="3"/>
-                  <path
-                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 15.9155 15.9155"
-                    fill="none"
-                    stroke="#22c55e"
-                    strokeWidth="4"
-                  />
-                </svg>
-              </div>
+          {/* Overall Progress */}
+          <div className="bg-white rounded-xl p-6 border border-black">
+            <p className="text-sm text-black font-medium mb-3">Overall progress</p>
+            <div className="flex items-center">
+              <svg viewBox="0 0 36 36" className="w-30 h-30">
+                <circle cx="18" cy="18" r="15.9" fill="#22c55e" />
+                <path d="M18 18 L18 2 A16 16 0 0 1 34 18 Z" fill="#fff" />
+              </svg>
+              <span className="text-3xl font-bold text-gray-800 ml-4">75%</span>
             </div>
           </div>
 
-          {/* New Materials Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border-2 border-[#e8e4d8]">
-            <div className="text-sm font-medium text-gray-700 mb-4">New materials</div>
-            <div className="flex items-end justify-between">
-              <div>
-                <div className="text-4xl font-bold text-gray-800">3</div>
-                <div className="text-xs text-gray-500 mt-1">added this week</div>
-              </div>
+          {/* New Materials */}
+          <div className="bg-white rounded-xl p-6 border border-black flex flex-col justify-between">
+            <div>
+              <p className="text-2xl text-black">New materials</p>
+              <p className="text-2xl text-black">added this week</p>
             </div>
+            <p className="text-3xl font-bold text-gray-800 text-center">3</p>
           </div>
         </div>
 
         {/* Learning Materials & Exam Section */}
         <div className="grid grid-cols-2 gap-6 mb-8">
+
           {/* Learning Materials */}
-          <div className="bg-[#f5f1e8] rounded-2xl p-6 border-2 border-[#d4cfc1]">
-            <h2 className="text-lg font-bold mb-6 text-center text-gray-800">Learning Materials</h2>
+          <div className="bg-[#fefce8] rounded-2xl p-6 border-2 border-black">
+            <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
+              Learning Materials
+            </h2>
             <div className="grid grid-cols-2 gap-4">
-              {/* Video Card */}
+
+              {/* Video */}
               <div className="bg-white rounded-2xl p-6 shadow-md border border-gray-200">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="bg-[#3A7D7D] p-3 rounded-lg">
-                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z"/>
-                    </svg>
-                  </div>
+                  <Icon icon="mingcute:video-fill" className="w-12 h-12 text-[#3A7D7D]" />
                   <div>
                     <div className="font-semibold text-gray-800">Video</div>
                     <div className="text-xs text-gray-500">Lessons</div>
                   </div>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                  <div className="bg-[#3A7D7D] h-2 rounded-full w-2/5"></div>
+                <div className="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+                  <div className="bg-[#3A7D7D] h-2 w-2/5 rounded-full"></div>
                 </div>
               </div>
 
-              {/* Notes Card */}
+              {/* Notes */}
               <div className="bg-white rounded-2xl p-6 shadow-md border border-gray-200">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="bg-[#3A7D7D] p-3 rounded-lg">
-                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M19 2H5c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H5V4h14v16zm-5.04-6.71l-2.75 3.54-1.3-1.54c-.3-.36-.77-.36-1.07 0-.3.36-.3.96 0 1.32l1.98 2.36c.3.36.77.36 1.07 0L17 9.63c.3-.36.3-.96 0-1.32-.3-.36-.77-.36-1.07 0z"/>
-                    </svg>
-                  </div>
+                  <Icon icon="streamline-freehand:notes-book-1" className="w-12 h-12 text-[#3A7D7D]" />
                   <div>
                     <div className="font-semibold text-gray-800">Notes</div>
-                    <div className="text-xs text-gray-500">1 lessons</div>
+                    <div className="text-xs text-gray-500">1 lesson</div>
                   </div>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                  <div className="bg-[#3A7D7D] h-2 rounded-full w-3/5"></div>
+                <div className="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+                  <div className="bg-[#3A7D7D] h-2 w-3/5 rounded-full"></div>
                 </div>
               </div>
+
             </div>
           </div>
 
           {/* Exam Section */}
-          <div className="bg-[#f5f1e8] rounded-2xl p-6 border-2 border-[#d4cfc1]">
-            <h2 className="text-lg font-bold mb-6 text-center text-gray-800">Exam Section</h2>
+          <div className="bg-[#fefce8] rounded-2xl p-6 border-2 border-black">
+            <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
+              Exam Section
+            </h2>
             <div className="grid grid-cols-2 gap-4">
+
               {/* Previous Exam */}
               <div className="bg-white rounded-2xl p-4 shadow-md border border-gray-200">
-                <div className="text-sm font-semibold text-gray-800 mb-3">Previous Exam</div>
-                <div className="space-y-2">
-                  <div>
-                    <div className="font-medium text-gray-700">Robotics</div>
-                    <div className="text-xs text-gray-500">November 1</div>
-                  </div>
+                <div className="text-sm font-semibold mb-3 text-gray-800">Previous Exam</div>
+                <div>
+                  <div className="font-medium text-gray-700">Robotics</div>
+                  <div className="text-xs text-gray-500">November 1</div>
                 </div>
               </div>
 
               {/* Upcoming Exam */}
               <div className="bg-white rounded-2xl p-4 shadow-md border border-gray-200">
-                <div className="text-sm font-semibold text-gray-800 mb-3">Upcoming Exam</div>
-                <div className="space-y-2">
-                  <div>
-                    <div className="font-medium text-gray-700">IoT</div>
-                    <div className="text-xs text-gray-500">November 16</div>
-                  </div>
+                <div className="text-sm font-semibold mb-3 text-gray-800">Upcoming Exam</div>
+                <div>
+                  <div className="font-medium text-gray-700">IoT</div>
+                  <div className="text-xs text-gray-500">November 16</div>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
 
         {/* Task Section */}
-        <div className="bg-[#f5f1e8] rounded-2xl p-6 border-2 border-[#d4cfc1]">
+        <div className="bg-[#fefce8] rounded-2xl p-6 border-2 border-black mb-10">
           <h2 className="text-lg font-bold mb-6 text-gray-800">Task</h2>
+
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b-2 border-gray-300">
-                <th className="text-left py-3 font-semibold text-gray-700">Task</th>
-                <th className="text-left py-3 font-semibold text-gray-700">Tutor</th>
-                <th className="text-center py-3 font-semibold text-gray-700">Assigned Date</th>
-                <th className="text-center py-3 font-semibold text-gray-700">Due Date</th>
-                <th className="text-center py-3 font-semibold text-gray-700">Progress</th>
-                <th className="text-center py-3 font-semibold text-gray-700">Status</th>
+                <th className="py-3 text-left font-semibold text-gray-700">Task</th>
+                <th className="py-3 text-left font-semibold text-gray-700">Tutor</th>
+                <th className="py-3 text-center font-semibold text-gray-700">Assigned Date</th>
+                <th className="py-3 text-center font-semibold text-gray-700">Due Date</th>
+                <th className="py-3 text-center font-semibold text-gray-700">Progress</th>
+                <th className="py-3 text-center font-semibold text-gray-700">Status</th>
               </tr>
             </thead>
+
             <tbody>
               {taskRecords.map((record, index) => (
                 <tr key={index} className="border-b border-gray-200">
                   <td className="py-3 text-gray-600">{record.task}</td>
                   <td className="py-3 text-gray-600">{record.tutor}</td>
-                  <td className="text-center py-3 text-gray-600">{record.assignedDate}</td>
-                  <td className="text-center py-3 text-gray-600">{record.dueDate}</td>
-                  <td className="text-center py-3">
-                    <div className="flex items-center justify-center gap-2">
-                      <div className="w-16 bg-gray-200 rounded-full h-2 overflow-hidden">
-                        <div className="bg-[#3A7D7D] h-2 rounded-full" style={{width: `${record.progress}%`}}></div>
+                  <td className="py-3 text-center text-gray-600">{record.assignedDate}</td>
+                  <td className="py-3 text-center text-gray-600">{record.dueDate}</td>
+                  <td className="py-3 text-center">
+                    <div className="flex justify-center">
+                      <div className="w-16 bg-gray-200 h-2 rounded-full overflow-hidden">
+                        <div
+                          className="bg-[#3A7D7D] h-2 rounded-full"
+                          style={{ width: `${record.progress}%` }}
+                        ></div>
                       </div>
                     </div>
                   </td>
-                  <td className="text-center py-3">
+                  <td className="py-3 text-center">
                     <div className="flex gap-2 justify-center">
-                      <span className="px-3 py-1 text-xs font-medium rounded-full bg-[#4a9b8e] text-white">Submitted</span>
-                      <span className="px-3 py-1 text-xs font-medium rounded-full bg-[#9bc4ae] text-white">Pending</span>
+                      <span className="px-3 py-1 text-xs font-medium rounded-md bg-[#438582] text-white">
+                        Submitted
+                      </span>
+                      <span className="px-3 py-1 text-xs font-medium rounded-md bg-[#43858299] text-white">
+                        Pending
+                      </span>
                     </div>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+
         </div>
+
       </main>
     </div>
   );

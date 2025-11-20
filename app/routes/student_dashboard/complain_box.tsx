@@ -1,129 +1,263 @@
-import React, { useState } from "react";
-import { Link } from "react-router";
+import { useNavigate, useLocation, Link } from "react-router";
+import { useState } from "react";
+import { Icon } from "@iconify/react";
 
-export default function ComplainBox() {
-  const [complaint, setComplaint] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+export default function StudentTaskPage() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  const handleSubmit = () => {
-    if (complaint.trim()) {
-      setSubmitted(true);
-      setComplaint("");
-      setTimeout(() => setSubmitted(false), 3000);
-    }
-  };
-
-  const handleCancel = () => {
-    setComplaint("");
-  };
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<"complaint" | "resolved">("complaint");
 
   const sidebarItems = [
-    { label: "Dashboard", icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg> },
-    { label: "Learning Material", icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C6.228 6.228 2 10.228 2 15s4.228 8.772 10 8.772c5.772 0 10-3.93 10-8.772 0-4.772-4.228-8.747-10-8.747z"/></svg> },
-    { label: "Task", icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg> },
-    { label: "Examination", icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg> },
-    { label: "Progress", icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg> },
-    { label: "Complain Box", icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> },
+    {
+      label: "Dashboard",
+      icon: <Icon icon="iconamoon:home-duotone" width={24} height={24} />,
+    },
+    {
+      label: "Attendance",
+      icon: <Icon icon="mingcute:calendar-2-line" width={24} height={24} />,
+    },
+    {
+      label: "Learning Material",
+      icon: <Icon icon="mingcute:calendar-2-line" width={24} height={24} />,
+    },
+    {
+      label: "Task",
+      icon: <Icon icon="hugeicons:task-02" width={24} height={24} />,
+    },
+    {
+      label: "Examination",
+      icon: (
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+          />
+        </svg>
+      ),
+    },
+    {
+      label: "Progress",
+      icon: (
+        <Icon
+          icon="streamline-plump:graph-bar-increase-solid"
+          width={24}
+          height={24}
+        />
+      ),
+    },
+    {
+      label: "Complain Box",
+      icon: (
+        <Icon
+          icon="streamline-freehand:customer-action-complaint"
+          width={24}
+          height={24}
+        />
+      ),
+    },
   ];
 
+  const routeMap = {
+    Dashboard: "/student_dashboard",
+    Attendance: "/student_dashboard/attendance",
+    "Learning Material": "/student_dashboard/learning_material",
+    Task: "/student_dashboard/task",
+    Examination: "/student_dashboard/examination",
+    Progress: "/student_dashboard/progress",
+    "Complain Box": "/student_dashboard/complain_box",
+  };
+
+  type SidebarLabel = keyof typeof routeMap;
+
   return (
-    <div className="flex min-h-screen bg-[#fdfbf0]">
-      <aside className="w-[220px] flex flex-col bg-[#3A7D7D] min-h-screen p-4">
-        <div className="text-2xl font-bold mb-8 text-white">LOGO</div>
-        <nav className="flex-1 space-y-2">
-          {sidebarItems.map((item, index) => {
-            const routeMap: Record<string, string> = {
-              "Dashboard": "/student_dashboard",
-              "Learning Material": "/student_dashboard/learning_material",
-              "Task": "/student_dashboard/task",
-              "Examination": "/student_dashboard/examination",
-              "Progress": "/student_dashboard/progress",
-              "Complain Box": "/student_dashboard/complain_box",
-            };
+    <div className="flex bg-[#fdfbf0]">
+
+      {/* SIDEBAR */}
+      <aside className="w-60 fixed left-0 top-0 bottom-0 bg-[#438582] p-4 flex flex-col shadow-xl z-20">
+        <div className="text-2xl text-center font-bold mb-8 text-white">LOGO</div>
+
+        <nav className="flex-1 space-y-6 overflow-y-auto">
+          {sidebarItems.map((item) => {
+            const isActive = location.pathname.startsWith(
+              routeMap[item.label as SidebarLabel]
+            );
+
             return (
-              <Link
+              <button
                 key={item.label}
-                to={routeMap[item.label] || "#"}
-                className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 
-                           ${index === 5
-                             ? 'bg-white text-[#3A7D7D] font-medium shadow-lg transform -translate-y-0.5' 
-                             : 'text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-lg hover:-translate-y-0.5 hover:font-medium'}`}
+                onClick={() => navigate(routeMap[item.label as SidebarLabel])}
+                className={`w-full text-left flex items-center gap-2 px-3 py-3 rounded-lg transition-all duration-200 ${
+                  isActive
+                    ? "bg-[#3A7D7D]/80 text-white border font-semibold shadow-[inset_0_0_2px_rgba(255,255,255,0.6),0_4px_10px_rgba(0,0,0,0.3)]"
+                    : "bg-transparent text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:-translate-y-0.5"
+                }`}
               >
                 {item.icon}
                 {item.label}
-              </Link>
+              </button>
             );
           })}
         </nav>
-        <Link 
-          to="/"
-          className="mt-auto flex items-center gap-2 px-4 py-2 rounded-lg bg-[#f3dada] text-[#dc2626]"
-          onClick={() => localStorage.removeItem('authToken')}
+
+        <button
+          className="mt-auto flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-[#f3dada] text-[#dc2626]"
+          onClick={() => {
+            localStorage.removeItem("authToken");
+            navigate("/");
+          }}
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-          </svg>
+          <Icon icon="ri:logout-circle-line" className="text-lg" />
           Log Out
-        </Link>
+        </button>
       </aside>
 
-      <main className="flex-1 p-8 bg-[#fdfbf0]">
-        {/* Breadcrumb */}
-        <div className="mb-6">
-          <p className="text-sm text-gray-600">
-            Dashboard/ <span className="font-medium">Submit a Complaint</span>
-          </p>
-        </div>
+      {/* TOP NAVBAR */}
+      <div className="fixed top-0 left-60 right-0 bg-[#fdfbf0] z-10">
+        <div className="flex justify-between items-center px-10 py-6">
 
-        {/* Page Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">Submit a Complaint</h1>
-          <p className="text-gray-600 text-sm">
-            Please provide details about your issue below. We will review your submission and get back to you shortly
-          </p>
-        </div>
-
-        {/* Complaint Form Card */}
-        <div className="bg-white rounded-2xl p-8 shadow-sm border-2 border-[#e8e4d8] max-w-4xl">
-          {/* Form Title */}
-          <div className="mb-6">
-            <h2 className="text-xl font-bold text-gray-800">Describe your Complaint in Detail</h2>
-          </div>
-
-          {/* Textarea */}
-          <div className="mb-6">
-            <textarea
-              value={complaint}
-              onChange={(e) => setComplaint(e.target.value)}
-              placeholder="Please provide as much detail as possible..."
-              className="w-full h-64 p-4 border-2 border-[#e8e4d8] rounded-xl focus:outline-none focus:border-[#3A7D7D] resize-none text-gray-700 placeholder-gray-400"
+          {/* Search */}
+          <div className="relative w-[900px]">
+            <input
+              type="search"
+              placeholder="Search"
+              className="w-full pl-10 pr-4 py-2.5 bg-[#E8E6DA] rounded-full text-sm text-gray-600"
             />
+            <Icon icon="mdi:magnify" className="absolute left-3 top-3 text-[#999]" />
           </div>
 
-          {/* Buttons */}
-          <div className="flex justify-end gap-4">
-            <button
-              onClick={handleCancel}
-              className="px-6 py-2.5 rounded-lg border-2 border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors"
-            >
-              Cancel
+          {/* Icons */}
+          <div className="flex items-center space-x-6">
+            <button className="relative">
+              <Icon icon="ri:notification-3-fill" className="text-[#3A7D7D] text-3xl" />
+              <span className="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full" />
             </button>
-            <button
-              onClick={handleSubmit}
-              className="px-6 py-2.5 rounded-lg bg-[#3A7D7D] text-white font-medium hover:bg-[#2f5f5f] transition-colors"
-            >
-              Submit
-            </button>
-          </div>
 
-          {/* Success Message */}
-          {submitted && (
-            <div className="mt-4 p-4 bg-green-50 border-l-4 border-green-500 rounded">
-              <p className="text-green-700 font-medium">✓ Complaint submitted successfully!</p>
+            {/* User Dropdown */}
+            <div className="relative">
+              <button
+                className="flex items-center space-x-1 bg-[#3A7D7D] px-2 py-1 rounded-3xl"
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              >
+                <div className="w-9 h-9 rounded-full bg-[#3A7D7D] flex items-center justify-center">
+                  <Icon icon="ix:user-profile-filled" className="text-white w-9 h-9" />
+                </div>
+                <Icon icon="mdi:chevron-down" className="text-white text-lg" />
+              </button>
+
+              {isDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg py-1 z-20">
+                  <button
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+                    onClick={() => {
+                      localStorage.removeItem("authToken");
+                      navigate("/");
+                    }}
+                  >
+                    Sign out
+                  </button>
+                </div>
+              )}
             </div>
-          )}
+          </div>
+
         </div>
+      </div>
+
+      {/* MAIN CONTENT */}
+      <main className="pt-[120px] fixed top-0 left-60 px-10 pb-10 overflow-y-auto h-screen bg-[#fdfbf0] w-[calc(100%-240px)]">
+
+        <h1 className="text-3xl font-bold text-gray-800 mb-6">Submit a Complaint</h1>
+
+        {/* TABS */}
+        <div className="flex gap-4 mt-6">
+          <button
+            onClick={() => setActiveTab("complaint")}
+            className={`px-6 py-2 rounded-lg border ${
+              activeTab === "complaint"
+                ? "bg-white text-black border-black"
+                : "bg-[#2D8F78] text-white"
+            }`}
+          >
+            Complaint
+          </button>
+
+          <button
+            onClick={() => setActiveTab("resolved")}
+            className={`px-6 py-2 rounded-lg border ${
+              activeTab === "resolved"
+                ? "bg-white text-black border-gray-300"
+                : "bg-[#2D8F78] text-white"
+            }`}
+          >
+            Resolved
+          </button>
+        </div>
+
+        {/* Complaint Form */}
+        {activeTab === "complaint" && (
+          <div className="bg-[#FFFBEA] p-6 rounded-2xl shadow-lg mt-6 border border-gray-300">
+            <h2 className="text-xl font-semibold text-gray-800">
+              Describe Your Complaint
+            </h2>
+
+            <textarea
+              placeholder="Write your issue in detail..."
+              className="w-full h-64 p-4 mt-4 text-black border border-gray-300 shadow-md rounded-xl bg-white"
+            />
+
+            <div className="flex justify-end gap-4 mt-4">
+              <button className="text-black border px-4 py-2 rounded-lg bg-white hover:bg-gray-100 border-gray-500">
+                Cancel
+              </button>
+              <button className="px-6 py-2 bg-[#2D8F78] hover:bg-[#32796a] text-white rounded-lg shadow-lg">
+                Submit
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Resolved Section */}
+        {activeTab === "resolved" && (
+          <div className="bg-[#FFFBEA] p-6 rounded-2xl shadow-lg mt-6 border border-gray-300">
+            <div className="bg-white p-4 rounded-xl border">
+              <div className="flex justify-between">
+                <h2 className="text-xl font-semibold text-gray-800">
+                  Technical Issue with Robotics Module
+                </h2>
+                <div className="text-sm text-gray-500">2025-01-08 14:30</div>
+              </div>
+
+              <p className="text-gray-700 mt-2">
+                The robotics simulation software keeps crashing during the exercise.
+              </p>
+
+              <h3 className="font-semibold mt-4">Admin Reply:</h3>
+
+              <div className="bg-[#D9F6DD] p-4 rounded-2xl mt-3 border-l-8 border-b-4 border-[#2D8F78]">
+                <div className="flex justify-between">
+                  <p className="font-semibold text-black text-sm">Admin</p>
+                  <div className="text-sm text-gray-500">2025-01-08 15:00</div>
+                </div>
+
+                <p className="mt-1 text-gray-700">
+                  Thank you for reporting this issue. Our team is working on it.
+                </p>
+              </div>
+
+            </div>
+          </div>
+        )}
+
       </main>
     </div>
   );

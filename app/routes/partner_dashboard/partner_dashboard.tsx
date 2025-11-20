@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router";
+import { Icon } from "@iconify/react";
 
 export default function PartnerDashboard() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+  
+
 
   const sidebarItems = [
     {
@@ -29,6 +33,13 @@ export default function PartnerDashboard() {
         </svg>
       ),
     },
+    {
+          label: "Attendance",
+          icon: (
+            <Icon icon="mingcute:calendar-2-line" width={24} height={24} />
+    
+          ),
+        },  
     {
       label: "Tasks",
       icon: (
@@ -75,13 +86,14 @@ export default function PartnerDashboard() {
     <div className="flex min-h-screen bg-[#fdfbf0]">
       {/* Sidebar */}
       <aside className="w-[220px] flex flex-col bg-[#3A7D7D] min-h-screen p-4">
-        <div className="text-2xl font-bold mb-8 text-white">LOGO</div>
+        <div className="text-2xl text-center font-bold mb-8 text-white">LOGO</div>
         <nav className="flex-1 space-y-2">
           {sidebarItems.map((item, index) => {
             const routeMap: Record<string, string> = {
               "Dashboard": "/partner_dashboard",
               "Profile Management": "/partner_dashboard/profile_management",
               "Assigned Schools": "/partner_dashboard/assigned_schools",
+              "Attendance": "/partner_dashboard/attendance",
               "Tasks": "/partner_dashboard/tasks",
               "Progress Report": "/partner_dashboard/progress_report",
               "Leaderboard": "/partner_dashboard/leaderboard",
@@ -94,83 +106,92 @@ export default function PartnerDashboard() {
                 to={routeMap[item.label] || "#"}
                 className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 
                            ${index === 0 
-                             ? 'bg-white text-[#3A7D7D] font-medium shadow-lg transform -translate-y-0.5' 
-                             : 'text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-lg hover:-translate-y-0.5 hover:font-medium'}`}
-              >
+                    ? "bg-[#3A7D7D]/80 text-white border   font-semibold shadow-[inset_0_0_2px_rgba(255,255,255,0.6),0_4px_10px_rgba(0,0,0,0.3)] -translate-y-0.5"
+                    : "bg-transparent text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:font-medium"}`}              >
                 {item.icon}
                 {item.label}
               </Link>
             );
           })}
         </nav>
-        <Link 
-          to="/"
-          className="mt-auto flex items-center gap-2 px-4 py-2 rounded-lg bg-[#f3dada] text-[#dc2626]"
-          onClick={() => {
-            localStorage.removeItem('authToken');
-          }}
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-          </svg>
-          Log Out
-        </Link>
+       <Link
+                 to="/"
+                 className="mt-auto flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-[#f3dada] text-[#dc2626]"
+                 onClick={() => {
+                   localStorage.removeItem('authToken');
+                 }}
+               >
+                 <Icon icon="ri:logout-circle-line" className="text-lg" />
+       
+                 Log Out
+               </Link>
       </aside>
 
       {/* Main Content */}
       <main className="flex-1 p-8 bg-[#fdfbf0]">
         {/* Search Bar and Profile */}
-        <div className="flex justify-between items-center mb-8">
-          <div className="relative w-[480px]">
-            <input
-              type="search"
-              placeholder="Search"
-              className="w-full pl-10 pr-4 py-2.5 bg-white rounded-full text-sm border border-gray-300 focus:outline-none focus:border-[#3A7D7D] text-gray-700"
-            />
-            <svg className="w-5 h-5 text-gray-400 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-            </svg>
-          </div>
-
-          <div className="flex items-center space-x-4">
-            <button className="relative">
-              <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
-              </svg>
-              <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
-            </button>
-
-            <div className="relative">
-              <button
-                className="flex items-center space-x-1"
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              >
-                <div className="w-8 h-8 rounded-full bg-[#3A7D7D] flex items-center justify-center">
-                  <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-10">
-                  <Link
-                    to="/"
-                    className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
-                    onClick={() => {
-                      setIsDropdownOpen(false);
-                      localStorage.removeItem('authToken');
-                    }}
+                <div className="flex justify-between items-center mb-8 px-4 md:px-10 gap-4">
+                  {/* Mobile Hamburger Menu */}
+                  <button
+                    className="md:hidden flex items-center justify-center"
+                    onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
                   >
-                    Sign out
-                  </Link>
+                    <Icon icon="mdi:menu" className="text-[#3A7D7D] text-3xl" />
+                  </button>
+        
+                  {/* Middle: Search Bar */}
+                  <div className="relative flex-1 md:w-[900px]">
+                    <input
+                      type="search"
+                      placeholder="Search"
+                      className="w-full pl-10 pr-4 py-2.5 bg-[#E8E6DA] rounded-full text-sm focus:outline-none text-gray-600"
+                    />
+                    <Icon
+                      icon="mdi:magnify"
+                      className="absolute left-3 top-3 text-[#999999] text-lg"
+                    />
+                  </div>
+        
+                  {/* Right: Icons */}
+                  <div className="flex items-center space-x-3 md:space-x-6">
+                    {/* Notification */}
+                    <button className="relative">
+                      <Icon
+                        icon="ri:notification-3-fill"
+                        className="text-[#3A7D7D] text-2xl md:text-3xl"
+                      />
+                      <span className="absolute top-0 right-0 w-3 h-3  bg-red-500 rounded-full"></span>
+                    </button>
+        
+                    {/* Profile */}
+                    <div className="relative">
+                      <button
+                        className="flex items-center space-x-1 bg-[#3A7D7D] px-2 py-1 rounded-3xl"
+                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                      >
+                        <div className="w-9 h-9 rounded-full bg-[#3A7D7D] flex items-center justify-center">
+                          <Icon icon="ix:user-profile-filled" className="text-white text-xl w-9 h-9" />
+                        </div>
+                        <Icon icon="mdi:chevron-down" className="text-white text-lg w-6 h-6 hidden sm:block" />
+                      </button>
+        
+                      {isDropdownOpen && (
+                        <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg py-1 z-10">
+                          <Link
+                            to="/"
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            onClick={() => {
+                              setIsDropdownOpen(false);
+                              localStorage.removeItem("authToken");
+                            }}
+                          >
+                            Sign out
+                          </Link>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              )}
-            </div>
-          </div>
-        </div>
 
         {/* Welcome Section */}
         <div className="mb-8">

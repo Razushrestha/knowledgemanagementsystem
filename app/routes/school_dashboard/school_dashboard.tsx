@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router";
+import { Icon } from "@iconify/react";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+import { IconCurrencyRupeeNepalese } from '@tabler/icons-react';
 
 interface AttendanceRecord {
   studentName: string;
@@ -29,8 +33,10 @@ interface BillingInfo {
 }
 
 export default function SchoolDashboard() {
+    const attendance = 95;
   // States for various data
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [attendanceRecords, setAttendanceRecords] = useState<AttendanceRecord[]>([
     {
       studentName: "Alice Johnson",
@@ -112,59 +118,52 @@ export default function SchoolDashboard() {
     {
       label: "Dashboard",
       icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-        </svg>
+        <Icon icon="iconamoon:home-duotone" width={24} height={24} />
+
       ),
     },
     {
       label: "Attendance",
       icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
-        </svg>
+        <Icon icon="mingcute:calendar-2-line" width={24} height={24} />
+
       ),
     },
     {
       label: "Tutor",
       icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
-        </svg>
+        <Icon icon="fluent-emoji-high-contrast:teacher" width={24} height={24} />
       ),
     },
     {
       label: "Examination",
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
         </svg>
       ),
     },
     {
       label: "Invoice",
       icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
-        </svg>
+        <Icon icon="streamline-ultimate:cash-payment-bills-bold" width={24} height={24} />
       ),
     },
     {
       label: "Complain Box",
       icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-        </svg>
+        <Icon icon="streamline-freehand:customer-action-complaint" width={24} height={24} />
+
       ),
     },
   ];
 
   return (
     <div className="flex min-h-screen bg-[#fdfbf0]">
-      {/* Sidebar */}
-      <aside className="w-[220px] flex flex-col bg-[#3A7D7D] min-h-screen p-4">
-        <div className="text-2xl font-bold mb-8 text-white">LOGO</div>
-        <nav className="flex-1 space-y-2">
+      {/* Sidebar - Desktop */}
+      <aside className="hidden md:flex w-[220px] flex-col bg-[#3A7D7D] fixed top-0 left-0 h-screen p-4">
+        <div className="text-2xl text-center font-bold mb-8 text-white">LOGO</div>
+        <nav className="flex-1 space-y-4">
           {sidebarItems.map((item, index) => {
             const routeMap: Record<string, string> = {
               "Dashboard": "/school_dashboard",
@@ -179,9 +178,9 @@ export default function SchoolDashboard() {
                 key={item.label}
                 to={routeMap[item.label] || "#"}
                 className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 
-                           ${index === 0 
-                             ? 'bg-white text-[#3A7D7D] font-medium shadow-lg transform -translate-y-0.5' 
-                             : 'text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-lg hover:-translate-y-0.5 hover:font-medium'}`}
+                           ${index === 0
+                    ? "bg-[#3A7D7D]/80 text-white border   font-semibold shadow-[inset_0_0_2px_rgba(255,255,255,0.6),0_4px_10px_rgba(0,0,0,0.3)] -translate-y-0.5"
+                    : "bg-transparent text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:font-medium"}`}
               >
                 {item.icon}
                 {item.label}
@@ -189,65 +188,126 @@ export default function SchoolDashboard() {
             );
           })}
         </nav>
-        <Link 
+        <Link
           to="/"
-          className="mt-auto flex items-center gap-2 px-4 py-2 rounded-lg bg-[#f3dada] text-[#dc2626]"
+          className="mt-auto flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-[#f3dada] text-[#dc2626]"
           onClick={() => {
             localStorage.removeItem('authToken');
           }}
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-          </svg>
+          <Icon icon="ri:logout-circle-line" className="text-lg" />
+
+          Log Out
+        </Link>
+      </aside>
+
+      {/* Sidebar - Mobile */}
+      {isMobileSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 md:hidden z-40"
+          onClick={() => setIsMobileSidebarOpen(false)}
+        ></div>
+      )}
+      <aside className={`fixed top-0 left-0 h-screen w-[220px] bg-[#3A7D7D] p-4 flex flex-col md:hidden z-50 transform transition-transform duration-300 ${
+        isMobileSidebarOpen ? "translate-x-0" : "-translate-x-full"
+      }`}>
+        <div className="text-2xl text-center font-bold mb-8 text-white">LOGO</div>
+        <nav className="flex-1 space-y-4">
+          {sidebarItems.map((item, index) => {
+            const routeMap: Record<string, string> = {
+              "Dashboard": "/school_dashboard",
+              "Attendance": "/school_dashboard/attendance",
+              "Tutor": "/school_dashboard/tutor",
+              "Examination": "/school_dashboard/examination",
+              "Invoice": "/school_dashboard/invoice",
+              "Complain Box": "/school_dashboard/complain_box",
+            };
+            return (
+              <Link
+                key={item.label}
+                to={routeMap[item.label] || "#"}
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 
+                           ${index === 0
+                    ? "bg-[#3A7D7D]/80 text-white border   font-semibold shadow-[inset_0_0_2px_rgba(255,255,255,0.6),0_4px_10px_rgba(0,0,0,0.3)] -translate-y-0.5"
+                    : "bg-transparent text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:font-medium"}`}
+                onClick={() => setIsMobileSidebarOpen(false)}
+              >
+                {item.icon}
+                {item.label}
+              </Link>
+            );
+          })}
+        </nav>
+        <Link
+          to="/"
+          className="mt-auto flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-[#f3dada] text-[#dc2626]"
+          onClick={() => {
+            localStorage.removeItem('authToken');
+            setIsMobileSidebarOpen(false);
+          }}
+        >
+          <Icon icon="ri:logout-circle-line" className="text-lg" />
+
           Log Out
         </Link>
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-8 bg-[#fdfbf0]">
+      <main className="md:ml-[220px] flex-1 p-4 md:p-8 bg-[#FEFCE8] w-full md:w-auto">
         {/* Search Bar and Profile */}
-        <div className="flex justify-between items-center mb-8">
-          <div className="relative w-[480px]">
+        <div className="flex justify-between items-center mb-8 px-4 md:px-10 gap-4">
+          {/* Mobile Hamburger Menu */}
+          <button
+            className="md:hidden flex items-center justify-center"
+            onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
+          >
+            <Icon icon="mdi:menu" className="text-[#3A7D7D] text-3xl" />
+          </button>
+
+          {/* Middle: Search Bar */}
+          <div className="relative flex-1 md:w-[900px]">
             <input
               type="search"
               placeholder="Search"
-              className="w-full pl-10 pr-4 py-2.5 bg-white rounded-full text-sm border border-gray-300 focus:outline-none focus:border-[#3A7D7D] text-gray-700"
+              className="w-full pl-10 pr-4 py-2.5 bg-[#E8E6DA] rounded-full text-sm focus:outline-none text-gray-600"
             />
-            <svg className="w-5 h-5 text-gray-400 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-            </svg>
+            <Icon
+              icon="mdi:magnify"
+              className="absolute left-3 top-3 text-[#999999] text-lg"
+            />
           </div>
 
-          <div className="flex items-center space-x-4">
+          {/* Right: Icons */}
+          <div className="flex items-center space-x-3 md:space-x-6">
+            {/* Notification */}
             <button className="relative">
-              <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
-              </svg>
-              <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+              <Icon
+                icon="ri:notification-3-fill"
+                className="text-[#3A7D7D] text-2xl md:text-3xl"
+              />
+              <span className="absolute top-0 right-0 w-3 h-3  bg-red-500 rounded-full"></span>
             </button>
 
+            {/* Profile */}
             <div className="relative">
               <button
-                className="flex items-center space-x-1"
+                className="flex items-center space-x-1 bg-[#3A7D7D] px-2 py-1 rounded-3xl"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
-                <div className="w-8 h-8 rounded-full bg-[#3A7D7D] flex items-center justify-center">
-                  <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                  </svg>
+                <div className="w-9 h-9 rounded-full bg-[#3A7D7D] flex items-center justify-center">
+                  <Icon icon="ix:user-profile-filled" className="text-white text-xl w-9 h-9" />
                 </div>
-                <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                </svg>
+                <Icon icon="mdi:chevron-down" className="text-white text-lg w-6 h-6 hidden sm:block" />
               </button>
+
               {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 z-10">
+                <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg py-1 z-10">
                   <Link
                     to="/"
-                    className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     onClick={() => {
                       setIsDropdownOpen(false);
-                      localStorage.removeItem('authToken');
+                      localStorage.removeItem("authToken");
                     }}
                   >
                     Sign out
@@ -259,201 +319,213 @@ export default function SchoolDashboard() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 mb-8">
           {/* Attendance Rate Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border-2 border-[#e8e4d8]">
-            <div className="flex items-start justify-between">
-              <div>
-                <div className="text-sm font-medium text-gray-700 mb-4">Attendance Rate</div>
-                <div className="text-3xl font-bold text-gray-800 mb-1">95 %</div>
-                <div className="text-xs text-gray-500">This week</div>
-              </div>
-              <div className="w-16 h-16">
-                <svg viewBox="0 0 36 36" className="circular-chart">
-                  <path
-                    d="M18 2.0845
-                      a 15.9155 15.9155 0 0 1 0 31.831
-                      a 15.9155 15.9155 0 0 1 0 -31.831"
-                    fill="none"
-                    stroke="#eee"
-                    strokeWidth="3"
-                  />
-                  <path
-                    d="M18 2.0845
-                      a 15.9155 15.9155 0 0 1 0 31.831
-                      a 15.9155 15.9155 0 0 1 0 -31.831"
-                    fill="none"
-                    stroke="#3A7D7D"
-                    strokeWidth="3"
-                    strokeDasharray="95, 100"
-                  />
-                </svg>
-              </div>
-            </div>
-          </div>
+           <div className="bg-white rounded-2xl py-4 px-4 md:px-6 shadow-sm border-2 border-black md:w-[260px]">
+      <div className="flex flex-col">
+  {/* Top title aligned left */}
+  <p className="text-xs md:text-sm font-medium text-gray-700 mb-4">
+    Attendance Rate
+  </p>
+
+  {/* Main content row */}
+  <div className="flex items-center gap-2 md:gap-4">
+    {/* Circular Progress */}
+    <div className="w-12 h-12 md:w-16 md:h-16">
+      <CircularProgressbar
+        value={attendance}
+        strokeWidth={10}
+        styles={buildStyles({
+          pathColor: "#3A7D7D",
+          trailColor: "#EAF8EF",
+          strokeLinecap: "round",
+        })}
+      />
+    </div>
+
+    {/* Percentage + Text */}
+    <div className="flex flex-col mt-2">
+      <p className="text-xl md:text-3xl font-bold text-gray-800 mb-1">{attendance} %</p>
+      <p className="text-xs md:text-md font-semibold text-gray-800">This week</p>
+    </div>
+  </div>
+</div>
+
+    </div>
 
           {/* Tutor Performance Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border-2 border-[#e8e4d8]">
-            <div className="flex items-start justify-between">
-              <div>
-                <div className="text-sm font-medium text-gray-700 mb-4">Tutor Performance</div>
-                <div className="flex items-baseline gap-1 mb-1">
-                  <span className="text-3xl font-bold text-gray-800">4.6</span>
-                  <span className="text-sm text-gray-500">/5</span>
+          <div className="bg-white rounded-2xl px-4 md:px-6 py-4 shadow-sm border-2 border-black ">
+            <div>
+              <div className="text-xs md:text-sm font-medium text-gray-700 mb-4">Tutor Performance</div>
+
+              <div className="flex items-center gap-2 md:gap-4">
+
+                <div className="text-yellow-400">
+                  <Icon icon="teenyicons:star-circle-solid" className="text-4xl md:text-7xl" />
                 </div>
-                <div className="text-xs text-gray-500">avg. rating</div>
-              </div>
-              <div className="text-yellow-400">
-                <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                </svg>
+
+                <div className="ml-2 md:ml-4">
+
+                  <div className="flex items-baseline">
+                    <span className="text-xl md:text-3xl font-bold text-gray-800">4.6</span>
+                    <span className="text-lg md:text-2xl font-bold text-gray-500 ml-1">/ 5</span>
+                  </div>
+
+                  <div className="text-xs md:text-lg text-black font-bold text-center">Avg rating</div>
+
+                </div>
+
               </div>
             </div>
           </div>
 
           {/* Course Progress Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border-2 border-[#e8e4d8]">
+          <div className="bg-white rounded-2xl px-4 md:px-6 py-4 shadow-sm border-2 border-black">
             <div className="flex items-start justify-between">
               <div>
-                <div className="text-sm font-medium text-gray-700 mb-4">Course Progress</div>
-                <div className="text-3xl font-bold text-gray-800 mb-1">8</div>
-                <div className="text-xs text-gray-500">Active courses</div>
-              </div>
+                <div className="text-xs md:text-sm font-medium text-gray-700 mb-4">Course Progress</div>
+                <div className="flex text-center gap-3 md:gap-6">
+
               <div className="text-[#3A7D7D]">
-                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                </svg>
+                <Icon icon="entypo:bar-graph" className="text-4xl md:text-7xl transform -scale-x-100" />
+              </div>
+              <div className="flex flex-col mt-2">
+
+                <div className="text-xl md:text-3xl font-bold text-gray-800 mb-1">8</div>
+                <div className="text-xs md:text-sm font-bold text-black">Active courses</div>
+              </div>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Complaints Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border-2 border-[#e8e4d8]">
+          <div className="bg-white rounded-2xl px-4 md:px-6 py-4 shadow-sm border-2 border-black">
             <div className="flex items-start justify-between">
               <div>
-                <div className="text-sm font-medium text-gray-700 mb-4">Complaints Pending</div>
-                <div className="text-3xl font-bold text-gray-800 mb-1">3</div>
-                <div className="text-xs text-gray-500">Unresolved</div>
-              </div>
-              <div className="text-red-500">
-                <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-                </svg>
+                <div className="text-xs md:text-sm font-medium text-gray-700 mb-4">Complaints Pending</div>
+                <div className="flex items-center gap-3 md:gap-6">
+
+                  <Icon icon="streamline-freehand:customer-action-complaint" className="text-red-500" width={40} height={40} />
+
+
+                  <div className="mt-2 flex flex-col ">
+
+                    <div className="text-xl md:text-3xl font-bold text-center text-black mb-1">3</div>
+                    <div className="text-xs md:text-md font-bold text-black">Unresolved</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         {/* Attendance & Billing Section */}
-        <div className="grid grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-8">
           {/* Attendance & Exams */}
-          <div className="bg-[#f5f1e8] rounded-2xl p-6 border-2 border-[#d4cfc1]">
+          <div className="bg-[#FEFCE8] rounded-2xl p-4 md:p-6 border-2 border-black">
             <h2 className="text-lg font-bold mb-4 text-gray-800">Attendance & Exams</h2>
             <div className="mb-4 flex items-center justify-between">
-              <span className="inline-block text-xs font-semibold text-gray-700 bg-white px-3 py-1.5 rounded-full border border-gray-300">Class 1 - Attendance</span>
-              <svg className="w-5 h-5 text-teal-600" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v2a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a2 2 0 002 2h8a2 2 0 002-2H6z" clipRule="evenodd" />
-              </svg>
+              <span className="inline-block text-xs font-semibold text-gray-700 bg-[#FEFCE8]  px-3 py-1.5 rounded-md border border-black  ">Class 1 - Attendance</span>
+              <Icon icon="stash:filter-solid" className="text-[#3A7D7D] text-3xl mr-4" />
             </div>
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b-2 border-gray-300">
-                  <th className="text-left py-3 font-semibold text-gray-700">Student Name</th>
-                  <th className="text-center py-3 font-semibold text-gray-700">Total Classes</th>
-                  <th className="text-center py-3 font-semibold text-gray-700">Present</th>
-                  <th className="text-center py-3 font-semibold text-gray-700">Absent</th>
-                  <th className="text-center py-3 font-semibold text-gray-700">Marks</th>
-                </tr>
-              </thead>
-              <tbody>
-                {attendanceRecords.map((record, index) => (
-                  <tr key={index} className="border-b border-gray-200">
-                    <td className="py-3 text-gray-600">{record.studentName}</td>
-                    <td className="text-center py-3 text-gray-600">{record.totalClasses}</td>
-                    <td className="text-center py-3 text-gray-600">{record.present}</td>
-                    <td className="text-center py-3 text-gray-600">{record.absent}</td>
-                    <td className="text-center py-3 text-gray-600">{record.marks}</td>
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs md:text-sm">
+                <thead>
+                  <tr className="border-b-2 border-gray-300">
+                    <th className="text-left py-3 font-semibold text-gray-700">Student Name</th>
+                    <th className="text-center py-3 font-semibold text-gray-700">Total Classes</th>
+                    <th className="text-center py-3 font-semibold text-gray-700">Present</th>
+                    <th className="text-center py-3 font-semibold text-gray-700">Absent</th>
+                    <th className="text-center py-3 font-semibold text-gray-700">Marks</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {attendanceRecords.map((record, index) => (
+                    <tr key={index} className="border-b border-gray-200">
+                      <td className="py-3 text-gray-600">{record.studentName}</td>
+                      <td className="text-center py-3 text-gray-600">{record.totalClasses}</td>
+                      <td className="text-center py-3 text-gray-600">{record.present}</td>
+                      <td className="text-center py-3 text-gray-600">{record.absent}</td>
+                      <td className="text-center py-3 text-gray-600">{record.marks}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
 
           {/* Bills & Accounting */}
-          <div className="bg-[#f5f1e8] rounded-2xl p-8 border-2 border-[#d4cfc1]">
-            <h2 className="text-2xl font-bold mb-8 text-center text-gray-800">Bills & Accounting</h2>
-            <div className="flex gap-6 mb-8">
+          <div className="bg-[#FEFCE8] rounded-2xl p-4 md:p-8 border-2 border-black">
+            <h2 className="text-lg md:text-2xl font-bold mb-4 md:mb-8 text-center text-gray-800">Bills & Accounting</h2>
+            <div className="grid grid-cols-2 md:flex md:gap-6 gap-3 mb-4 md:mb-8">
               {/* Paid This Month Card */}
-              <div className="flex-1 bg-white rounded-2xl p-6 shadow-md border border-gray-200">
-                <div className="flex items-center justify-between mb-3">
-                  <div className="text-3xl font-bold text-gray-800">{billingInfo.paidThisMonth.toLocaleString()}</div>
-                  <svg className="w-6 h-6 text-gray-700" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/>
-                  </svg>
+              <div className="bg-white rounded-2xl p-3 md:p-6 shadow-lg border border-gray-200 md:flex-1">
+                <div className="flex items-center gap-2 mb-2 md:mb-3">
+                  <IconCurrencyRupeeNepalese stroke={3} className="text-black w-5 h-5 md:w-6 md:h-6" />
+                  <div className="text-lg md:text-2xl font-bold text-gray-800">35000</div>
                 </div>
-                <div className="text-sm text-gray-600 font-medium">Paid This Month</div>
+                <div className="text-xs md:text-sm text-gray-600 font-medium">Paid This Month</div>
               </div>
 
               {/* Pending Dues Card */}
-              <div className="flex-1 bg-white rounded-2xl p-6 shadow-md border border-gray-200">
-                <div className="flex items-center justify-between mb-3">
-                  <div className="text-3xl font-bold text-gray-800">{billingInfo.pendingDues.toLocaleString()}</div>
-                  <svg className="w-6 h-6 text-gray-700" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/>
-                  </svg>
+              <div className="bg-white rounded-2xl p-3 md:p-6 shadow-lg border border-gray-200 md:flex-1">
+                <div className="flex items-center gap-2 mb-2 md:mb-3">
+                  <IconCurrencyRupeeNepalese stroke={3} className="text-black w-5 h-5 md:w-6 md:h-6" />
+                  <div className="text-lg md:text-2xl font-bold text-gray-800">12000</div>
                 </div>
-                <div className="text-sm text-gray-600 font-medium">Pending Dues</div>
+                <div className="text-xs md:text-sm text-gray-600 font-medium">Pending Dues</div>
               </div>
 
               {/* Last Payment Card */}
-              <div className="flex-1 bg-white rounded-2xl p-6 shadow-md border border-gray-200">
-                <div className="flex items-center justify-between mb-3">
-                  <div className="text-3xl font-bold text-gray-800">{billingInfo.lastPayment}</div>
-                </div>
-                <div className="text-sm text-gray-600 font-medium">Last Payment</div>
+              <div className="col-span-2 md:col-span-1 bg-white rounded-2xl p-3 md:p-6 shadow-lg border border-gray-200 md:flex-1">
+                <div className="text-lg md:text-2xl font-bold text-gray-800 mb-2 md:mb-3">2 days ago</div>
+                <div className="text-xs md:text-sm text-gray-600 font-medium">Last Payment</div>
               </div>
             </div>
 
-            <button className="w-full bg-[#3A7D7D] text-white py-3 rounded-2xl hover:bg-[#2A6D6D] transition-colors duration-200 font-semibold text-lg">
+            <button className="w-full md:w-3/5 md:mx-auto md:block h-12 md:h-18 bg-[#3A7D7D] text-white py-2 md:py-3 rounded-2xl hover:bg-[#2A6D6D] transition-colors duration-200 font-semibold text-sm md:text-lg">
               View All Invoices
             </button>
           </div>
         </div>
 
         {/* Tutor Monitoring Section */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border-2 border-[#e8e4d8]">
+        <div className="bg-[#FEFCE8] rounded-2xl p-4 md:p-6 shadow-sm border-2 border-black">
           <h2 className="text-lg font-bold mb-4 text-gray-800">Tutor Monitoring</h2>
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-gray-200">
-                <th className="text-left py-3 font-semibold text-gray-700">Tutor Name</th>
-                <th className="text-center py-3 font-semibold text-gray-700">Total Classes</th>
-                <th className="text-center py-3 font-semibold text-gray-700">Chapter</th>
-                <th className="text-center py-3 font-semibold text-gray-700">Total Student</th>
-                <th className="text-center py-3 font-semibold text-gray-700">Week</th>
-                <th className="text-center py-3 font-semibold text-gray-700">Status</th>
-                <th className="text-left py-3 font-semibold text-gray-700">Complain/ Feedback</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tutorRecords.map((record, index) => (
-                <tr key={index} className="border-b border-gray-100">
-                  <td className="py-3 text-gray-600">{record.tutorName}</td>
-                  <td className="text-center py-3 text-gray-600">{record.totalClasses}</td>
-                  <td className="text-center py-3 text-gray-600">{record.chapter}</td>
-                  <td className="text-center py-3 text-gray-600">{record.totalStudent}</td>
-                  <td className="text-center py-3 text-gray-600">{record.week}</td>
-                  <td className="text-center py-3">
-                    <div className="flex gap-2 justify-center">
-                      <span className="px-3 py-1 text-xs font-medium rounded-full bg-[#4a9b8e] text-white">Approved</span>
-                      <span className="px-3 py-1 text-xs font-medium rounded-full bg-[#9bc4ae] text-white">Pending</span>
-                    </div>
-                  </td>
-                  <td className="py-3 text-gray-600">{record.complaintFeedback}</td>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs md:text-sm">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 font-semibold text-gray-700">Tutor Name</th>
+                  <th className="text-center py-3 font-semibold text-gray-700">Total Classes</th>
+                  <th className="text-center py-3 font-semibold text-gray-700">Chapter</th>
+                  <th className="text-center py-3 font-semibold text-gray-700">Total Student</th>
+                  <th className="text-center py-3 font-semibold text-gray-700">Week</th>
+                  <th className="text-center py-3 font-semibold text-gray-700">Status</th>
+                  <th className="text-left py-3 font-semibold text-gray-700">Complain/ Feedback</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {tutorRecords.map((record, index) => (
+                  <tr key={index} className="border-b border-gray-100">
+                    <td className="py-3 text-gray-600">{record.tutorName}</td>
+                    <td className="text-center py-3 text-gray-600">{record.totalClasses}</td>
+                    <td className="text-center py-3 text-gray-600">{record.chapter}</td>
+                    <td className="text-center py-3 text-gray-600">{record.totalStudent}</td>
+                    <td className="text-center py-3 text-gray-600">{record.week}</td>
+                    <td className="text-center py-3">
+                      <div className="flex gap-2 justify-center">
+                        <span className="px-3 py-1 text-xs font-medium rounded-md shadow-lg bg-[#438582] text-white">Approved</span>
+                        <span className="px-3 py-1 text-xs font-medium rounded-md shadow-lg bg-[#43858299]/60 text-white">Pending</span>
+                      </div>
+                    </td>
+                    <td className="py-3 text-gray-600">{record.complaintFeedback}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </main>
     </div>
