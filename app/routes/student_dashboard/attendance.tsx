@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { Icon } from "@iconify/react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link} from "react-router";
+
 
 // ------------------
 // STRONG TYPES
@@ -39,7 +40,7 @@ export default function AttendancePage() {
   const sidebarItems: SidebarItem[] = [
     { label: "Dashboard", icon: <Icon icon="iconamoon:home-duotone" width={24} /> },
     { label: "Attendance", icon: <Icon icon="mingcute:calendar-2-line" width={24} /> },
-    { label: "Learning Material", icon: <Icon icon="mingcute:calendar-2-line" width={24} /> },
+    { label: "Learning Material", icon: <Icon icon="fluent:learning-app-24-regular" width={24} /> },
     { label: "Task", icon: <Icon icon="hugeicons:task-02" width={24} /> },
     {
       label: "Examination",
@@ -76,9 +77,9 @@ export default function AttendancePage() {
 
       {/* SIDEBAR */}
       <aside className="w-60 fixed left-0 top-0 bottom-0 bg-[#438582] p-4 flex flex-col shadow-xl z-20">
-        <div className="text-2xl text-center font-bold mb-8 text-white">LOGO</div>
+        <div className="text-2xl text-center font-bold mb-4 text-white">LOGO</div>
 
-        <nav className="flex-1 space-y-6 overflow-y-auto">
+        <nav className="flex-1 space-y-6 overflow-y-auto py-4">
           {sidebarItems.map((item) => {
             const isActive =
               item.label === "Dashboard"
@@ -92,7 +93,7 @@ export default function AttendancePage() {
                 className={`w-full text-left flex items-center gap-2 px-3 py-3 rounded-lg transition-all duration-200 ${
                   isActive
                     ? "bg-[#3A7D7D]/80 text-white border font-semibold shadow-[inset_0_0_2px_rgba(255,255,255,0.6),0_4px_10px_rgba(0,0,0,0.3)] -translate-y-0.5"
-                    : "bg-transparent text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:font-medium"
+                    : "bg-transparent text-white/90 hover:bg-white cursor-pointer hover:text-[#3A7D7D] hover:shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:font-medium"
                 }`}
               >
                 {item.icon}
@@ -131,9 +132,10 @@ export default function AttendancePage() {
               <span className="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full" />
             </button>
 
+            {/* User Dropdown */}
             <div className="relative">
               <button
-                className="flex items-center bg-[#3A7D7D] px-2 py-1 rounded-3xl"
+                className="flex items-center space-x-1 bg-[#3A7D7D] px-2 py-1 rounded-3xl"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
                 <div className="w-9 h-9 rounded-full bg-[#3A7D7D] flex items-center justify-center">
@@ -144,15 +146,16 @@ export default function AttendancePage() {
 
               {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg py-1 z-20">
-                  <button
-                    className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+                  <Link
+                    to="/"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     onClick={() => {
-                      setIsDropdownOpen(false);
                       localStorage.removeItem("authToken");
+                      setIsDropdownOpen(false);
                     }}
                   >
                     Sign out
-                  </button>
+                  </Link>
                 </div>
               )}
             </div>
@@ -177,27 +180,26 @@ export default function AttendancePage() {
           </div>
 
           <div className="bg-white shadow rounded-xl p-4 flex flex-col items-center">
-            <Icon icon="mdi:calendar" className="text-[#3A7D7D] text-3xl mb-2" />
+            <Icon icon="streamline-ultimate-color:calendar-1" className="text-[#3A7D7D] text-3xl mb-2" />
             <p className="text-xs text-gray-500">75/100</p>
-            <p className="font-semibold">Total Days</p>
+            <p className=" text-black">Total Days</p>
           </div>
 
           <div className="bg-white shadow rounded-xl p-4 flex flex-col items-center">
             <Icon icon="mdi:tick-circle" className="text-[#3A7D7D] text-3xl mb-2" />
-            <p className="font-bold text-[#3A7D7D]">70</p>
-            <p>Present days</p>
+            <p className=" text-gray-500">70</p>
+            <p className="text-black">Present days</p>
           </div>
 
           <div className="bg-white shadow rounded-xl p-4 flex flex-col items-center">
-            <Icon icon="maki:cross" className="text-red-500 text-3xl mb-2" />
-            <p className="font-bold text-red-500">5</p>
-            <p>Absent days</p>
+            <Icon icon="icomoon-free:cross" className="text-red-500 text-3xl mb-2" />
+            <p className=" text-gray-500">5</p>
+            <p className="text-black">Absent days</p>
           </div>
 
-          <div className="bg-white shadow rounded-xl p-4 flex flex-col items-center">
+          <div className="bg-white shadow rounded-xl p-4 flex flex-col justify-between items-center">
             <Icon icon="uis:graph-bar" className="text-[#3A7D7D] text-3xl mb-2" />
-            <p className="font-bold">75%</p>
-            <p>Percentage</p>
+            <p className="text-black">75%</p>
           </div>
         </div>
 
@@ -216,7 +218,7 @@ export default function AttendancePage() {
 
             <tbody>
               {attendanceData.map((row, i) => (
-                <tr key={i} className="border-t border-gray-300">
+                <tr key={i} className="border-t border-gray-300 text-black">
                   <td className="px-6 py-4">{row.date}</td>
                   <td className="px-6 py-4">
                     {row.status === "Present" ? (

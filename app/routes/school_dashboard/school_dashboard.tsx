@@ -3,7 +3,9 @@ import { Link } from "react-router";
 import { Icon } from "@iconify/react";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import { IconCurrencyRupeeNepalese } from '@tabler/icons-react';
+import { useLocation } from "react-router";
+
+import { IconCurrencyRupeeNepalese } from "@tabler/icons-react";
 
 interface AttendanceRecord {
   studentName: string;
@@ -33,10 +35,12 @@ interface BillingInfo {
 }
 
 export default function SchoolDashboard() {
-    const attendance = 95;
-  // States for various data
+  const attendance = 95;
+  const location = useLocation();
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+
   const [attendanceRecords, setAttendanceRecords] = useState<AttendanceRecord[]>([
     {
       studentName: "Alice Johnson",
@@ -113,27 +117,19 @@ export default function SchoolDashboard() {
     lastPayment: "2 days Ago",
   });
 
-  // Sidebar items
+
   const sidebarItems = [
     {
       label: "Dashboard",
-      icon: (
-        <Icon icon="iconamoon:home-duotone" width={24} height={24} />
-
-      ),
+      icon: <Icon icon="iconamoon:home-duotone" width={24} height={24} />,
     },
     {
       label: "Attendance",
-      icon: (
-        <Icon icon="mingcute:calendar-2-line" width={24} height={24} />
-
-      ),
+      icon: <Icon icon="mingcute:calendar-2-line" width={24} height={24} />,
     },
     {
       label: "Tutor",
-      icon: (
-        <Icon icon="fluent-emoji-high-contrast:teacher" width={24} height={24} />
-      ),
+      icon: <Icon icon="fluent-emoji-high-contrast:teacher" width={24} height={24} />,
     },
     {
       label: "Examination",
@@ -145,290 +141,236 @@ export default function SchoolDashboard() {
     },
     {
       label: "Invoice",
-      icon: (
-        <Icon icon="streamline-ultimate:cash-payment-bills-bold" width={24} height={24} />
-      ),
+      icon: <Icon icon="streamline-ultimate:cash-payment-bills-bold" width={24} height={24} />,
     },
     {
       label: "Complain Box",
-      icon: (
-        <Icon icon="streamline-freehand:customer-action-complaint" width={24} height={24} />
-
-      ),
+      icon: <Icon icon="streamline-freehand:customer-action-complaint" width={24} height={24} />,
     },
   ];
 
+  // route map for sidebar labels -> paths
+  const routeMap: Record<string, string> = {
+    Dashboard: "/school_dashboard",
+    Attendance: "/school_dashboard/attendance",
+    Tutor: "/school_dashboard/tutor",
+    Examination: "/school_dashboard/examination",
+    Invoice: "/school_dashboard/invoice",
+    "Complain Box": "/school_dashboard/complain_box",
+  };
+
   return (
     <div className="flex min-h-screen bg-[#fdfbf0]">
+
+      {/* ========================================================= */}
+      {/*                        ASIDE                              */}
+      {/* ========================================================= */}
       {/* Sidebar - Desktop */}
-      <aside className="hidden md:flex w-[220px] flex-col bg-[#3A7D7D] fixed top-0 left-0 h-screen p-4">
-        <div className="text-2xl text-center font-bold mb-8 text-white">LOGO</div>
-        <nav className="flex-1 space-y-4">
-          {sidebarItems.map((item, index) => {
-            const routeMap: Record<string, string> = {
-              "Dashboard": "/school_dashboard",
-              "Attendance": "/school_dashboard/attendance",
-              "Tutor": "/school_dashboard/tutor",
-              "Examination": "/school_dashboard/examination",
-              "Invoice": "/school_dashboard/invoice",
-              "Complain Box": "/school_dashboard/complain_box",
-            };
-            return (
-              <Link
-                key={item.label}
-                to={routeMap[item.label] || "#"}
-                className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 
-                           ${index === 0
-                    ? "bg-[#3A7D7D]/80 text-white border   font-semibold shadow-[inset_0_0_2px_rgba(255,255,255,0.6),0_4px_10px_rgba(0,0,0,0.3)] -translate-y-0.5"
-                    : "bg-transparent text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:font-medium"}`}
-              >
-                {item.icon}
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
-        <Link
-          to="/"
-          className="mt-auto flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-[#f3dada] text-[#dc2626]"
-          onClick={() => {
-            localStorage.removeItem('authToken');
-          }}
-        >
-          <Icon icon="ri:logout-circle-line" className="text-lg" />
+           <aside className="hidden md:flex w-[220px] flex-col bg-[#3A7D7D] fixed top-0 left-0 h-screen p-4">
+             <div className="text-2xl text-center font-bold mb-8 text-white">LOGO</div>
+             <nav className="flex-1 space-y-4">
+               {sidebarItems.map((item, index) => {
+                 const routeMap: Record<string, string> = {
+                   "Dashboard": "/school_dashboard",
+                   "Attendance": "/school_dashboard/attendance",
+                   "Tutor": "/school_dashboard/tutor",
+                   "Examination": "/school_dashboard/examination",
+                   "Invoice": "/school_dashboard/invoice",
+                   "Complain Box": "/school_dashboard/complain_box",
+                 };
+                 return (
+                   <Link
+                     key={item.label}
+                     to={routeMap[item.label] || "#"}
+className={`w-full text-left flex items-center gap-2 px-3 py-3 rounded-lg transition-all duration-200                                ${location.pathname === routeMap[item.label]
+                         ? "bg-[#3A7D7D]/80 text-white border font-semibold shadow-[inset_0_0_2px_rgba(255,255,255,0.6),0_4px_10px_rgba(0,0,0,0.3)] -translate-y-0.5"
+                         : "bg-transparent text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:font-medium"}`}
+                   >
+                     {item.icon}
+                     {item.label}
+                   </Link>
+                 );
+               })}
+             </nav>
+             <Link
+               to="/"
+               className="mt-auto flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-[#f3dada] text-[#dc2626]"
+               onClick={() => {
+                 localStorage.removeItem('authToken');
+               }}
+             >
+               <Icon icon="ri:logout-circle-line" className="text-lg" />
+               Log Out
+             </Link>
+           </aside>
+     
+           {/* Sidebar - Mobile */}
+           {isMobileSidebarOpen && (
+             <div 
+               className="fixed inset-0 bg-black bg-opacity-50 md:hidden z-40"
+               onClick={() => setIsMobileSidebarOpen(false)}
+             ></div>
+           )}
+ 
+       {/* NAVBAR */}
+       <div className="fixed top-0 left-60 right-0 bg-[#fdfbf0] z-10">
+         <div className="flex justify-between items-center px-10 py-6">
+           <div className="relative w-[900px]">
+             <input
+               type="search"
+               placeholder="Search"
+               className="w-full pl-10 pr-4 py-2.5 bg-[#E8E6DA] rounded-full text-sm text-gray-600"
+             />
+             <Icon icon="mdi:magnify" className="absolute left-3 top-3 text-[#999999] text-lg" />
+           </div>
+ 
+           <div className="flex items-center space-x-6">
+             <button className="relative">
+               <Icon icon="ri:notification-3-fill" className="text-[#3A7D7D] text-3xl" />
+               <span className="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full" />
+             </button>
+ 
+             <div className="relative">
+               <button
+                 className="flex items-center space-x-1 bg-[#3A7D7D] px-2 py-1 rounded-3xl"
+                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+               >
+                 <div className="w-9 h-9 rounded-full bg-[#3A7D7D] flex items-center justify-center">
+                   <Icon icon="ix:user-profile-filled" className="text-white w-9 h-9" />
+                 </div>
+                 <Icon icon="mdi:chevron-down" className="text-white text-lg w-6 h-6" />
+               </button>
+ 
+               {isDropdownOpen && (
+                 <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg py-1 z-20">
+                   <Link
+                     to="/"
+                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                     onClick={() => {
+                       localStorage.removeItem("authToken");
+                       setIsDropdownOpen(false);
+                     }}
+                   >
+                     Sign out
+                   </Link>
+                 </div>
+               )}
+             </div>
+           </div>
+         </div>
+       </div>
 
-          Log Out
-        </Link>
-      </aside>
+      {/* ========================================================= */}
+      {/*                        MAIN CONTENT                       */}
+      {/* ========================================================= */}
+      <main className="pt-[120px] fixed top-0 left-60 px-10 pb-10 overflow-y-auto h-screen w-[calc(100%-240px)] bg-[#fdfbf0]">
 
-      {/* Sidebar - Mobile */}
-      {isMobileSidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black bg-opacity-50 md:hidden z-40"
-          onClick={() => setIsMobileSidebarOpen(false)}
-        ></div>
-      )}
-      <aside className={`fixed top-0 left-0 h-screen w-[220px] bg-[#3A7D7D] p-4 flex flex-col md:hidden z-50 transform transition-transform duration-300 ${
-        isMobileSidebarOpen ? "translate-x-0" : "-translate-x-full"
-      }`}>
-        <div className="text-2xl text-center font-bold mb-8 text-white">LOGO</div>
-        <nav className="flex-1 space-y-4">
-          {sidebarItems.map((item, index) => {
-            const routeMap: Record<string, string> = {
-              "Dashboard": "/school_dashboard",
-              "Attendance": "/school_dashboard/attendance",
-              "Tutor": "/school_dashboard/tutor",
-              "Examination": "/school_dashboard/examination",
-              "Invoice": "/school_dashboard/invoice",
-              "Complain Box": "/school_dashboard/complain_box",
-            };
-            return (
-              <Link
-                key={item.label}
-                to={routeMap[item.label] || "#"}
-                className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 
-                           ${index === 0
-                    ? "bg-[#3A7D7D]/80 text-white border   font-semibold shadow-[inset_0_0_2px_rgba(255,255,255,0.6),0_4px_10px_rgba(0,0,0,0.3)] -translate-y-0.5"
-                    : "bg-transparent text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:font-medium"}`}
-                onClick={() => setIsMobileSidebarOpen(false)}
-              >
-                {item.icon}
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
-        <Link
-          to="/"
-          className="mt-auto flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-[#f3dada] text-[#dc2626]"
-          onClick={() => {
-            localStorage.removeItem('authToken');
-            setIsMobileSidebarOpen(false);
-          }}
-        >
-          <Icon icon="ri:logout-circle-line" className="text-lg" />
+        {/* ---------------------------- */}
+        {/*      Stats Cards Section     */}
+        {/* ---------------------------- */}
 
-          Log Out
-        </Link>
-      </aside>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 mb-8">
 
-      {/* Main Content */}
-      <main className="md:ml-[220px] flex-1 p-4 md:p-8 bg-[#FEFCE8] w-full md:w-auto">
-        {/* Search Bar and Profile */}
-        <div className="flex justify-between items-center mb-8 px-4 md:px-10 gap-4">
-          {/* Mobile Hamburger Menu */}
-          <button
-            className="md:hidden flex items-center justify-center"
-            onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
-          >
-            <Icon icon="mdi:menu" className="text-[#3A7D7D] text-3xl" />
-          </button>
+          {/* Attendance Rate */}
+          <div className="bg-white rounded-2xl py-4 px-4 md:px-6 shadow-sm border-2 border-black md:w-[260px]">
+            <div className="flex flex-col">
+              <p className="text-xs md:text-sm font-medium text-gray-700 mb-4">Attendance Rate</p>
 
-          {/* Middle: Search Bar */}
-          <div className="relative flex-1 md:w-[900px]">
-            <input
-              type="search"
-              placeholder="Search"
-              className="w-full pl-10 pr-4 py-2.5 bg-[#E8E6DA] rounded-full text-sm focus:outline-none text-gray-600"
-            />
-            <Icon
-              icon="mdi:magnify"
-              className="absolute left-3 top-3 text-[#999999] text-lg"
-            />
-          </div>
-
-          {/* Right: Icons */}
-          <div className="flex items-center space-x-3 md:space-x-6">
-            {/* Notification */}
-            <button className="relative">
-              <Icon
-                icon="ri:notification-3-fill"
-                className="text-[#3A7D7D] text-2xl md:text-3xl"
-              />
-              <span className="absolute top-0 right-0 w-3 h-3  bg-red-500 rounded-full"></span>
-            </button>
-
-            {/* Profile */}
-            <div className="relative">
-              <button
-                className="flex items-center space-x-1 bg-[#3A7D7D] px-2 py-1 rounded-3xl"
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              >
-                <div className="w-9 h-9 rounded-full bg-[#3A7D7D] flex items-center justify-center">
-                  <Icon icon="ix:user-profile-filled" className="text-white text-xl w-9 h-9" />
+              <div className="flex items-center gap-2 md:gap-4">
+                <div className="w-12 h-12 md:w-16 md:h-16">
+                  <CircularProgressbar
+                    value={attendance}
+                    strokeWidth={10}
+                    styles={buildStyles({
+                      pathColor: "#3A7D7D",
+                      trailColor: "#EAF8EF",
+                      strokeLinecap: "round",
+                    })}
+                  />
                 </div>
-                <Icon icon="mdi:chevron-down" className="text-white text-lg w-6 h-6 hidden sm:block" />
-              </button>
 
-              {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg py-1 z-10">
-                  <Link
-                    to="/"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    onClick={() => {
-                      setIsDropdownOpen(false);
-                      localStorage.removeItem("authToken");
-                    }}
-                  >
-                    Sign out
-                  </Link>
+                <div className="flex flex-col mt-2">
+                  <p className="text-xl md:text-3xl font-bold text-gray-800 mb-1">{attendance} %</p>
+                  <p className="text-xs md:text-md font-semibold text-gray-800">This week</p>
                 </div>
-              )}
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 mb-8">
-          {/* Attendance Rate Card */}
-           <div className="bg-white rounded-2xl py-4 px-4 md:px-6 shadow-sm border-2 border-black md:w-[260px]">
-      <div className="flex flex-col">
-  {/* Top title aligned left */}
-  <p className="text-xs md:text-sm font-medium text-gray-700 mb-4">
-    Attendance Rate
-  </p>
-
-  {/* Main content row */}
-  <div className="flex items-center gap-2 md:gap-4">
-    {/* Circular Progress */}
-    <div className="w-12 h-12 md:w-16 md:h-16">
-      <CircularProgressbar
-        value={attendance}
-        strokeWidth={10}
-        styles={buildStyles({
-          pathColor: "#3A7D7D",
-          trailColor: "#EAF8EF",
-          strokeLinecap: "round",
-        })}
-      />
-    </div>
-
-    {/* Percentage + Text */}
-    <div className="flex flex-col mt-2">
-      <p className="text-xl md:text-3xl font-bold text-gray-800 mb-1">{attendance} %</p>
-      <p className="text-xs md:text-md font-semibold text-gray-800">This week</p>
-    </div>
-  </div>
-</div>
-
-    </div>
-
-          {/* Tutor Performance Card */}
+          {/* Tutor Performance */}
           <div className="bg-white rounded-2xl px-4 md:px-6 py-4 shadow-sm border-2 border-black ">
             <div>
               <div className="text-xs md:text-sm font-medium text-gray-700 mb-4">Tutor Performance</div>
 
               <div className="flex items-center gap-2 md:gap-4">
-
                 <div className="text-yellow-400">
                   <Icon icon="teenyicons:star-circle-solid" className="text-4xl md:text-7xl" />
                 </div>
 
                 <div className="ml-2 md:ml-4">
-
                   <div className="flex items-baseline">
                     <span className="text-xl md:text-3xl font-bold text-gray-800">4.6</span>
                     <span className="text-lg md:text-2xl font-bold text-gray-500 ml-1">/ 5</span>
                   </div>
-
                   <div className="text-xs md:text-lg text-black font-bold text-center">Avg rating</div>
-
                 </div>
-
               </div>
             </div>
           </div>
 
-          {/* Course Progress Card */}
+          {/* Course Progress */}
           <div className="bg-white rounded-2xl px-4 md:px-6 py-4 shadow-sm border-2 border-black">
             <div className="flex items-start justify-between">
               <div>
                 <div className="text-xs md:text-sm font-medium text-gray-700 mb-4">Course Progress</div>
                 <div className="flex text-center gap-3 md:gap-6">
+                  <div className="text-[#3A7D7D]">
+                    <Icon icon="entypo:bar-graph" className="text-4xl md:text-7xl transform -scale-x-100" />
+                  </div>
 
-              <div className="text-[#3A7D7D]">
-                <Icon icon="entypo:bar-graph" className="text-4xl md:text-7xl transform -scale-x-100" />
-              </div>
-              <div className="flex flex-col mt-2">
-
-                <div className="text-xl md:text-3xl font-bold text-gray-800 mb-1">8</div>
-                <div className="text-xs md:text-sm font-bold text-black">Active courses</div>
-              </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Complaints Card */}
-          <div className="bg-white rounded-2xl px-4 md:px-6 py-4 shadow-sm border-2 border-black">
-            <div className="flex items-start justify-between">
-              <div>
-                <div className="text-xs md:text-sm font-medium text-gray-700 mb-4">Complaints Pending</div>
-                <div className="flex items-center gap-3 md:gap-6">
-
-                  <Icon icon="streamline-freehand:customer-action-complaint" className="text-red-500" width={40} height={40} />
-
-
-                  <div className="mt-2 flex flex-col ">
-
-                    <div className="text-xl md:text-3xl font-bold text-center text-black mb-1">3</div>
-                    <div className="text-xs md:text-md font-bold text-black">Unresolved</div>
+                  <div className="flex flex-col mt-2">
+                    <div className="text-xl md:text-3xl font-bold text-gray-800 mb-1">8</div>
+                    <div className="text-xs md:text-sm font-bold text-black">Active courses</div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
+          {/* Complaints */}
+          <div className="bg-white rounded-2xl px-4 md:px-6 py-4 shadow-sm border-2 border-black">
+            <div className="flex items-start justify-between">
+              <div>
+                <div className="text-xs md:text-sm font-medium text-gray-700 mb-4">Complaints Pending</div>
+
+                <div className="flex items-center gap-3 md:gap-6">
+                  <Icon icon="streamline-freehand:customer-action-complaint" className="text-red-500" width={40} height={40} />
+                  <div className="mt-2 flex flex-col">
+                    <div className="text-xl md:text-3xl font-bold text-center text-black mb-1">3</div>
+                    <div className="text-xs md:text-md font-bold text-black">Unresolved</div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
         </div>
 
-        {/* Attendance & Billing Section */}
+        {/* ---------------------------- */}
+        {/*  Attendance & Billing        */}
+        {/* ---------------------------- */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-8">
-          {/* Attendance & Exams */}
+
+          {/* Attendance Table */}
           <div className="bg-[#FEFCE8] rounded-2xl p-4 md:p-6 border-2 border-black">
             <h2 className="text-lg font-bold mb-4 text-gray-800">Attendance & Exams</h2>
+
             <div className="mb-4 flex items-center justify-between">
-              <span className="inline-block text-xs font-semibold text-gray-700 bg-[#FEFCE8]  px-3 py-1.5 rounded-md border border-black  ">Class 1 - Attendance</span>
+              <span className="inline-block text-xs font-semibold text-gray-700 bg-[#FEFCE8] px-3 py-1.5 rounded-md border border-black">Class 1 - Attendance</span>
               <Icon icon="stash:filter-solid" className="text-[#3A7D7D] text-3xl mr-4" />
             </div>
+
             <div className="overflow-x-auto">
               <table className="w-full text-xs md:text-sm">
                 <thead>
@@ -440,6 +382,7 @@ export default function SchoolDashboard() {
                     <th className="text-center py-3 font-semibold text-gray-700">Marks</th>
                   </tr>
                 </thead>
+
                 <tbody>
                   {attendanceRecords.map((record, index) => (
                     <tr key={index} className="border-b border-gray-200">
@@ -451,15 +394,17 @@ export default function SchoolDashboard() {
                     </tr>
                   ))}
                 </tbody>
+
               </table>
             </div>
           </div>
 
-          {/* Bills & Accounting */}
+          {/* Billing Section */}
           <div className="bg-[#FEFCE8] rounded-2xl p-4 md:p-8 border-2 border-black">
             <h2 className="text-lg md:text-2xl font-bold mb-4 md:mb-8 text-center text-gray-800">Bills & Accounting</h2>
+
             <div className="grid grid-cols-2 md:flex md:gap-6 gap-3 mb-4 md:mb-8">
-              {/* Paid This Month Card */}
+              {/* Paid This Month */}
               <div className="bg-white rounded-2xl p-3 md:p-6 shadow-lg border border-gray-200 md:flex-1">
                 <div className="flex items-center gap-2 mb-2 md:mb-3">
                   <IconCurrencyRupeeNepalese stroke={3} className="text-black w-5 h-5 md:w-6 md:h-6" />
@@ -468,7 +413,7 @@ export default function SchoolDashboard() {
                 <div className="text-xs md:text-sm text-gray-600 font-medium">Paid This Month</div>
               </div>
 
-              {/* Pending Dues Card */}
+              {/* Pending Dues */}
               <div className="bg-white rounded-2xl p-3 md:p-6 shadow-lg border border-gray-200 md:flex-1">
                 <div className="flex items-center gap-2 mb-2 md:mb-3">
                   <IconCurrencyRupeeNepalese stroke={3} className="text-black w-5 h-5 md:w-6 md:h-6" />
@@ -477,7 +422,7 @@ export default function SchoolDashboard() {
                 <div className="text-xs md:text-sm text-gray-600 font-medium">Pending Dues</div>
               </div>
 
-              {/* Last Payment Card */}
+              {/* Last Payment */}
               <div className="col-span-2 md:col-span-1 bg-white rounded-2xl p-3 md:p-6 shadow-lg border border-gray-200 md:flex-1">
                 <div className="text-lg md:text-2xl font-bold text-gray-800 mb-2 md:mb-3">2 days ago</div>
                 <div className="text-xs md:text-sm text-gray-600 font-medium">Last Payment</div>
@@ -490,7 +435,9 @@ export default function SchoolDashboard() {
           </div>
         </div>
 
-        {/* Tutor Monitoring Section */}
+        {/* ---------------------------- */}
+        {/*       Tutor Monitoring       */}
+        {/* ---------------------------- */}
         <div className="bg-[#FEFCE8] rounded-2xl p-4 md:p-6 shadow-sm border-2 border-black">
           <h2 className="text-lg font-bold mb-4 text-gray-800">Tutor Monitoring</h2>
           <div className="overflow-x-auto">
@@ -506,6 +453,7 @@ export default function SchoolDashboard() {
                   <th className="text-left py-3 font-semibold text-gray-700">Complain/ Feedback</th>
                 </tr>
               </thead>
+
               <tbody>
                 {tutorRecords.map((record, index) => (
                   <tr key={index} className="border-b border-gray-100">
@@ -514,19 +462,23 @@ export default function SchoolDashboard() {
                     <td className="text-center py-3 text-gray-600">{record.chapter}</td>
                     <td className="text-center py-3 text-gray-600">{record.totalStudent}</td>
                     <td className="text-center py-3 text-gray-600">{record.week}</td>
+
                     <td className="text-center py-3">
                       <div className="flex gap-2 justify-center">
                         <span className="px-3 py-1 text-xs font-medium rounded-md shadow-lg bg-[#438582] text-white">Approved</span>
                         <span className="px-3 py-1 text-xs font-medium rounded-md shadow-lg bg-[#43858299]/60 text-white">Pending</span>
                       </div>
                     </td>
+
                     <td className="py-3 text-gray-600">{record.complaintFeedback}</td>
                   </tr>
                 ))}
               </tbody>
+
             </table>
           </div>
         </div>
+
       </main>
     </div>
   );

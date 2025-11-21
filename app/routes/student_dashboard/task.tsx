@@ -94,7 +94,7 @@ const sidebarItems = [
   },
   {
     label: "Learning Material",
-    icon: <Icon icon="mingcute:calendar-2-line" width={24} height={24} />,
+    icon: <Icon icon="fluent:learning-app-24-regular" width={24} height={24} />,
   },
   {
     label: "Task",
@@ -164,11 +164,11 @@ export default function StudentTaskPage() {
 
       {/* ===================== FIXED SIDEBAR ===================== */}
       <aside className="w-60 fixed left-0 top-0 bottom-0 bg-[#438582] p-4 flex flex-col shadow-xl z-20">
-        <div className="text-2xl text-center font-bold mb-8 text-white">
+        <div className="text-2xl text-center font-bold mb-4 text-white">
           LOGO
         </div>
 
-        <nav className="flex-1 space-y-6 overflow-y-auto">
+        <nav className="flex-1 space-y-6 overflow-y-auto py-4">
           {sidebarItems.map((item) => {
           const isActive =
   item.label === "Dashboard"
@@ -183,7 +183,7 @@ export default function StudentTaskPage() {
                 className={`w-full text-left flex items-center gap-2 px-3 py-3 rounded-lg transition-all duration-200 backdrop-blur-sm ${
                   isActive
                     ? "bg-[#3A7D7D]/80 text-white border font-semibold shadow-[inset_0_0_2px_rgba(255,255,255,0.6),0_4px_10px_rgba(0,0,0,0.3)] -translate-y-0.5"
-                    : "bg-transparent text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:font-medium"
+                    : "bg-transparent text-white/90 hover:bg-white cursor-pointer hover:text-[#3A7D7D] hover:shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:font-medium"
                 }`}
               >
                 {item.icon}

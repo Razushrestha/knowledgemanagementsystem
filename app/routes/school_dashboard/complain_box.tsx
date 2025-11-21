@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useLocation } from "react-router";
 import { Icon } from "@iconify/react";
 
+
 interface Complaint {
   id: number;
   title: string;
@@ -169,8 +170,7 @@ export default function ComplainBox() {
               <Link
                 key={item.label}
                 to={routeMap[item.label] || "#"}
-                className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 
-                           ${location.pathname === routeMap[item.label]
+className={`w-full text-left flex items-center gap-2 px-3 py-3 rounded-lg transition-all duration-200                           ${location.pathname === routeMap[item.label]
                     ? "bg-[#3A7D7D]/80 text-white border font-semibold shadow-[inset_0_0_2px_rgba(255,255,255,0.6),0_4px_10px_rgba(0,0,0,0.3)] -translate-y-0.5"
                     : "bg-transparent text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:font-medium"}`}
               >
@@ -199,120 +199,58 @@ export default function ComplainBox() {
           onClick={() => setIsMobileSidebarOpen(false)}
         ></div>
       )}
-      <aside className={`fixed top-0 left-0 h-screen w-[220px] bg-[#3A7D7D] p-4 flex flex-col md:hidden z-50 transform transition-transform duration-300 ${
-        isMobileSidebarOpen ? "translate-x-0" : "-translate-x-full"
-      }`}>
-        <div className="text-2xl text-center font-bold mb-8 text-white">LOGO</div>
-        <nav className="flex-1 space-y-4">
-          {sidebarItems.map((item) => {
-            const routeMap: Record<string, string> = {
-              "Dashboard": "/school_dashboard",
-              "Attendance": "/school_dashboard/attendance",
-              "Tutor": "/school_dashboard/tutor",
-              "Examination": "/school_dashboard/examination",
-              "Invoice": "/school_dashboard/invoice",
-              "Complain Box": "/school_dashboard/complain_box",
-            };
-            return (
-              <Link
-                key={item.label}
-                to={routeMap[item.label] || "#"}
-                className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 
-                           ${location.pathname === routeMap[item.label]
-                    ? "bg-[#3A7D7D]/80 text-white border font-semibold shadow-[inset_0_0_2px_rgba(255,255,255,0.6),0_4px_10px_rgba(0,0,0,0.3)] -translate-y-0.5"
-                    : "bg-transparent text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:font-medium"}`}
-                onClick={() => setIsMobileSidebarOpen(false)}
-              >
-                {item.icon}
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
-        <Link
-          to="/"
-          className="mt-auto flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-[#f3dada] text-[#dc2626]"
-          onClick={() => {
-            localStorage.removeItem('authToken');
-            setIsMobileSidebarOpen(false);
-          }}
-        >
-          <Icon icon="ri:logout-circle-line" className="text-lg" />
-          Log Out
-        </Link>
-      </aside>
+     
+      {/* NAVBAR */}
+             <div className="fixed top-0 left-60 right-0 bg-[#fdfbf0] z-10">
+               <div className="flex justify-between items-center px-10 py-6">
+                 <div className="relative w-[900px]">
+                   <input
+                     type="search"
+                     placeholder="Search"
+                     className="w-full pl-10 pr-4 py-2.5 bg-[#E8E6DA] rounded-full text-sm text-gray-600"
+                   />
+                   <Icon icon="mdi:magnify" className="absolute left-3 top-3 text-[#999999] text-lg" />
+                 </div>
+       
+                 <div className="flex items-center space-x-6">
+                   <button className="relative">
+                     <Icon icon="ri:notification-3-fill" className="text-[#3A7D7D] text-3xl" />
+                     <span className="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full" />
+                   </button>
+       
+                   <div className="relative">
+                     <button
+                       className="flex items-center space-x-1 bg-[#3A7D7D] px-2 py-1 rounded-3xl"
+                       onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                     >
+                       <div className="w-9 h-9 rounded-full bg-[#3A7D7D] flex items-center justify-center">
+                         <Icon icon="ix:user-profile-filled" className="text-white w-9 h-9" />
+                       </div>
+                       <Icon icon="mdi:chevron-down" className="text-white text-lg w-6 h-6" />
+                     </button>
+       
+                     {isDropdownOpen && (
+                       <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg py-1 z-20">
+                         <Link
+                           to="/"
+                           className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                           onClick={() => {
+                             localStorage.removeItem("authToken");
+                             setIsDropdownOpen(false);
+                           }}
+                         >
+                           Sign out
+                         </Link>
+                       </div>
+                     )}
+                   </div>
+                 </div>
+               </div>
+             </div>
 
       {/* Main Content */}
-      <main className="md:ml-[220px] flex-1 p-4 md:p-8 bg-[#FEFCE8] w-full md:w-auto">
-        {/* Navbar */}
-        <div className="flex justify-between items-center mb-8 px-0 md:px-10 gap-4">
-          {/* Mobile Hamburger Menu */}
-          <button
-            className="md:hidden flex items-center justify-center"
-            onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
-          >
-            <Icon icon="mdi:menu" className="text-[#3A7D7D] text-3xl" />
-          </button>
-
-          {/* Title and Subtitle */}
-          <div className="flex-1">
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Complaint Management</h1>
-            <p className="text-sm md:text-base text-gray-600">View, file, and track all complaints within your school</p>
-          </div>
-         
-
-           {/* Middle: Search Bar */}
-                    <div className="relative flex-1 md:w-[50px]">
-                      <input
-                        type="search"
-                        placeholder="Search"
-                        className="w-md pl-10 pr-4 py-2.5 bg-[#E8E6DA] rounded-full text-sm focus:outline-none text-gray-600"
-                        />
-                      <Icon
-                        icon="mdi:magnify"
-                        className="absolute left-3 top-3 text-[#999999] text-lg"
-                      />
-                    </div>
-          {/* Right: Icons */}
-          <div className="flex items-center space-x-3 md:space-x-6">
-            {/* Notification */}
-            <button className="relative">
-              <Icon
-                icon="ri:notification-3-fill"
-                className="text-[#3A7D7D] text-2xl md:text-3xl"
-                />
-              <span className="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full"></span>
-            </button>
-
-            {/* Profile */}
-            <div className="relative">
-              <button
-                className="flex items-center space-x-1 bg-[#3A7D7D] px-2 py-1 rounded-3xl"
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                >
-                <div className="w-9 h-9 rounded-full bg-[#3A7D7D] flex items-center justify-center">
-                  <Icon icon="ix:user-profile-filled" className="text-white text-xl w-9 h-9" />
-                </div>
-                <Icon icon="mdi:chevron-down" className="text-white text-lg w-6 h-6 hidden sm:block" />
-              </button>
-
-              {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg py-1 z-10">
-                  <Link
-                    to="/"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    onClick={() => {
-                      setIsDropdownOpen(false);
-                      localStorage.removeItem("authToken");
-                    }}
-                    >
-                    Sign out
-                  </Link>
-                </div>
-              )}
-            </div>
-          </div>
-          </div>
+      <main className="pt-[120px] fixed top-0 left-60 px-10 pb-10 overflow-y-auto h-screen w-[calc(100%-240px)] bg-[#fdfbf0]">
+       
        
 
         {/* Tabs */}

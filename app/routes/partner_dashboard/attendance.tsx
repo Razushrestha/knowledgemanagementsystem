@@ -276,7 +276,7 @@ export default function PartnerAttendance() {
     { label: "Profile Management", path: "/partner_dashboard/profile_management", icon: "mdi:account-outline" },
     { label: "Assigned Schools", path: "/partner_dashboard/assigned_schools", icon: "mdi:school-outline" },
     { label: "Attendance", path: "/partner_dashboard/attendance", icon: "mingcute:calendar-2-line" },
-    { label: "Tasks", path: "/partner_dashboard/tasks", icon: "mdi:check-outline" },
+    { label: "Assignment Management", path: "/partner_dashboard/assignment_management", icon: "mdi:check-outline" },
     { label: "Progress Report", path: "/partner_dashboard/progress_report", icon: "mdi:chart-line" },
     { label: "Leaderboard", path: "/partner_dashboard/leaderboard", icon: "mdi:trophy-outline" },
     { label: "Salary + Commission", path: "/partner_dashboard/salary_commission", icon: "mdi:currency-usd" },

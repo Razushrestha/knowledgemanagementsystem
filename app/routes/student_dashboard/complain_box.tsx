@@ -21,7 +21,7 @@ export default function StudentTaskPage() {
     },
     {
       label: "Learning Material",
-      icon: <Icon icon="mingcute:calendar-2-line" width={24} height={24} />,
+      icon: <Icon icon="fluent:learning-app-24-regular" width={24} height={24} />,
     },
     {
       label: "Task",
@@ -67,7 +67,7 @@ export default function StudentTaskPage() {
     },
   ];
 
-  const routeMap = {
+            const routeMap: Record<string, string> = {
     Dashboard: "/student_dashboard",
     Attendance: "/student_dashboard/attendance",
     "Learning Material": "/student_dashboard/learning_material",
@@ -84,27 +84,25 @@ export default function StudentTaskPage() {
 
       {/* SIDEBAR */}
       <aside className="w-60 fixed left-0 top-0 bottom-0 bg-[#438582] p-4 flex flex-col shadow-xl z-20">
-        <div className="text-2xl text-center font-bold mb-8 text-white">LOGO</div>
+        <div className="text-2xl text-center font-bold mb-4 text-white">LOGO</div>
 
-        <nav className="flex-1 space-y-6 overflow-y-auto">
+        <nav className="flex-1 space-y-6 overflow-y-auto py-4">
           {sidebarItems.map((item) => {
-            const isActive = location.pathname.startsWith(
-              routeMap[item.label as SidebarLabel]
-            );
-
-            return (
-              <button
-                key={item.label}
-                onClick={() => navigate(routeMap[item.label as SidebarLabel])}
-                className={`w-full text-left flex items-center gap-2 px-3 py-3 rounded-lg transition-all duration-200 ${
-                  isActive
-                    ? "bg-[#3A7D7D]/80 text-white border font-semibold shadow-[inset_0_0_2px_rgba(255,255,255,0.6),0_4px_10px_rgba(0,0,0,0.3)]"
-                    : "bg-transparent text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:-translate-y-0.5"
-                }`}
-              >
-                {item.icon}
-                {item.label}
-              </button>
+            const isActive = location.pathname === routeMap[item.label];
+            
+                        return (
+                         <Link
+                  key={item.label}
+                  to={routeMap[item.label] || "#"}
+                            className={`w-full text-left flex items-center gap-2 px-3 py-3 rounded-lg transition-all duration-200 
+                    ${isActive
+                                ? "bg-[#3A7D7D]/80 text-white border font-semibold shadow-[inset_0_0_2px_rgba(255,255,255,0.6),0_4px_10px_rgba(0,0,0,0.3)] -translate-y-0.5"
+                      : "text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-lg hover:-translate-y-0.5 hover:font-medium"}
+                  `}
+                >
+                  {item.icon}
+                  {item.label}
+                </Link>
             );
           })}
         </nav>
@@ -142,32 +140,33 @@ export default function StudentTaskPage() {
               <span className="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full" />
             </button>
 
-            {/* User Dropdown */}
-            <div className="relative">
-              <button
-                className="flex items-center space-x-1 bg-[#3A7D7D] px-2 py-1 rounded-3xl"
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              >
-                <div className="w-9 h-9 rounded-full bg-[#3A7D7D] flex items-center justify-center">
-                  <Icon icon="ix:user-profile-filled" className="text-white w-9 h-9" />
-                </div>
-                <Icon icon="mdi:chevron-down" className="text-white text-lg" />
-              </button>
-
-              {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg py-1 z-20">
-                  <button
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
-                    onClick={() => {
-                      localStorage.removeItem("authToken");
-                      navigate("/");
-                    }}
-                  >
-                    Sign out
-                  </button>
-                </div>
-              )}
-            </div>
+           {/* User Dropdown */}
+                       <div className="relative">
+                         <button
+                           className="flex items-center space-x-1 bg-[#3A7D7D] px-2 py-1 rounded-3xl"
+                           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                         >
+                           <div className="w-9 h-9 rounded-full bg-[#3A7D7D] flex items-center justify-center">
+                             <Icon icon="ix:user-profile-filled" className="text-white w-9 h-9" />
+                           </div>
+                           <Icon icon="mdi:chevron-down" className="text-white text-lg w-6 h-6" />
+                         </button>
+           
+                         {isDropdownOpen && (
+                           <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg py-1 z-20">
+                             <Link
+                               to="/"
+                               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                               onClick={() => {
+                                 localStorage.removeItem("authToken");
+                                 setIsDropdownOpen(false);
+                               }}
+                             >
+                               Sign out
+                             </Link>
+                           </div>
+                         )}
+                       </div> 
           </div>
 
         </div>
