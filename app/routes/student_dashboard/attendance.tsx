@@ -167,37 +167,37 @@ export default function AttendancePage() {
       <main className="pt-[120px] fixed top-0 left-60 px-10 pb-10 overflow-y-auto h-screen bg-[#fdfbf0] w-[calc(100%-240px)]">
 
         {/* Student Info */}
-        <div className="bg-white rounded-xl shadow p-6 border border-black mb-6">
+        <div className="bg-white rounded-xl shadow p-6 border border-gray-300 mb-6">
           <h2 className="text-2xl font-bold text-[#3A7D7D]">Karthik Sharma</h2>
           <p className="text-gray-600 text-sm">Grade - 1</p>
         </div>
 
         {/* Stats */}
         <div className="grid grid-cols-5 gap-6 mb-6">
-          <div className="bg-white shadow rounded-xl p-4 flex flex-col items-center">
+          <div className="bg-white shadow rounded-xl p-4 flex flex-col items-center border border-gray-300">
             <Icon icon="mdi:calendar" className="text-[#3A7D7D] text-3xl mb-2" />
             <p className="text-gray-600 text-sm">11/11/2025</p>
           </div>
 
-          <div className="bg-white shadow rounded-xl p-4 flex flex-col items-center">
+          <div className="bg-white shadow rounded-xl p-4 flex flex-col items-center border border-gray-300">
             <Icon icon="streamline-ultimate-color:calendar-1" className="text-[#3A7D7D] text-3xl mb-2" />
             <p className="text-xs text-gray-500">75/100</p>
             <p className=" text-black">Total Days</p>
           </div>
 
-          <div className="bg-white shadow rounded-xl p-4 flex flex-col items-center">
+          <div className="bg-white shadow rounded-xl p-4 flex flex-col items-center border border-gray-300">
             <Icon icon="mdi:tick-circle" className="text-[#3A7D7D] text-3xl mb-2" />
             <p className=" text-gray-500">70</p>
             <p className="text-black">Present days</p>
           </div>
 
-          <div className="bg-white shadow rounded-xl p-4 flex flex-col items-center">
+          <div className="bg-white shadow rounded-xl p-4 flex flex-col items-center border border-gray-300">
             <Icon icon="icomoon-free:cross" className="text-red-500 text-3xl mb-2" />
             <p className=" text-gray-500">5</p>
             <p className="text-black">Absent days</p>
           </div>
 
-          <div className="bg-white shadow rounded-xl p-4 flex flex-col justify-between items-center">
+          <div className="bg-white shadow rounded-xl p-4 flex flex-col justify-between items-center border border-gray-300">
             <Icon icon="uis:graph-bar" className="text-[#3A7D7D] text-3xl mb-2" />
             <p className="text-black">75%</p>
           </div>

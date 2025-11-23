@@ -255,22 +255,22 @@ export default function AssignmentManagement() {
 
       {/* STATS BOXES */}
       <div className="grid grid-cols-4 gap-4 mt-4">
-        <div className="p-4 bg-[#f3f4f6] text-center rounded-lg">
+        <div className="p-4 bg-gray-100 border border-gray-300 text-center rounded-2xl">
           <p className="text-xl font-bold text-gray-700">65</p>
           <p className="text-gray-500 text-sm">Total</p>
         </div>
 
-        <div className="p-4 bg-green-50 text-center rounded-lg">
+        <div className="p-4 bg-green-100 border border-green-300 text-center rounded-2xl">
           <p className="text-xl font-bold text-green-600">45</p>
           <p className="text-gray-500 text-sm">On Time</p>
         </div>
 
-        <div className="p-4 bg-orange-50 text-center rounded-lg">
+        <div className="p-4 bg-orange-100 text-center rounded-2xl border border-orange-200">
           <p className="text-xl font-bold text-orange-500">3</p>
           <p className="text-gray-500 text-sm">Late</p>
         </div>
 
-        <div className="p-4 bg-blue-50 text-center rounded-lg">
+        <div className="p-4 bg-blue-100 text-center rounded-2xl border border-blue-200">
           <p className="text-xl font-bold text-blue-500">17</p>
           <p className="text-gray-500 text-sm">Pending</p>
         </div>

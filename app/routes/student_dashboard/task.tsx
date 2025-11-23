@@ -273,7 +273,7 @@ export default function StudentTaskPage() {
         <div className="px-10 space-y-6">
 
           {/* Header Card */}
-          <div className="bg-white shadow-md p-6 rounded-xl border">
+      <div className="bg-white rounded-2xl p-5 shadow-xl border border-gray-200 hover:shadow-2xl transition-shadow duration-300">
             <h2 className="text-xl font-bold px-2 text-[#333]">{taskData.title}</h2>
             <p className="text-sm px-2 text-gray-600 mt-2">{taskData.subtitle}</p>
 
@@ -324,9 +324,9 @@ export default function StudentTaskPage() {
             <div className="col-span-2 space-y-6">
               
               {/* Task Description */}
-              <div className="bg-white p-6 rounded-xl shadow-md border">
+      <div className="bg-linear-to-br from-white to-red-50 rounded-2xl p-5 shadow-xl border border-gray-200 hover:shadow-2xl transition-shadow duration-300">
                 <h3 className="font-bold text-black text-lg mb-4 flex items-center gap-2">
-                  <Icon icon="hugeicons:task-02" className="text-[#3A7D7D] w-9 h-9" />
+                  <Icon icon="material-symbols:task" className="text-yellow-500 w-8 h-8" />
                   Task Description
                 </h3>
                 <p className="text-gray-700 px-2 py-4 leading-6">{taskData.taskDescription}</p>
@@ -342,14 +342,15 @@ export default function StudentTaskPage() {
               </div>
 
               {/* Requirements */}
-              <div className="bg-white p-6 rounded-xl shadow-md border">
-                <h3 className="font-bold text-lg text-black px-10  pb-4 flex items-center gap-2">
+      <div className="bg-linear-to-br from-white to-green-50 rounded-2xl p-5 shadow-xl border border-gray-200 hover:shadow-2xl transition-shadow duration-300">
+                <h3 className="font-bold text-lg text-black   mb-4 flex items-center gap-2">
+                  <Icon icon="pajamas:requirements" className="text-green-500 w-8 h-8" />
                   Requirements
                 </h3>
 
-                <ul className="space-y-4 px-4">
+                <ul className="space-y-4 px-2">
                   {taskData.requirements.map((req, index) => (
-                    <li key={index} className="flex gap-3 px-2 py-2 bg-[#F4FFF7]">
+                    <li key={index} className="flex gap-3 px-2 py-2 rounded-2xl border border-green-200 bg-green-100">
                       <Icon
                         icon="mdi:tick-circle-outline"
                         className="text-green-600 text-xl mt-1"
@@ -364,14 +365,16 @@ export default function StudentTaskPage() {
               </div>
 
               {/* Resources */}
-              <div className="bg-white p-6 rounded-xl shadow-md border">
-                <h3 className="font-bold text-black text-lg px-10 mb-4">Resource and Materials</h3>
+      <div className="bg-white rounded-2xl p-5 shadow-xl border border-gray-200 hover:shadow-2xl transition-shadow duration-300">
+                <h3 className="font-bold text-black text-lg  mb-4">
+                  <Icon icon="noto:blue-book" className="text-blue-500 w-8 h-8 inline-block mr-2" />
+                  Resource and Materials</h3>
 
                 <div className="space-y-4">
                   {taskData.resources.map((resource, i) => (
                     <div
                       key={i}
-                      className="flex   gap-3 px-2 py-2 bg-[#F4FFF7] "
+                      className="flex   gap-3 px-2 py-2 bg-blue-100 rounded-2xl border border-blue-300"
                     >
                       <Icon
                         icon={resource.icon}
@@ -388,7 +391,7 @@ export default function StudentTaskPage() {
               </div>
 
               {/* Submit Work */}
-              <div className="bg-white p-6 rounded-xl shadow-md border">
+      <div className="bg-white rounded-2xl p-5 shadow-xl border border-gray-200 hover:shadow-2xl transition-shadow duration-300">
                   <div className="flex items-center">
 
                   <Icon
@@ -412,10 +415,10 @@ export default function StudentTaskPage() {
                 </div>
 
                 <div className="flex justify-end gap-4 mt-6">
-                  <button className="px-6 py-2 rounded-lg text-gray-500">
+                  <button className="px-6 py-2 rounded-lg text-gray-500 cursor-pointer hover:bg-gray-100 transition-colors duration-200">
                     Cancel
                   </button>
-                  <button className="px-6 py-2 rounded-lg bg-[#3A7D7D] text-white">
+                  <button className="px-6 py-2 rounded-lg bg-[#3A7D7D] text-white cursor-pointer hover:bg-[#326666] transition-colors duration-200">
                     Submit
                   </button>
                 </div>
@@ -426,7 +429,7 @@ export default function StudentTaskPage() {
             <div className="space-y-6">
               
               {/* Progress Tracker */}
-              <div className="bg-white p-6 rounded-xl shadow-md border">
+      <div className="bg-linear-to-br from-white to-yellow-50 rounded-2xl p-5 shadow-xl border border-yellow-500 hover:shadow-2xl transition-shadow duration-300">
                 <h3 className="font-bold text-black text-center  text-lg">Progress Tracker</h3>
 
                 <p className="text-sm text-gray-600 mt-3">Completion</p>
@@ -458,7 +461,7 @@ export default function StudentTaskPage() {
               </div>
 
               {/* Status */}
-              <div className="bg-white p-6 rounded-xl shadow-md border">
+      <div className="bg-linear-to-br from-white to-purple-50 rounded-2xl p-5 shadow-xl border border-purple-500 hover:shadow-2xl transition-shadow duration-300">
                 <h3 className="font-bold text-black text-center text-lg mb-4">Status</h3>
 
                 <select className="w-full border border-gray-500 text-black p-2 rounded-lg">
@@ -469,7 +472,7 @@ export default function StudentTaskPage() {
               </div>
 
               {/* Upcoming Tasks */}
-              <div className="bg-white p-6 rounded-xl shadow-md border">
+      <div className="bg-linear-to-br from-white to-yellow-50 rounded-2xl p-5 shadow-xl border border-yellow-500 hover:shadow-2xl transition-shadow duration-300">
                 <h3 className="font-bold text-black text-center text-lg mb-4">Upcoming Tasks</h3>
 
                 <div className="space-y-4">

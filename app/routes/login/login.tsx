@@ -36,9 +36,7 @@ export default function Login() {
       case "student":
         navigate("/student_dashboard");
         break;
-      case "tutor":
-        navigate("/tutor_dashboard");
-        break;
+      
       case "partner":
         navigate("/partner_dashboard");
         break;
@@ -107,7 +105,6 @@ export default function Login() {
               <option value="admin">Admin</option>
               <option value="school">School</option>
               <option value="student">Student</option>
-              <option value="tutor">Tutor</option>
               <option value="partner">Partner</option>
             </select>
           </label>

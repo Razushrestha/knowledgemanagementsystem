@@ -289,7 +289,7 @@ export default function Progress() {
           return (
             <div
               key={s.id}
-              className={`${color.bg} rounded-2xl flex flex-col items-center justify-center p-6 shadow-lg border-2 ${color.border} hover:shadow-xl transition-all duration-300 hover:-translate-y-1`}
+              className={`${color.bg} rounded-2xl flex flex-col items-center justify-center p-6 shadow-lg border border-gray-300 hover:shadow-xl transition-all duration-300 hover:-translate-y-1`}
             >
               <div className={`w-12 h-12 ${color.iconBg} rounded-full flex items-center justify-center mb-3 shadow-md`}>
                 <Icon icon={idx === 0 ? "mdi:chart-line" : idx === 1 ? "mdi:trophy" : "mdi:calendar-check"} className="text-white text-2xl" />
@@ -309,7 +309,7 @@ export default function Progress() {
       </div>
 
       {/* Marks Progress & Controls */}
-      <div className="bg-linear-to-br from-white to-blue-50 rounded-2xl p-6 shadow-xl border-2 border-blue-200 hover:shadow-2xl transition-shadow duration-300">
+      <div className="bg-linear-to-br from-white to-blue-50 rounded-2xl p-6 shadow-xl border border-gray-300 hover:shadow-2xl transition-shadow duration-300">
         <div className="flex justify-between items-start">
           <div>
             <div className="flex items-center gap-2">
@@ -401,7 +401,7 @@ export default function Progress() {
       </div>
 
       {/* Syllabus Coverage */}
-      <div className="bg-linear-to-br from-white to-teal-50 rounded-2xl p-6 shadow-xl border-2 border-teal-200 hover:shadow-2xl transition-shadow duration-300">
+      <div className="bg-linear-to-br from-white to-teal-50 rounded-2xl p-6 shadow-xl border border-gray-200 hover:shadow-2xl transition-shadow duration-300">
         <div className="flex justify-between items-center mb-5">
           <div className="flex items-center gap-2">
             <div className="w-10 h-10 bg-teal-500 rounded-lg flex items-center justify-center shadow-md">
@@ -424,12 +424,12 @@ export default function Progress() {
               <div key={s.id} className={`w-full p-4 rounded-xl ${bgColor} border ${borderColor} shadow-sm hover:shadow-md transition-all duration-200`}>
                 <div className="flex justify-between items-center mb-2">
                   <div className="flex items-center gap-2">
-                    {isComplete && <Icon icon="mdi:check-circle" className="text-green-600 text-lg" />}
+                    {isComplete && <Icon icon="mdi:check-circle" className="text-green-500 text-lg" />}
                     {isInProgress && <Icon icon="mdi:clock-outline" className="text-blue-600 text-lg" />}
                     {!isComplete && !isInProgress && <Icon icon="mdi:circle-outline" className="text-gray-400 text-lg" />}
                     <p className="text-sm font-semibold text-gray-700">{s.title}</p>
                   </div>
-                  <p className={`text-sm font-bold ${isComplete ? 'text-green-600' : isInProgress ? 'text-blue-600' : 'text-gray-500'}`}>
+                  <p className={`text-sm font-bold ${isComplete ? 'text-green-500' : isInProgress ? 'text-blue-500' : 'text-gray-500'}`}>
                     {s.coveredPercent}%
                   </p>
                 </div>
@@ -449,7 +449,7 @@ export default function Progress() {
     {/* Right Column */}
     <div className="col-span-4 space-y-6">
       {/* Recent Activity */}
-      <div className="bg-linear-to-br from-white to-orange-50 rounded-2xl p-5 shadow-xl border-2 border-orange-200 hover:shadow-2xl transition-shadow duration-300">
+      <div className="bg-linear-to-br from-white to-orange-50 rounded-2xl p-5 shadow-xl border border-gray-300 hover:shadow-2xl transition-shadow duration-300">
         <div className="flex items-center gap-2 mb-4">
           <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center shadow-md">
             <Icon icon="mdi:clock-fast" className="text-white text-xl" />
@@ -482,7 +482,7 @@ export default function Progress() {
       </div>
 
       {/* Top Performers */}
-      <div className="bg-linear-to-br from-white to-yellow-50 rounded-2xl p-5 shadow-xl border-2 border-yellow-200 hover:shadow-2xl transition-shadow duration-300">
+      <div className="bg-linear-to-br from-white to-yellow-50 rounded-2xl p-5 shadow-xl border border-gray-200 hover:shadow-2xl transition-shadow duration-300">
         <div className="flex items-center gap-2 mb-4">
           <div className="w-10 h-10 bg-yellow-500 rounded-lg flex items-center justify-center shadow-md">
             <Icon icon="mdi:trophy" className="text-white text-xl" />
@@ -514,7 +514,7 @@ export default function Progress() {
       </div>
 
       {/* Quick Status / Summary */}
-      <div className="bg-linear-to-br from-white to-indigo-50 rounded-2xl p-5 shadow-xl border-2 border-indigo-200 hover:shadow-2xl transition-shadow duration-300">
+      <div className="bg-linear-to-br from-white to-indigo-50 rounded-2xl p-5 shadow-xl border border-gray-300 hover:shadow-2xl transition-shadow duration-300">
         <div className="flex items-center gap-2 mb-3">
           <div className="w-10 h-10 bg-indigo-500 rounded-lg flex items-center justify-center shadow-md">
             <Icon icon="mdi:lightbulb-on" className="text-white text-xl" />

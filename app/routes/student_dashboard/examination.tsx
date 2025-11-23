@@ -157,7 +157,7 @@ export default function Examination() {
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`px-6 py-2 rounded-lg capitalize text-md font-semibold transition-all ${
+            className={`px-6 py-2  capitalize text-md font-semibold transition-all ${
               activeTab === tab
                 ? " border-b border-bg[#3A7D7D] text-[#3A7D7D]"
                 : "text-gray-600 hover:bg-[#f0eee5]"
