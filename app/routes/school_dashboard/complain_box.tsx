@@ -24,6 +24,9 @@ export default function ComplainBox() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"from-student" | "to-admin" | "new-complaint">("from-student");
+  const [showMyComplaints, setShowMyComplaints] = useState(false);
+  const [selectedComplaint, setSelectedComplaint] = useState<Complaint | null>(null);
+  const [statusFilter, setStatusFilter] = useState("All Status");
   const location = useLocation();
 
   // Dummy data
@@ -101,6 +104,18 @@ export default function ComplainBox() {
           date: "2025-01-08 14:30",
           isAdmin: true,
         },
+        {
+          author: "You",
+          message: "Thank you for the quick response. Can you provide an ETA for when this will be resolved?",
+          date: "2025-01-08 15:45",
+          isAdmin: false,
+        },
+        {
+          author: "Admin",
+          message: "We are currently testing the CDN implementation. Should be live by tomorrow morning. We'll send updates every 2 hours.",
+          date: "2025-01-09 10:20",
+          isAdmin: true,
+        },
       ],
     },
     {
@@ -112,7 +127,14 @@ export default function ComplainBox() {
       date: "2025-01-03",
       status: "PENDING",
       description: "We would like to request additional modules for advanced robotics and AI programming for our Grade 8 students.",
-      conversation: [],
+      conversation: [
+        {
+          author: "Admin",
+          message: "Thank you for the request. We're currently evaluating the feasibility of adding these modules. Our product team will review your requirements.",
+          date: "2025-01-04 09:15",
+          isAdmin: true,
+        },
+      ],
     },
   ];
 
@@ -253,57 +275,85 @@ className={`w-full text-left flex items-center gap-2 px-3 py-3 rounded-lg transi
        
        
 
-        {/* Tabs */}
+        {/* Tabs - Hidden when showing My Complaints */}
+        {!showMyComplaints && (
         <div className="mb-8 flex flex-wrap gap-3 md:gap-4">
           <button
-            onClick={() => setActiveTab("from-student")}
+            onClick={() => {
+              setActiveTab("from-student");
+              setShowMyComplaints(false);
+            }}
             className={`px-4 py-3 rounded-lg font-medium text-sm md:text-base transition-all duration-200 border-2 ${
-              activeTab === "from-student"
-                ? "bg-white text-gray-800 border-black"
-                : "bg-[#3A7D7D] text-white border-[#3A7D7D] hover:opacity-90"
+              activeTab === "from-student" && !showMyComplaints
+                ? "bg-white text-black border-black"
+                : "bg-[#3A7D7D] text-white border-black"
             }`}
           >
             From Student ({complaintsFromStudent.length})
           </button>
 
           <button
-            onClick={() => setActiveTab("to-admin")}
+            onClick={() => {
+              setActiveTab("to-admin");
+              setShowMyComplaints(false);
+            }}
             className={`px-4 py-3 rounded-lg font-medium text-sm md:text-base transition-all duration-200 border-2 ${
-              activeTab === "to-admin"
-                ? "bg-white text-gray-800  border-black"
-                : "bg-[#3A7D7D] text-white border-[#3A7D7D] hover:opacity-90"
+              activeTab === "to-admin" && !showMyComplaints
+                ? "bg-white text-black border-black"
+                : "bg-[#3A7D7D] text-white border-black"
             }`}
           >
-            To Admin ({complaintsToAdmin.length})
+            To Admin 
           </button>
 
-          <button
-            onClick={() => setActiveTab("new-complaint")}
-            className={`px-4 py-3 rounded-lg font-medium text-sm md:text-base transition-all duration-200 border-2 ${
-              activeTab === "new-complaint"
-                ? "bg-white text-gray-800 border-black"
-                : "bg-[#3A7D7D] text-white border-[#3A7D7D] hover:opacity-90"
-            }`}
-          >
-            <Icon icon="mdi:plus" className="inline mr-1" />
-            New Complaint to Admin
-          </button>
+          
         </div>
+        )}
 
-        {/* Filter and Action Bar */}
+        {/* My Complaints Tab */}
+        {showMyComplaints && (
+          <div className="mb-8">
+            <button
+              className="px-4 py-3 rounded-lg font-medium text-sm md:text-base transition-all duration-200 border-2 bg-white text-black border-black"
+            >
+              My Complaints
+            </button>
+          </div>
+        )}
+
+        {/* Filter and Action Bar - Always visible */}
         <div className="mb-6 flex flex-wrap justify-end items-center gap-4">
-          <select className="px-3 py-2 border border-gray-700 text-black rounded-lg text-sm bg-white focus:outline-none">
-            <option>All Status</option>
-            <option>Pending</option>
-            <option>In Progress</option>
-            <option>Resolved</option>
+          <select 
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="px-3 py-2 border border-gray-700 text-black rounded-lg text-sm bg-white focus:outline-none cursor-pointer hover:border-gray-800"
+          >
+            <option value="All Status">All Status</option>
+            <option value="Pending">Pending</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Resolved">Resolved</option>
           </select>
+        <button 
+          onClick={() => setShowMyComplaints(true)}
+          className="cursor-pointer hover:opacity-75 transition"
+        >
+          <Icon icon="material-symbols:history-rounded" className="text-black w-6 h-6"/>
+        </button>
+        {showMyComplaints && (
+          <button
+            onClick={() => setShowMyComplaints(false)}
+            className="text-[#3A7D7D] font-medium cursor-pointer hover:text-[#2A6D6D] flex items-center gap-1"
+          >
+            <Icon icon="mdi:arrow-left" width={20} height={20} />
+            Back
+          </button>
+        )}
         </div>
 
-        {/* Complaints List */}
-        {(activeTab === "from-student" || activeTab === "to-admin") && (
+        {/* Complaints List - From Student */}
+        {activeTab === "from-student" && !showMyComplaints && (
           <div className="space-y-4">
-            {(activeTab === "from-student" ? complaintsFromStudent : complaintsToAdmin).map((complaint) => (
+            {complaintsFromStudent.map((complaint) => (
               <div
                 key={complaint.id}
                 className="bg-white rounded-lg border border-gray-200 p-4 md:p-6 hover:shadow-md transition-shadow duration-200"
@@ -345,7 +395,7 @@ className={`w-full text-left flex items-center gap-2 px-3 py-3 rounded-lg transi
       </div>
 
         {/* Reply Button */}
-        <button className="flex items-center gap-1 px-3 py-1.5 bg-[#DDFFE7] text-black rounded-lg hover:bg-[#438582] hover:text-white transition-colors duration-200">
+        <button className="flex items-center gap-1 px-3 py-1.5 bg-[#DDFFE7] text-black rounded-lg cursor-pointer hover:bg-[#438582] hover:text-white transition-colors duration-200">
           <Icon icon="material-symbols-light:reply-rounded" width={20} height={20} />
           Reply
         </button>
@@ -407,69 +457,98 @@ className={`w-full text-left flex items-center gap-2 px-3 py-3 rounded-lg transi
           </div>
         )}
 
-        {/* New Complaint Form - Only show when tab is active */}
-        {activeTab === "new-complaint" && (
-          <div className="bg-white rounded-lg border border-gray-200 p-6">
-            <h3 className="text-xl font-bold mb-6 text-gray-800">Create New Complaint</h3>
-            <form className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Title</label>
-                <input
-                  type="text"
-                  placeholder="Enter complaint title"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3A7D7D]"
-                />
-              </div>
+        {/* To Admin - Form View */}
+        {activeTab === "to-admin" && !showMyComplaints && (
+          <div className="bg-[#FEFCE8] rounded-lg border border-gray-300 shadow-lg p-8">
+            
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
-                  <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3A7D7D]">
-                    <option>Select Category</option>
-                    <option>Technical</option>
-                    <option>Academic</option>
-                    <option>Scheduling</option>
-                    <option>Other</option>
-                  </select>
-                </div>
+            {/* Description Section */}
+            <div>
+              <h3 className="text-xl font-bold text-black mb-4">Describe your Complaint in Detail</h3>
+              <textarea
+                placeholder="Please provide as much detail as possible..."
+                className="w-full bg-white px-4 py-3 border-2 border-gray-300 rounded-lg shadow-md text-black placeholder-gray-400 focus:outline-none focus:border-gray-400   "
+                rows={10}
+              ></textarea>
+            </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Priority</label>
-                  <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3A7D7D]">
-                    <option>Select Priority</option>
-                    <option>High</option>
-                    <option>Medium</option>
-                    <option>Low</option>
-                  </select>
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                <textarea
-                  placeholder="Describe your complaint in detail..."
-                  rows={5}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3A7D7D]"
-                ></textarea>
-              </div>
-
-              <div className="flex gap-3 justify-end">
-                <button
-                  type="button"
-                  className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition-colors duration-200"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-6 py-2 bg-[#3A7D7D] text-white rounded-lg font-medium hover:bg-[#2A6D6D] transition-colors duration-200"
-                >
-                  Submit Complaint
-                </button>
-              </div>
-            </form>
+            {/* Submit Button */}
+            <div className="flex justify-end mt-6">
+              <button className="px-6 py-2 bg-[#3A7D7D] text-white font-medium rounded-lg hover:bg-[#2A6D6D]">
+                Submit
+              </button>
+            </div>
           </div>
         )}
+
+        {/* My Complaints View */}
+        {showMyComplaints && (
+          <div className="space-y-4">
+            {complaintsToAdmin.map((complaint) => (
+              <div
+                key={complaint.id}
+                className="bg-white rounded-lg border-2 border-gray-200 p-6 hover:shadow-md transition-shadow"
+              >
+                {/* Header */}
+                <div className="flex items-start justify-between mb-3">
+                  <h3 className="text-lg font-semibold text-gray-800">{complaint.title}</h3>
+                  <button
+                    className="flex items-center gap-1 px-3 py-1.5 bg-[#DDFFE7] text-black rounded-lg cursor-pointer hover:bg-[#438582] hover:text-white transition-colors duration-200 text-sm"
+                  >
+                    <Icon icon="material-symbols-light:reply-rounded" width={18} height={18} />
+                    Reply
+                  </button>
+                </div>
+
+                {/* Category, Date and Info */}
+                <div className="flex items-center gap-3 mb-4 flex-wrap">
+                  <span className="text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded">
+                    {complaint.category}
+                  </span>
+                  <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(complaint.status)}`}>
+                    {complaint.status}
+                  </span>
+                  <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getPriorityColor(complaint.priority)}`}>
+                    {complaint.priority}
+                  </span>
+                  <span className="text-xs text-gray-600 ml-auto">
+                    <Icon icon="ant-design:calendar-outlined" className="inline mr-1" width={16} />
+                    {complaint.date}
+                  </span>
+                </div>
+
+                {/* Description */}
+                <p className="text-gray-700 text-sm mb-4">{complaint.description}</p>
+
+                {/* Conversation - Always Visible */}
+                {complaint.conversation.length > 0 && (
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <h4 className="font-semibold text-gray-800 mb-3">Conversation:</h4>
+                    <div className="space-y-3">
+                      {complaint.conversation.map((msg, idx) => (
+                        <div key={idx}>
+                          <div
+                            className={`px-4 py-3 border-l-4 rounded-md ${
+                              msg.isAdmin
+                                ? "bg-[#DDFFE7] text-black border-[#3A7D7D]"
+                                : "bg-blue-100 text-gray-800 border-blue-400"
+                            }`}
+                          >
+                            <p className="text-sm font-medium mb-1">{msg.isAdmin ? "Admin Reply" : "Your Message"}</p>
+                            <p className="text-sm">{msg.message}</p>
+                            <span className="text-xs opacity-75 mt-2 block">{msg.date}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+       
       </main>
     </div>
   );

@@ -272,23 +272,23 @@ export default function PartnerAttendance() {
      Sidebar items (kept as-is)
      ------------------------- */
   const sidebarItems = [
-    { label: "Dashboard", path: "/partner_dashboard", icon: "mdi:view-dashboard-outline" },
-    { label: "Profile Management", path: "/partner_dashboard/profile_management", icon: "mdi:account-outline" },
-    { label: "Assigned Schools", path: "/partner_dashboard/assigned_schools", icon: "mdi:school-outline" },
+    { label: "Dashboard", path: "/partner_dashboard", icon: "iconamoon:home-duotone" },
+    { label: "Profile Management", path: "/partner_dashboard/profile_management", icon: "iconamoon:profile-bold" },
+    { label: "Assigned Schools", path: "/partner_dashboard/assigned_schools", icon: "teenyicons:school-outline" },
     { label: "Attendance", path: "/partner_dashboard/attendance", icon: "mingcute:calendar-2-line" },
-    { label: "Assignment Management", path: "/partner_dashboard/assignment_management", icon: "mdi:check-outline" },
-    { label: "Progress Report", path: "/partner_dashboard/progress_report", icon: "mdi:chart-line" },
+    { label: "Assignment Management", path: "/partner_dashboard/assignment_management", icon: "hugeicons:assignments" },
+    { label: "Progress Report", path: "/partner_dashboard/progress_report", icon: "heroicons:chart-bar" },
     { label: "Leaderboard", path: "/partner_dashboard/leaderboard", icon: "mdi:trophy-outline" },
-    { label: "Salary + Commission", path: "/partner_dashboard/salary_commission", icon: "mdi:currency-usd" },
+    { label: "Salary + Commission", path: "/partner_dashboard/salary_commission", icon: "carbon:money" },
     { label: "Component Reports", path: "/partner_dashboard/component_reports", icon: "mdi:file-chart-outline" },
   ];
 
   return (
     <div className="flex min-h-screen bg-[#fdfbf0]">
       {/* Sidebar - Desktop */}
-      <aside className="hidden md:flex w-[220px] flex-col bg-[#3A7D7D] p-4">
+      <aside className="w-60 fixed left-0 top-0 bottom-0 bg-[#438582] p-4 flex flex-col shadow-xl z-20">
         <div className="text-2xl text-center font-bold mb-8 text-white">LOGO</div>
-        <nav className="flex-1 space-y-2">
+        <nav className="flex-1 space-y-6 py-2 overflow-y-auto">
           {sidebarItems.map((item) => {
             const active = location.pathname === item.path;
             return (
@@ -316,72 +316,69 @@ export default function PartnerAttendance() {
           Log Out
         </Link>
       </aside>
+      {/* Top Search Bar */}
+            <div className="fixed top-0 left-60 right-0 bg-[#fdfbf0] z-10">
+              <div className="flex justify-between items-center px-10 py-6">
+                {/* Search */}
+                <div className="relative w-[900px]">
+                  <input
+                    type="search"
+                    placeholder="Search"
+                    className="w-full pl-10 pr-4 py-2.5 bg-[#E8E6DA] rounded-full text-sm text-gray-600 focus:outline-none"
+                  />
+                  <Icon
+                    icon="mdi:magnify"
+                    className="absolute left-3 top-3 text-[#999] text-lg"
+                  />
+                </div>
+      
+                {/* Right area */}
+                <div className="flex items-center space-x-6">
+                  <button className="relative">
+                    <Icon
+                      icon="ri:notification-3-fill"
+                      className="text-[#3A7D7D] text-3xl"
+                    />
+                    <span className="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full"></span>
+                  </button>
+      
+                  {/* User dropdown */}
+                  <div className="relative">
+                    <button
+                      onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                      className="flex items-center space-x-1 bg-[#3A7D7D] px-2 py-1 rounded-3xl"
+                    >
+                      <div className="w-9 h-9 rounded-full bg-[#3A7D7D] flex items-center justify-center">
+                        <Icon icon="ix:user-profile-filled" className="text-white w-9 h-9" />
+                      </div>
+                      <Icon
+                        icon="mdi:chevron-down"
+                        className="text-white text-lg w-6 h-6"
+                      />
+                    </button>
+      
+                    {isDropdownOpen && (
+                      <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg py-1 z-20">
+                        <Link
+                          to="/"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          onClick={() => {
+                            localStorage.removeItem("authToken");
+                            setIsDropdownOpen(false);
+                          }}
+                        >
+                          Sign out
+                        </Link>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
 
       {/* Navbar + Main */}
-      <main className="flex-1 p-8 bg-[#fdfbf0]">
-        {/* Search Bar and Profile */}
-        <div className="flex justify-between items-center mb-8 px-4 md:px-10 gap-4">
-          {/* Mobile Hamburger Menu */}
-          <button
-            className="md:hidden flex items-center justify-center"
-            onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
-          >
-            <Icon icon="mdi:menu" className="text-[#3A7D7D] text-3xl" />
-          </button>
-
-          {/* Middle: Search Bar */}
-          <div className="relative flex-1 md:w-[900px]">
-            <input
-              type="search"
-              placeholder="Search"
-              className="w-full pl-10 pr-4 py-2.5 bg-[#E8E6DA] rounded-full text-sm focus:outline-none text-gray-600"
-            />
-            <Icon
-              icon="mdi:magnify"
-              className="absolute left-3 top-3 text-[#999999] text-lg"
-            />
-          </div>
-
-          {/* Right: Icons */}
-          <div className="flex items-center space-x-3 md:space-x-6">
-            {/* Notification */}
-            <button className="relative">
-              <Icon
-                icon="ri:notification-3-fill"
-                className="text-[#3A7D7D] text-2xl md:text-3xl"
-              />
-              <span className="absolute top-0 right-0 w-3 h-3  bg-red-500 rounded-full"></span>
-            </button>
-
-            {/* Profile */}
-            <div className="relative">
-              <button
-                className="flex items-center space-x-1 bg-[#3A7D7D] px-2 py-1 rounded-3xl"
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              >
-                <div className="w-9 h-9 rounded-full bg-[#3A7D7D] flex items-center justify-center">
-                  <Icon icon="ix:user-profile-filled" className="text-white text-xl w-9 h-9" />
-                </div>
-                <Icon icon="mdi:chevron-down" className="text-white text-lg w-6 h-6 hidden sm:block" />
-              </button>
-
-              {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg py-1 z-10">
-                  <Link
-                    to="/"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    onClick={() => {
-                      setIsDropdownOpen(false);
-                      localStorage.removeItem("authToken");
-                    }}
-                  >
-                    Sign out
-                  </Link>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
+      <main className="pt-[120px] fixed top-0 left-60 px-10 pb-10 overflow-y-auto h-screen w-[calc(100%-240px)] bg-[#fdfbf0]">
+        
 
         {/* Filters (Date always visible) */}
         <div className="mb-8 bg-[#fffdf4] rounded-xl p-5">
