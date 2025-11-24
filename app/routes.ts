@@ -35,7 +35,7 @@ export default [
   route("student_dashboard/progress", "routes/student_dashboard/progress.tsx"),
   route("student_dashboard/complain_box", "routes/student_dashboard/complain_box.tsx"),
   route("partner_dashboard", "routes/partner_dashboard/partner_dashboard.tsx"),
-  route("partner_dashboard/profile_management", "routes/partner_dashboard/profile_management.tsx"),
+  route("partner_dashboard/profile", "routes/partner_dashboard/profile.tsx"),
   route("partner_dashboard/assigned_schools", "routes/partner_dashboard/assigned_schools.tsx"),
   route("partner_dashboard/attendance", "routes/partner_dashboard/attendance.tsx"),
   route("partner_dashboard/assignment_management", "routes/partner_dashboard/assignment_management.tsx"),

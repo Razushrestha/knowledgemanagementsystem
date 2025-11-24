@@ -6,17 +6,83 @@ export default function ProgressReport() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const location = useLocation();
+  // ----------------------------
+// Dummy API‑like Data
+// ----------------------------
+const summaryStats = [
+{ label: "Total Schools", value: 3, icon: "mdi:school", color: "#DFF1FF", border: "#90CAF9" },
+{ label: "Students Taught", value: 1500, icon: "mdi:account-group", color: "#E8FFE8", border: "#A5D6A7" },
+{ label: "Weekly hours", value: 37, icon: "mdi:clock-outline", color: "#FFEFD1", border: "#FFCC80" },
+{ label: "Class Conducted", value: 6, icon: "mdi:google-classroom", color: "#F1E8FF", border: "#B39DDB" },
+{ label: "Avg Performance", value: "87%", icon: "mdi:chart-line", color: "#E2F7F5", border: "#80DEEA" },
+];
+
+
+const teacherActivity = [
+{ title: "Chapter 2", subtitle: "Materials taught", icon: "mdi:file-document", color: "#DDE9FF" },
+{ title: "Chapter 2", subtitle: "Assignments Given", icon: "mdi:book-check", color: "#DFFFEA" },
+{ title: 76, subtitle: "Assignments Checked", icon: "mdi:book-edit", color: "#F5DFFF" },
+{ title: 234, subtitle: "Feedback Entries", icon: "mdi:message", color: "#FFE5D9" },
+{ title: 45, subtitle: "Announcements", icon: "mdi:bullhorn-outline", color: "#D9F7F6" },
+{ title: "4.7", subtitle: "Avg Rating", icon: "mdi:star", color: "#FFEAF1" },
+];
+
+
+const notifications = [
+{ type: "danger", text: "Low Attendance Alert — Oak Valley School Grade 8‑9", icon: "mdi:alert-circle" },
+{ type: "warning", text: "Overdue Assignments — 13 assignments pending review", icon: "mdi:clock-alert" },
+{ type: "info", text: "Chapter 2 behind Schedule in Grade 8 (Oak Valley School)", icon: "mdi:information" },
+];
+
+
+const schoolProgress = [
+{
+school: "GreenField High School",
+status: "Active",
+students: 187,
+classes: 6,
+avgScore: "92%",
+attendance: "89%",
+badge: "#CBE8FF",
+},
+{
+school: "Sunrise Elementary",
+status: "Active",
+students: 187,
+classes: 6,
+avgScore: "92%",
+attendance: "89%",
+badge: "#CBE8FF",
+},
+{
+school: "Oak Valley School",
+status: "Needs Attention",
+students: 187,
+classes: 6,
+avgScore: "72%",
+attendance: "68%",
+badge: "#FFE4C4",
+},
+];
+
+
+const weeklyProgress = [
+{ label: "Teaching Hours", value: 28, total: 30 },
+{ label: "Assignments Reviewed", value: 18, total: 30 },
+{ label: "Materials Taught", value: 2, total: 21 },
+];
+
+
+const achievements = [
+{ icon: "mdi:trophy", title: "Top Performer", text: "Best attendance rate this month", color: "#FFF7D9" },
+{ icon: "mdi:account-group", title: "1500 Students milestone", text: "Congratulations", color: "#E7FFE7" },
+];
 
   const sidebarItems = [
     {
       label: "Dashboard",
       icon: <Icon icon="iconamoon:home-duotone" width={24} height={24} />,
       path: "/partner_dashboard",
-    },
-    {
-      label: "Profile Management",
-      icon: <Icon icon="iconamoon:profile-bold" width={24} height={24} />,
-      path: "/partner_dashboard/profile_management",
     },
     {
       label: "Assigned Schools",
@@ -137,14 +203,13 @@ export default function ProgressReport() {
               {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg py-1 z-20">
                   <Link
-                    to="/"
+                    to="/partner_dashboard/profile"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     onClick={() => {
-                      localStorage.removeItem("authToken");
                       setIsDropdownOpen(false);
                     }}
                   >
-                    Sign out
+                    Profile
                   </Link>
                 </div>
               )}
@@ -156,7 +221,161 @@ export default function ProgressReport() {
       {/* Main Content */}
       <main className="pt-[120px] fixed top-0 left-60 px-10 pb-10 overflow-y-auto h-screen w-[calc(100%-240px)] bg-[#fdfbf0]">
 
-      </main>
+  {/* Page Title */}
+  <h1 className="text-3xl font-semibold mb-6 text-[#333]">My Progress</h1>
+
+  {/* Summary Cards */}
+ <div className="grid grid-cols-5 gap-4 mb-8">
+  {summaryStats.map((item) => (
+    <div
+      key={item.label}
+      className="flex flex-col rounded-xl p-4 items-center justify-center shadow-sm border bg-white"
+      style={{ background: item.color, borderColor: item.border }}
+    >
+      <div className="flex gap-4 items-center text-center">
+        <Icon 
+          icon={item.icon}
+          className="text-2xl mb-2"
+          style={{ color: item.color }}
+        />
+        <p className="text-sm text-gray-600">{item.label}</p>
+      </div>
+
+      <p className="text-2xl font-bold text-[#333]">{item.value}</p>
+    </div>
+  ))}
+</div>
+
+  {/* Teacher Activity + Notifications */}
+  <div className="grid grid-cols-3 gap-6 mb-8">
+    {/* Teacher Activity */}
+    <div className="col-span-2 bg-white rounded-xl shadow p-6">
+      <h2 className="text-xl text-black font-semibold mb-4">Teacher Activity Overview</h2>
+      <div className="grid grid-cols-3 gap-4">
+        {teacherActivity.map((item) => (
+          <div
+            key={item.subtitle}
+            className="p-4 rounded-xl shadow-sm border"
+            style={{ background: item.color }}
+          >
+            <Icon icon={item.icon} className="text-3xl mb-2 text-[#333]" />
+            <p className="font-semibold text-lg">{item.title}</p>
+            <p className="text-sm text-gray-600">{item.subtitle}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {/* Notifications */}
+    <div className="bg-white rounded-xl shadow p-6">
+      <h2 className="text-xl text-black font-semibold mb-4">Alert & Notifications</h2>
+      <div className="space-y-4">
+        {notifications.map((n) => (
+          <div
+            key={n.text}
+            className={`p-3 rounded-lg flex items-start gap-3 bg-[#FAFAFA] border-l-4 ${
+              n.type === "danger"
+                ? "border-red-500"
+                : n.type === "warning"
+                ? "border-yellow-400"
+                : "border-blue-400"
+            }`}
+          >
+            <Icon icon={n.icon} className="text-xl mt-1" />
+            <p className="text-sm text-gray-700">{n.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  {/* School-wise Progress */}
+  <div className="mb-8">
+    <h2 className="text-xl font-semibold text-[#3A7D7D] mb-3">
+      School-wise Progress
+    </h2>
+
+    <div className="grid grid-cols-3 gap-6">
+      {schoolProgress.map((sch) => (
+        <div
+          key={sch.school}
+          className="bg-white p-5 rounded-xl shadow border"
+        >
+          <div className="flex justify-between items-center mb-3">
+            <h3 className="font-semibold text-black text-lg">{sch.school}</h3>
+            <span
+              className="px-3 py-1 text-xs rounded-full"
+              style={{ background: sch.badge }}
+            >
+              {sch.status}
+            </span>
+          </div>
+
+          <p className="text-sm text-black">Students: {sch.students}</p>
+          <p className="text-sm text-black">Classes: {sch.classes}</p>
+
+          <p className="text-sm mt-1 font-semibold text-green-600">
+            Avg Score: {sch.avgScore}
+          </p>
+          <p className="text-sm font-semibold text-blue-600">
+            Attendance: {sch.attendance}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  {/* Weekly Progress & Achievements */}
+  <div className="grid grid-cols-3 gap-6">
+    {/* Weekly Progress */}
+    <div className="bg-white rounded-xl shadow p-6">
+      <h2 className="text-xl font-semibold text-black mb-4">This Week's Progress</h2>
+
+      <div className="space-y-4">
+        {weeklyProgress.map((w) => (
+          <div key={w.label}>
+            <div className="flex justify-between text-sm text-black font-medium mb-1">
+              <span>{w.label}</span>
+              <span>
+                {w.value}/{w.total}
+              </span>
+            </div>
+
+            <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-[#3A7D7D]"
+                style={{ width: `${(w.value / w.total) * 100}%` }}
+              ></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {/* Achievements */}
+    <div className="col-span-2 bg-white rounded-xl shadow p-6">
+      <h2 className="text-xl text-black font-semibold mb-4">Recent Achievements</h2>
+
+      <div className="grid grid-cols-2 gap-4">
+        {achievements.map((a) => (
+          <div
+            key={a.title}
+            className="p-4 rounded-xl border shadow-sm flex gap-3 items-start"
+            style={{ background: a.color }}
+          >
+            <Icon icon={a.icon} className="text-3xl" style={{ background: a.color}} />
+            <div>
+              <p className="font-semibold text-gray-800">{a.title}</p>
+              <p className="text-xs text-gray-600">{a.text}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+</main>
+
     </div>
   );
 }

@@ -1,11 +1,79 @@
 import React, { useState } from "react";
 import { Link } from "react-router";
 import { Icon } from "@iconify/react";
+import {
+  PieChart,
+  Pie,
+  Tooltip,
+  Cell,
+  ResponsiveContainer,
+} from "recharts";
 
 export default function PartnerDashboard() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+    const [selectedClass, setSelectedClass] = useState("Class 1 - Attendance");
+
   
+// ===== PROFILE DATA =====
+const profileStats = {
+  completion: 75,
+  assignedSchools: 3,
+  totalClasses: 12,
+  tasksCompleted: 3,
+  tasksPending: 3,
+};
+
+// ===== PAYMENT PIE DATA =====
+const paymentData = [
+  { name: "Completed", value: 85 },
+  { name: "Pending", value: 15 },
+];
+const paymentColors = ["#3A7D7D", "#D97706"];
+
+// ===== THIS WEEK CLASSES =====
+const weeklyClasses = [
+  { school: "Vidya Niketan", chapter: 2, weeks: 6, completed: 5 },
+  { school: "Pragati", chapter: 1, weeks: 5, completed: 5 },
+  { school: "Kanchanjunga", chapter: 2, weeks: 7, completed: 6 },
+  { school: "Kanchanjunga", chapter: 2, weeks: 6, completed: 4 },
+];
+
+// ===== LEADERBOARD =====
+const leaderboard = [
+  { id: 1, name: "John Doe", score: 9 },
+  { id: 2, name: "John Doe", score: 8 },
+  { id: 3, name: "John Doe", score: 7 },
+  { id: 4, name: "John Doe", score: 6.5 },
+];
+
+// ===== STUDENT MONITORING =====
+const studentMonitoring = [
+  {
+    name: "Alice Johnson",
+    total: 20,
+    present: 20,
+    absent: 5,
+    assignment: "3 / 5",
+    marks: 85,
+  },
+  {
+    name: "Alice Johnson",
+    total: 20,
+    present: 20,
+    absent: 5,
+    assignment: "3 / 5",
+    marks: 85,
+  },
+  {
+    name: "Alice Johnson",
+    total: 20,
+    present: 20,
+    absent: 5,
+    assignment: "3 / 5",
+    marks: 85,
+  },
+];
 
 
   const sidebarItems = [
@@ -14,13 +82,6 @@ export default function PartnerDashboard() {
       icon: (
              <Icon icon="iconamoon:home-duotone" width={24} height={24} />
 
-      ),
-    },
-    {
-      label: "Profile Management",
-      icon: (
-       <Icon icon="iconamoon:profile-bold" width={24} height={24} />
-      
       ),
     },
     {
@@ -84,7 +145,6 @@ export default function PartnerDashboard() {
           {sidebarItems.map((item, index) => {
             const routeMap: Record<string, string> = {
               "Dashboard": "/partner_dashboard",
-              "Profile Management": "/partner_dashboard/profile_management",
               "Assigned Schools": "/partner_dashboard/assigned_schools",
               "Attendance": "/partner_dashboard/attendance",
               "Assignment Management": "/partner_dashboard/assignment_management",
@@ -155,14 +215,13 @@ export default function PartnerDashboard() {
                              {isDropdownOpen && (
                                <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg py-1 z-20">
                                  <Link
-                                   to="/"
+                                   to="/partner_dashboard/profile"
                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                    onClick={() => {
-                                     localStorage.removeItem("authToken");
                                      setIsDropdownOpen(false);
                                    }}
                                  >
-                                   Sign out
+                                   Profile
                                  </Link>
                                </div>
                              )}
@@ -174,14 +233,168 @@ export default function PartnerDashboard() {
 
       {/* Main Content */}
       <main className="pt-[120px] fixed top-0 left-60 px-10 pb-10 overflow-y-auto h-screen w-[calc(100%-240px)] bg-[#fdfbf0]">
-        
 
-        {/* Welcome Section */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">Welcome to Partner Dashboard</h1>
-          <p className="text-gray-600 mt-2">Manage your profile, schools, tasks, and performance metrics</p>
-          </div>
-      </main>
+  {/* ===== DASHBOARD CARDS ===== */}
+  <div className="grid grid-cols-4 gap-6 mb-8">
+
+    {/* Profile Status */}
+    <div className="bg-white rounded-xl p-5 shadow-sm hover:shadow-lg transition cursor-pointer">
+      <h3 className="text-gray-700 font-semibold mb-2">Profile Status</h3>
+      <div className="flex justify-center">
+        <div className="relative w-24 h-24 flex items-center justify-center rounded-full border-4 border-[#3A7D7D]">
+          <span className="text-2xl font-bold text-[#3A7D7D]">
+            {profileStats.completion}%
+          </span>
+        </div>
+      </div>
+    </div>
+
+    {/* Assigned Schools */}
+    <div className="bg-white rounded-xl p-5 shadow-sm hover:shadow-lg transition cursor-pointer">
+      <h3 className="text-gray-700 font-semibold mb-2">Assigned Schools</h3>
+      <p className="text-4xl font-bold text-[#3A7D7D]">{profileStats.assignedSchools}</p>
+      <span className="text-sm bg-[#f0fdfa] px-3 py-1 rounded-full mt-2 inline-block text-[#0f766e]">
+        {profileStats.totalClasses} Classes
+      </span>
+    </div>
+
+    {/* Tasks Overview */}
+    <div className="bg-white rounded-xl p-5 shadow-sm hover:shadow-lg transition cursor-pointer">
+      <h3 className="text-gray-700 font-semibold mb-3">Tasks Overview</h3>
+      <p className="text-gray-700 font-medium">
+        <span className="text-[#3A7D7D] font-bold">{profileStats.tasksCompleted}</span> Completed
+      </p>
+      <p className="text-gray-700 font-medium mt-2">
+        <span className="text-[#D97706] font-bold">{profileStats.tasksPending}</span> Pending
+      </p>
+
+      <div className="w-full bg-gray-200 h-2 rounded-full mt-4">
+        <div
+          className="h-2 bg-[#3A7D7D] rounded-full"
+          style={{ width: `${(profileStats.tasksCompleted / (profileStats.tasksPending + profileStats.tasksCompleted)) * 100}%` }}
+        ></div>
+      </div>
+    </div>
+
+    {/* Payment Pie Chart */}
+    <div className="bg-white rounded-xl p-5 shadow-sm hover:shadow-lg transition cursor-pointer">
+      <h3 className="text-gray-700 font-semibold mb-3">Payment</h3>
+      <ResponsiveContainer width="100%" height={140}>
+        <PieChart>
+          <Pie
+            data={paymentData}
+            dataKey="value"
+            outerRadius={55}
+            label
+          >
+            {paymentData.map((entry, index) => (
+              <Cell key={index} fill={paymentColors[index]} />
+            ))}
+          </Pie>
+          <Tooltip />
+        </PieChart>
+      </ResponsiveContainer>
+    </div>
+
+  </div>
+
+  {/* ===== THIS WEEK CLASSES + LEADERBOARD ===== */}
+  <div className="grid grid-cols-2 gap-6 mb-8">
+
+    {/* THIS WEEK CLASSES */}
+    <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-lg transition">
+      <h2 className="text-center text-xl font-bold mb-4 text-gray-800">This Week Classes</h2>
+      <table className="w-full text-left text-gray-700">
+        <thead>
+          <tr className="border-b">
+            <th className="py-2">School Name</th>
+            <th>Chapter</th>
+            <th>Weeks</th>
+            <th>Weeks Completed</th>
+          </tr>
+        </thead>
+        <tbody>
+          {weeklyClasses.map((row, i) => (
+            <tr key={i} className="border-b hover:bg-gray-100">
+              <td className="py-2">{row.school}</td>
+              <td>{row.chapter}</td>
+              <td>{row.weeks}</td>
+              <td>{row.completed}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    {/* LEADERBOARD */}
+    <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-lg transition">
+      <h2 className="text-center text-xl font-bold mb-2 text-gray-800">Leaderboard</h2>
+      <p className="text-center text-gray-600 mb-4">You are ranked <b>#4</b> this week</p>
+      <table className="w-full text-left text-gray-700">
+        <thead>
+          <tr className="border-b">
+            <th className="py-2">S.N.</th>
+            <th>Name</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          {leaderboard.map((row) => (
+            <tr key={row.id} className="border-b hover:bg-gray-100">
+              <td className="py-2">{row.id}.</td>
+              <td>{row.name}</td>
+              <td>{row.score}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  {/* ===== STUDENT MONITORING ===== */}
+  <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-lg transition">
+    <h2 className="text-xl font-bold mb-4 text-gray-800">Student Monitoring</h2>
+
+    <select
+      value={selectedClass}
+      onChange={(e) => setSelectedClass(e.target.value)}
+      className="bg-[#E9F5F2] text-[#3A7D7D] px-3 py-1 rounded-lg mb-4"
+    >
+      <option>Class 1 - Attendance</option>
+      <option>Class 1 - Marks</option>
+      <option>Class 1 - Assignments</option>
+    </select>
+
+    <table className="w-full text-left text-gray-700">
+      <thead>
+        <tr className="border-b">
+          <th className="py-2">Student Name</th>
+          <th>Total Classes</th>
+          <th>Present</th>
+          <th>Absent</th>
+          <th>Assignment</th>
+          <th>Marks</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {studentMonitoring.map((row, i) => (
+          <tr key={i} className="border-b hover:bg-gray-100">
+            <td className="py-2">{row.name}</td>
+            <td>{row.total}</td>
+            <td>{row.present}</td>
+            <td>{row.absent}</td>
+            <td>{row.assignment}</td>
+            <td>{row.marks}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+</main>
+
     </div>
   );
 }

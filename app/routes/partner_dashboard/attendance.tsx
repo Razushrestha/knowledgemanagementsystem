@@ -273,7 +273,6 @@ export default function PartnerAttendance() {
      ------------------------- */
   const sidebarItems = [
     { label: "Dashboard", path: "/partner_dashboard", icon: "iconamoon:home-duotone" },
-    { label: "Profile Management", path: "/partner_dashboard/profile_management", icon: "iconamoon:profile-bold" },
     { label: "Assigned Schools", path: "/partner_dashboard/assigned_schools", icon: "teenyicons:school-outline" },
     { label: "Attendance", path: "/partner_dashboard/attendance", icon: "mingcute:calendar-2-line" },
     { label: "Assignment Management", path: "/partner_dashboard/assignment_management", icon: "hugeicons:assignments" },
@@ -360,14 +359,13 @@ export default function PartnerAttendance() {
                     {isDropdownOpen && (
                       <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg py-1 z-20">
                         <Link
-                          to="/"
+                          to="/partner_dashboard/profile"
                           className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                           onClick={() => {
-                            localStorage.removeItem("authToken");
                             setIsDropdownOpen(false);
                           }}
                         >
-                          Sign out
+                          Profile
                         </Link>
                       </div>
                     )}

@@ -11,10 +11,6 @@ export default function AssignedSchools() {
       icon: <Icon icon="iconamoon:home-duotone" width={24} height={24} />,
     },
     {
-      label: "Profile Management",
-      icon: <Icon icon="iconamoon:profile-bold" width={24} height={24} />,
-    },
-    {
       label: "Assigned Schools",
       icon: <Icon icon="teenyicons:school-outline" width={24} height={24} />,
     },
@@ -132,7 +128,6 @@ const schoolData = [
           {sidebarItems.map((item) => {
             const routeMap: Record<string, string> = {
               Dashboard: "/partner_dashboard",
-              "Profile Management": "/partner_dashboard/profile_management",
               "Assigned Schools": "/partner_dashboard/assigned_schools",
               Attendance: "/partner_dashboard/attendance",
               "Assignment Management": "/partner_dashboard/assignment_management",
@@ -214,14 +209,13 @@ const schoolData = [
               {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg py-1 z-20">
                   <Link
-                    to="/"
+                    to="/partner_dashboard/profile"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     onClick={() => {
-                      localStorage.removeItem("authToken");
                       setIsDropdownOpen(false);
                     }}
                   >
-                    Sign out
+                    Profile
                   </Link>
                 </div>
               )}
@@ -255,7 +249,7 @@ const schoolData = [
           key={s.id}
           className={`rounded-xl p-6 shadow-lg text-center items-center border ${colors.border} ${colors.bg}`}
         >
-          <div className="flex items-center gap-3 text-center">
+          <div className="flex items-center gap-3 text-center justify-center">
             <Icon icon={s.icon} className={`text-3xl ${s.color}`} />
             <p className={`text-gray-600 font-medium text-center ${s.color}`}>{s.title}</p>
           </div>

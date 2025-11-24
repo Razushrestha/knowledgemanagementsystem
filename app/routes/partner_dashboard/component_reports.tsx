@@ -14,11 +14,6 @@ export default function ComponentReports() {
       path: "/partner_dashboard",
     },
     {
-      label: "Profile Management",
-      icon: <Icon icon="iconamoon:profile-bold" width={24} height={24} />,
-      path: "/partner_dashboard/profile_management",
-    },
-    {
       label: "Assigned Schools",
       icon: <Icon icon="teenyicons:school-outline" width={24} height={24} />,
       path: "/partner_dashboard/assigned_schools",
@@ -137,14 +132,13 @@ export default function ComponentReports() {
               {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg py-1 z-20">
                   <Link
-                    to="/"
+                    to="/partner_dashboard/profile"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     onClick={() => {
-                      localStorage.removeItem("authToken");
                       setIsDropdownOpen(false);
                     }}
                   >
-                    Sign out
+                    Profile
                   </Link>
                 </div>
               )}
