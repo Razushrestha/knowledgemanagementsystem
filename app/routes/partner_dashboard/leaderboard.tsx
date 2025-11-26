@@ -338,7 +338,7 @@ const Leaderboard: React.FC = () => {
           {/* Summary Cards */}
           <div className="grid grid-cols-4 gap-6">
             {/* Top Tutor Card - Gold/Purple theme */}
-            <div className="bg-linear-to-br from-orange-50 to-orange-100 p-6 rounded-2xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer border-2 border-orange-300">
+            <div className="bg-orange-100 p-6 rounded-2xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer border border-gray-200">
               <div className="flex items-center justify-between mb-3">
                 <p className="text-orange-600 text-sm font-semibold uppercase tracking-wider">Top Tutor</p>
                 <Icon icon="mdi:crown" className="text-2xl text-yellow-500" />
@@ -353,7 +353,7 @@ const Leaderboard: React.FC = () => {
             </div>
 
             {/* Avg Performance Card - Blue theme */}
-            <div className="bg-linear-to-br from-blue-50 to-blue-100 p-6 rounded-2xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer border-2 border-blue-300">
+            <div className="bg-linear-to-br from-blue-50 to-blue-100 p-6 rounded-2xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer border border-gray-200">
               <div className="flex items-center justify-between mb-3">
                 <p className="text-blue-600 text-sm font-semibold uppercase tracking-wider">Avg Performance</p>
                 <Icon icon="mdi:chart-line" className="text-2xl text-blue-500" />
@@ -365,7 +365,7 @@ const Leaderboard: React.FC = () => {
             </div>
 
             {/* Active Tutors Card - Green theme */}
-            <div className="bg-linear-to-br from-green-50 to-green-100 p-6 rounded-2xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer border-2 border-green-300">
+            <div className="bg-linear-to-br from-green-50 to-green-100 p-6 rounded-2xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer border border-gray-200">
               <div className="flex items-center justify-between mb-3">
                 <p className="text-green-600 text-sm font-semibold uppercase tracking-wider">Active Tutors</p>
                 <Icon icon="mdi:account-multiple" className="text-2xl text-green-500" />
@@ -375,7 +375,7 @@ const Leaderboard: React.FC = () => {
             </div>
 
             {/* Trending Tutor Card - Orange theme */}
-            <div className="bg-linear-to-br from-red-50 to-red-100 p-6 rounded-2xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer border-2 border-red-300">
+            <div className="bg-linear-to-br from-red-50 to-red-100 p-6 rounded-2xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer border border-gray-200">
               <div className="flex items-center justify-between mb-3">
                 <p className="text-red-600 text-sm font-semibold uppercase tracking-wider">Trending Tutor</p>
                 <Icon icon="mdi:fire" className="text-2xl text-red-500" />
@@ -388,9 +388,9 @@ const Leaderboard: React.FC = () => {
           </div>
 
           {/* Filters */}
-          <div className="bg-white p-6 flex justify-between rounded-2xl shadow-md border border-green-200 hover:shadow-lg transition-shadow duration-300">
+          <div className="bg-white p-6 flex justify-between rounded-2xl shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-300">
             <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-              <Icon icon="mdi:filter" className="text-[#3A7D7D]" />
+              <Icon icon="mdi:filter" className="text-black w-8 h-8" />
               Leaderboard Filters
             </h2>
 
@@ -398,7 +398,7 @@ const Leaderboard: React.FC = () => {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as any)}
-                className="px-4 py-2.5 rounded-lg bg-linear-to-r from-blue-50 to-blue-100 text-gray-700 font-medium border border-blue-200 hover:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all cursor-pointer"
+                className="px-4 py-2.5 rounded-lg bg-white text-gray-700 font-medium border border-gray-400 hover:border-gray-800 focus:outline-none focus:ring focus:ring-gray-400 transition-all cursor-pointer"
               >
                 <option value="rank">Sort by Rank</option>
                 <option value="points">Sort by Points</option>
@@ -408,7 +408,7 @@ const Leaderboard: React.FC = () => {
               <select
                 value={selectedSchool}
                 onChange={(e) => setSelectedSchool(e.target.value)}
-                className="px-4 py-2.5 rounded-lg bg-linear-to-r from-green-50 to-green-100 text-gray-700 font-medium border border-green-200 hover:border-green-400 focus:outline-none focus:ring-2 focus:ring-green-400 transition-all cursor-pointer"
+                className="px-4 py-2.5 rounded-lg bg-white text-gray-700 font-medium border border-gray-400 hover:border-gray-400 focus:outline-none focus:ring focus:ring-gray-400 transition-all cursor-pointer"
               >
                 <option>All Schools</option>
                 {uniqueSchools.map((s) => (
@@ -521,7 +521,7 @@ const Leaderboard: React.FC = () => {
             {/* Performance Trends Chart */}
             <div className="flex flex-col gap-4">
               {/* Your Position Card */}
-              <div className="bg-gradient-to-br from-[#3A7D7D] to-[#2A5D5D] p-6 rounded-2xl shadow-lg text-white border-2 border-[#3A7D7D]">
+              <div className="bg-linear-to-br from-[#3A7D7D] to-[#2A5D5D] p-6 rounded-2xl shadow-lg text-white border-2 border-[#3A7D7D]">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-xl font-bold flex items-center gap-2">
                     <Icon icon="mdi:trophy-outline" className="text-2xl" />

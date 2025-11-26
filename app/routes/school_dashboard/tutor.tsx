@@ -11,6 +11,47 @@ export default function Tutor() {
   const location = useLocation();
 
 
+
+// --- Mock API Data ---
+const tutorData = {
+name: "Mr. Subash Neupane",
+tutorId: "TU-20697",
+totalClasses: 10,
+totalStudents: 300,
+};
+
+
+const summaryStats = [
+{ label: "Classes Conducted", value: 7, color: "#d7e3f3" },
+{ label: "Hours Taught", value: 19, color: "#e6f0ff", link: true },
+{ label: "Class Missed", value: 3, color: "#f3dcdc" },
+{ label: "Assignment Given", value: 7, color: "#f4e5e8" },
+{ label: "Checked/ Pending", value: "100/200", color: "#f5f5cf" },
+{ label: "Attendance Rate", value: "94.2%", color: "#e6f7df" },
+{ label: "Avg Performance", value: "82.5%", color: "#e2e9ee" },
+];
+
+
+const alerts = {
+needsAttention: "Low Attendance & behind schedule",
+overdueAssignments: 13,
+totals: { total: 3, checked: 100, pending: 200 },
+};
+
+
+const classMonitorData = [
+{ grade: 1, students: 26, attendance: "92%", score: 85, chapters: 1, status: "On Track", color: "#6fbf73" },
+{ grade: 2, students: 28, attendance: "92.8%", score: 82, chapters: 1, status: "On Track", color: "#6fbf73" },
+{ grade: 3, students: 32, attendance: "96.5%", score: 85, chapters: 2, status: "On Track", color: "#6fbf73" },
+{ grade: 4, students: 54, attendance: "92%", score: 85, chapters: 2, status: "Behind Schedule", color: "#f3c361" },
+{ grade: 5, students: 49, attendance: "68%", score: 85, chapters: 3, status: "Needs Attention", color: "#e57373" },
+{ grade: 6, students: 55, attendance: "85%", score: 85, chapters: 3, status: "On Track", color: "#6fbf73" },
+{ grade: 7, students: 55, attendance: "92%", score: 85, chapters: 4, status: "On Track", color: "#6fbf73" },
+{ grade: 8, students: 55, attendance: "92%", score: 85, chapters: 4, status: "On Track", color: "#6fbf73" },
+{ grade: 9, students: 55, attendance: "92%", score: 85, chapters: 4, status: "On Track", color: "#6fbf73" },
+];
+
+
    const sidebarItems = [
       { label: "Dashboard", icon: <Icon icon="iconamoon:home-duotone" width={24} height={24} /> },
       { label: "Attendance", icon: <Icon icon="mingcute:calendar-2-line" width={24} height={24} /> },
@@ -117,15 +158,106 @@ className={`w-full text-left flex items-center gap-2 px-3 py-3 rounded-lg transi
 
       {/* Main Content */}
       <main className="pt-[120px] fixed top-0 left-60 px-10 pb-10 overflow-y-auto h-screen w-[calc(100%-240px)] bg-[#fdfbf0]">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">Tutor Management</h1>
-          <p className="text-gray-600 mt-2">Manage and monitor tutors</p>
-        </div>
+     {/* Header Section */}
+<div className="p-6 bg-white rounded-2xl shadow-sm border border-[#ece8d9] mb-8 flex items-center gap-6">
+<div className="w-28 h-28 rounded-full bg-gray-200"></div>
+<div>
+<h1 className="text-2xl font-bold text-gray-800">{tutorData.name}</h1>
+<div className="flex gap-8 mt-3 text-gray-600">
+<p><span className="font-semibold">Tutor ID</span> {tutorData.tutorId}</p>
+<p><span className="font-semibold">Total Classes</span> {tutorData.totalClasses} Classes</p>
+<p><span className="font-semibold">Total Students</span> {tutorData.totalStudents} Students</p>
+</div>
+</div>
+</div>
 
-        <div className="bg-white rounded-2xl p-6 shadow-sm border-2 border-[#e8e4d8]">
-          <p className="text-gray-700">Tutor management content will be displayed here.</p>
-        </div>
-      </main>
+
+
+
+{/* Summary Stats Section */}
+<div className="grid grid-cols-3 gap-6 mb-10">
+{/* Left Summary Cards */}
+<div className="col-span-2 grid grid-cols-3 gap-5 bg-white border border-[#ece8d9] p-6 rounded-2xl shadow-sm">
+{summaryStats.map((item, idx) => (
+<div
+key={idx}
+className="rounded-xl p-5 cursor-pointer transition-all hover:scale-[1.02] hover:shadow-md"
+style={{ backgroundColor: item.color }}
+>
+<p className="text-gray-700 text-sm mb-1">{item.label}</p>
+<p className="text-3xl font-semibold text-gray-800">{item.value}</p>
+</div>
+))}
+</div>
+
+
+{/* Alerts */}
+<div className="bg-white border border-[#ece8d9] p-6 rounded-2xl shadow-sm">
+<h3 className="font-semibold text-gray-800 mb-4">Alert & Notifications</h3>
+
+
+<div className="bg-[#fde4e4] p-4 rounded-xl mb-4 hover:shadow-md transition">
+<p className="font-semibold text-red-600">Needs Attention</p>
+<p className="text-gray-700 text-sm">{alerts.needsAttention}</p>
+</div>
+
+
+<div className="bg-[#fff4d6] p-4 rounded-xl mb-4 hover:shadow-md transition">
+<p className="font-semibold text-yellow-700">Overdue Assignments</p>
+<p className="text-gray-700 text-sm">{alerts.overdueAssignments} assignments pending review</p>
+</div>
+
+
+<div className="bg-[#e8f0ff] p-4 rounded-xl hover:shadow-md transition">
+<p className="font-semibold text-blue-700">Total Assignments</p>
+<p className="text-gray-700 text-sm">{alerts.totals.total}</p>
+<p className="text-gray-700 text-sm">Checked: {alerts.totals.checked} | Pending: {alerts.totals.pending}</p>
+</div>
+</div>
+</div>
+
+
+{/* Class Monitoring */}
+<h2 className="text-xl font-semibold text-gray-800 mb-4">Class- Wise Monitoring</h2>
+
+
+<div className="grid grid-cols-3 gap-6 pb-20">
+{classMonitorData.map((cls, idx) => (
+<div
+key={idx}
+className="bg-white border border-[#ece8d9] p-6 rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all"
+>
+<div className="flex justify-between items-center">
+<h3 className="text-lg font-semibold text-gray-800">Grade {cls.grade}</h3>
+<span
+className="px-3 py-1 rounded-full text-xs font-semibold text-white"
+style={{ backgroundColor: cls.color }}
+>
+{cls.status}
+</span>
+</div>
+
+
+<p className="text-gray-700 mt-3">{cls.students} Students</p>
+
+
+<div className="mt-3 text-sm text-gray-700">
+<p>Attendance: <span className="text-green-700 font-semibold">{cls.attendance}</span></p>
+<p>Avg Score: {cls.score}</p>
+<p>Chapters: {cls.chapters}</p>
+</div>
+
+
+<div className="mt-3 h-2 bg-gray-200 rounded-full overflow-hidden">
+<div
+className="h-full rounded-full"
+style={{ width: cls.attendance, backgroundColor: cls.color }}
+></div>
+</div>
+</div>
+))}
+</div>
+ </main>
     </div>
   );
 }

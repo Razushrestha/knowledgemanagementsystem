@@ -10,21 +10,21 @@ export default function ProgressReport() {
 // Dummy API‑like Data
 // ----------------------------
 const summaryStats = [
-{ label: "Total Schools", value: 3, icon: "mdi:school", color: "#DFF1FF", border: "#90CAF9" },
-{ label: "Students Taught", value: 1500, icon: "mdi:account-group", color: "#E8FFE8", border: "#A5D6A7" },
-{ label: "Weekly hours", value: 37, icon: "mdi:clock-outline", color: "#FFEFD1", border: "#FFCC80" },
-{ label: "Class Conducted", value: 6, icon: "mdi:google-classroom", color: "#F1E8FF", border: "#B39DDB" },
-{ label: "Avg Performance", value: "87%", icon: "mdi:chart-line", color: "#E2F7F5", border: "#80DEEA" },
+{ label: "Total Schools", value: 3, icon: "mdi:school", color: "bg-blue-100", border: "border-blue-400" },
+{ label: "Students Taught", value: 1500, icon: "mdi:account-group", color: "bg-green-100", border: "border-green-400" },
+{ label: "Weekly hours", value: 37, icon: "mdi:clock-outline", color: "bg-amber-100", border: "border-amber-400" },
+{ label: "Class Conducted", value: 6, icon: "mdi:google-classroom", color: "bg-purple-100", border: "border-purple-400" },
+{ label: "Avg Performance", value: "87%", icon: "mdi:chart-line", color: "bg-cyan-100", border: "border-cyan-400" },
 ];
 
 
 const teacherActivity = [
-{ title: "Chapter 2", subtitle: "Materials taught", icon: "mdi:file-document", color: "#DDE9FF" },
-{ title: "Chapter 2", subtitle: "Assignments Given", icon: "mdi:book-check", color: "#DFFFEA" },
-{ title: 76, subtitle: "Assignments Checked", icon: "mdi:book-edit", color: "#F5DFFF" },
-{ title: 234, subtitle: "Feedback Entries", icon: "mdi:message", color: "#FFE5D9" },
-{ title: 45, subtitle: "Announcements", icon: "mdi:bullhorn-outline", color: "#D9F7F6" },
-{ title: "4.7", subtitle: "Avg Rating", icon: "mdi:star", color: "#FFEAF1" },
+{ title: "Chapter 2", subtitle: "Materials taught", icon: "mdi:file-document", color: "bg-blue-50" },
+{ title: "Chapter 2", subtitle: "Assignments Given", icon: "mdi:book-check", color: "bg-green-50" },
+{ title: 76, subtitle: "Assignments Checked", icon: "mdi:book-edit", color: "bg-purple-50" },
+{ title: 234, subtitle: "Feedback Entries", icon: "mdi:message", color: "bg-orange-50" },
+{ title: 45, subtitle: "Announcements", icon: "mdi:bullhorn-outline", color: "bg-cyan-50" },
+{ title: "4.7", subtitle: "Avg Rating", icon: "mdi:star", color: "bg-pink-50" },
 ];
 
 
@@ -43,7 +43,7 @@ students: 187,
 classes: 6,
 avgScore: "92%",
 attendance: "89%",
-badge: "#CBE8FF",
+badge: "bg-blue-200",
 },
 {
 school: "Sunrise Elementary",
@@ -52,7 +52,7 @@ students: 187,
 classes: 6,
 avgScore: "92%",
 attendance: "89%",
-badge: "#CBE8FF",
+badge: "bg-blue-200",
 },
 {
 school: "Oak Valley School",
@@ -61,7 +61,7 @@ students: 187,
 classes: 6,
 avgScore: "72%",
 attendance: "68%",
-badge: "#FFE4C4",
+badge: "bg-orange-200",
 },
 ];
 
@@ -74,8 +74,8 @@ const weeklyProgress = [
 
 
 const achievements = [
-{ icon: "mdi:trophy", title: "Top Performer", text: "Best attendance rate this month", color: "#FFF7D9" },
-{ icon: "mdi:account-group", title: "1500 Students milestone", text: "Congratulations", color: "#E7FFE7" },
+{ icon: "mdi:trophy", title: "Top Performer", text: "Best attendance rate this month", color: "bg-yellow-100" },
+{ icon: "mdi:account-group", title: "1500 Students milestone", text: "Congratulations", color: "bg-green-100" },
 ];
 
   const sidebarItems = [
@@ -124,7 +124,7 @@ const achievements = [
   return (
     <div className="flex min-h-screen bg-[#fdfbf0]">
       {/* Sidebar */}
-      <aside className="w-60 fixed left-0 top-0 bottom-0 bg-[#438582] p-4 flex flex-col shadow-xl z-20">
+      <aside className="w-60 fixed left-0 top-0 bottom-0 bg-[#3A7D7D] p-4 flex flex-col shadow-xl z-20">
         <div className="text-2xl text-center font-bold mb-8 text-white">LOGO</div>
 
         <nav className="flex-1 space-y-6 py-2 overflow-y-auto">
@@ -135,12 +135,11 @@ const achievements = [
               <Link
                 key={item.label}
                 to={item.path}
-                className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 
-                  ${
-                    isActive
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 ${
+                  isActive
                   ? "bg-[#3A7D7D]/80 text-white border font-semibold shadow-[inset_0_0_2px_rgba(255,255,255,0.6),0_4px_10px_rgba(0,0,0,0.3)] -translate-y-0.5"
                   : "bg-transparent text-white/90 hover:bg-white hover:text-[#3A7D7D] hover:shadow-[0_4px_10px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:font-medium"
-                  }`}
+                }`}
               >
                 {item.icon}
                 {item.label}
@@ -229,19 +228,17 @@ const achievements = [
   {summaryStats.map((item) => (
     <div
       key={item.label}
-      className="flex flex-col rounded-xl p-4 items-center justify-center shadow-sm border bg-white"
-      style={{ background: item.color, borderColor: item.border }}
+      className={`flex flex-col rounded-xl p-4 items-center justify-center shadow-sm border ${item.color} ${item.border}`}
     >
       <div className="flex gap-4 items-center text-center">
         <Icon 
           icon={item.icon}
           className="text-2xl mb-2"
-          style={{ color: item.color }}
         />
         <p className="text-sm text-gray-600">{item.label}</p>
       </div>
 
-      <p className="text-2xl font-bold text-[#333]">{item.value}</p>
+      <p className="text-2xl font-bold text-gray-800">{item.value}</p>
     </div>
   ))}
 </div>
@@ -255,10 +252,12 @@ const achievements = [
         {teacherActivity.map((item) => (
           <div
             key={item.subtitle}
-            className="p-4 rounded-xl shadow-sm border"
-            style={{ background: item.color }}
+            className={`p-4 flex flex-col text-center items-center rounded-xl shadow-sm border ${item.color}`}
           >
-            <Icon icon={item.icon} className="text-3xl mb-2 text-[#333]" />
+            <Icon 
+              icon={item.icon} 
+              className="text-3xl mb-2 text-center"
+            />            
             <p className="font-semibold text-lg">{item.title}</p>
             <p className="text-sm text-gray-600">{item.subtitle}</p>
           </div>
@@ -304,8 +303,7 @@ const achievements = [
           <div className="flex justify-between items-center mb-3">
             <h3 className="font-semibold text-black text-lg">{sch.school}</h3>
             <span
-              className="px-3 py-1 text-xs rounded-full"
-              style={{ background: sch.badge }}
+              className={`px-3 py-1 text-xs rounded-full ${sch.badge}`}
             >
               {sch.status}
             </span>
@@ -360,10 +358,9 @@ const achievements = [
         {achievements.map((a) => (
           <div
             key={a.title}
-            className="p-4 rounded-xl border shadow-sm flex gap-3 items-start"
-            style={{ background: a.color }}
+            className={`p-4 rounded-xl border shadow-sm flex gap-3 items-start ${a.color}`}
           >
-            <Icon icon={a.icon} className="text-3xl" style={{ background: a.color}} />
+            <Icon icon={a.icon} className="text-3xl" />
             <div>
               <p className="font-semibold text-gray-800">{a.title}</p>
               <p className="text-xs text-gray-600">{a.text}</p>

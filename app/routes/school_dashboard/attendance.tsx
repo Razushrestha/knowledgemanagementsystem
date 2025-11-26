@@ -16,8 +16,7 @@ const generateGradesData = () => {
     const grade = i + 1;
     const totalStudents = Math.floor(Math.random() * 100) + 140;
     const present = Math.floor(totalStudents * (Math.random() * 0.3 + 0.85));
-    const absent = totalStudents - present;
-
+const absent = Math.max(0, totalStudents - present);
     return {
       grade,
       total: totalStudents,
@@ -314,7 +313,7 @@ className={`w-full text-left flex items-center gap-2 px-3 py-3 rounded-lg transi
 
 
             {/* CARD */}
-            <div className="bg-[#FFFDF4]  rounded-xl mt-8 py-4 border border-gray-300">
+            <div className="bg-white  rounded-xl mt-8 py-4 border border-gray-300">
 
              {/* HEADER */}
 <div className="flex flex-col md:flex-row justify-between items-center px-4 gap-4 pb-4">

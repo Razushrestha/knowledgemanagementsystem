@@ -250,7 +250,7 @@ const upcomingPayouts = {
         value: `रू ${salaryStats.monthlySalary.toLocaleString()}`,
         icon: "solar:wallet-money-bold",
         trend: "+5.2%",
-        bgGradient: "from-blue-50 to-blue-100",
+        bglinear: "from-blue-50 to-blue-100",
         iconBg: "bg-blue-500",
         borderColor: "border-blue-200",
         trendColor: "text-blue-600",
@@ -260,7 +260,7 @@ const upcomingPayouts = {
         value: `रू ${salaryStats.commissionEarned.toLocaleString()}`,
         icon: "mdi:cash-plus",
         trend: "+12.8%",
-        bgGradient: "from-emerald-50 to-emerald-100",
+        bglinear: "from-emerald-50 to-emerald-100",
         iconBg: "bg-emerald-500",
         borderColor: "border-emerald-200",
         trendColor: "text-emerald-600",
@@ -270,7 +270,7 @@ const upcomingPayouts = {
         value: `रू ${salaryStats.totalEarnings.toLocaleString()}`,
         icon: "uil:analytics",
         trend: "+18.4%",
-        bgGradient: "from-purple-50 to-purple-100",
+        bglinear: "from-purple-50 to-purple-100",
         iconBg: "bg-purple-500",
         borderColor: "border-purple-200",
         trendColor: "text-purple-600",
@@ -280,7 +280,7 @@ const upcomingPayouts = {
         value: `${salaryStats.totalSales} items`,
         icon: "mdi:cart-outline",
         trend: "+15.3%",
-        bgGradient: "from-orange-50 to-orange-100",
+        bglinear: "from-orange-50 to-orange-100",
         iconBg: "bg-orange-500",
         borderColor: "border-orange-200",
         trendColor: "text-orange-600",
@@ -288,7 +288,7 @@ const upcomingPayouts = {
     ].map((card) => (
       <div
         key={card.label}
-        className={`p-6 bg-gradient-to-br ${card.bgGradient} rounded-2xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 border-2 ${card.borderColor} cursor-pointer group`}
+        className={`p-6 bg-linear-to-br ${card.bglinear} rounded-2xl shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 border-2 ${card.borderColor} cursor-pointer group`}
       >
         <div
           className={`w-14 h-14 rounded-xl flex items-center justify-center mb-4 ${card.iconBg} text-white shadow-lg group-hover:shadow-xl transition-all`}
@@ -439,7 +439,7 @@ const upcomingPayouts = {
     <div className="overflow-x-auto">
       <table className="w-full text-sm">
         <thead>
-          <tr className="text-gray-700 font-bold bg-gradient-to-r from-purple-50 to-purple-100 border-b-2 border-purple-200">
+          <tr className="text-gray-700 font-bold bg-linear-to-r from-purple-50 to-purple-100 border-b-2 border-purple-200">
             <th className="py-4 px-4 text-left">MONTH</th>
             <th className="py-4 px-4 text-left">SALARY</th>
             <th className="py-4 px-4 text-left">COMMISSION</th>

@@ -20,6 +20,7 @@ export default function StudentDashboard() {
   const navigate = useNavigate();
   const location = useLocation();
 
+
   const student = {
     name: "John Doe",
     attendance: 75,
