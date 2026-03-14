@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router";
 import { Icon } from "@iconify/react";
+import { ImTextColor } from "react-icons/im";
 
 export default function ProgressReport() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -10,21 +11,21 @@ export default function ProgressReport() {
 // Dummy API‑like Data
 // ----------------------------
 const summaryStats = [
-{ label: "Total Schools", value: 3, icon: "mdi:school", color: "bg-blue-100", border: "border-blue-400" },
-{ label: "Students Taught", value: 1500, icon: "mdi:account-group", color: "bg-green-100", border: "border-green-400" },
-{ label: "Weekly hours", value: 37, icon: "mdi:clock-outline", color: "bg-amber-100", border: "border-amber-400" },
-{ label: "Class Conducted", value: 6, icon: "mdi:google-classroom", color: "bg-purple-100", border: "border-purple-400" },
-{ label: "Avg Performance", value: "87%", icon: "mdi:chart-line", color: "bg-cyan-100", border: "border-cyan-400" },
+{ label: "Total Schools", value: 3, icon: "lucide:school", color: "bg-blue-100", border: "border-blue-400",iconcolor: "text-blue-600" },
+{ label: "Students Taught", value: 1500, icon: "mdi:account-group", color: "bg-green-100", border: "border-green-400",iconcolor: "text-green-600" },
+{ label: "Weekly hours", value: 37, icon: "iconamoon:history-bold", color: "bg-amber-100", border: "border-amber-400",iconcolor: "text-amber-600" },
+{ label: "Class Conducted", value: 6, icon: "mdi:google-classroom", color: "bg-purple-100", border: "border-purple-400",iconcolor: "text-purple-600" },
+{ label: "Avg Performance", value: "87%", icon: "streamline-ultimate:performance-increase", color: "bg-cyan-100", border: "border-cyan-400",iconcolor: "text-cyan-600" },
 ];
 
 
 const teacherActivity = [
-{ title: "Chapter 2", subtitle: "Materials taught", icon: "mdi:file-document", color: "bg-blue-50" },
-{ title: "Chapter 2", subtitle: "Assignments Given", icon: "mdi:book-check", color: "bg-green-50" },
-{ title: 76, subtitle: "Assignments Checked", icon: "mdi:book-edit", color: "bg-purple-50" },
-{ title: 234, subtitle: "Feedback Entries", icon: "mdi:message", color: "bg-orange-50" },
-{ title: 45, subtitle: "Announcements", icon: "mdi:bullhorn-outline", color: "bg-cyan-50" },
-{ title: "4.7", subtitle: "Avg Rating", icon: "mdi:star", color: "bg-pink-50" },
+{ title: "Chapter 2", subtitle: "Materials taught", icon: "mage:book-text-fill", color: "bg-blue-50",textcolor: "text-blue-600" },
+{ title: "Chapter 2", subtitle: "Assignments Given", icon: "material-symbols-light:assignment-add-outline", color: "bg-green-50", textcolor: "text-green-600" },
+{ title: 76, subtitle: "Assignments Checked", icon: "tdesign:task-checked", color: "bg-purple-50", textcolor: "text-purple-600" },
+{ title: 234, subtitle: "Feedback Entries", icon: "entypo:chat", color: "bg-orange-50", textcolor: "text-orange-600" },
+{ title: 45, subtitle: "Announcements", icon: "mingcute:announcement-fill", color: "bg-cyan-50", textcolor: "text-cyan-600" },
+{ title: "4.7", subtitle: "Avg Rating", icon: "solar:star-bold", color: "bg-pink-50", textcolor: "text-pink-600" },
 ];
 
 
@@ -228,17 +229,17 @@ const achievements = [
   {summaryStats.map((item) => (
     <div
       key={item.label}
-      className={`flex flex-col rounded-xl p-4 items-center justify-center shadow-sm border ${item.color} ${item.border}`}
+      className={`flex flex-col rounded-xl px-4 py-6 items-center justify-center gap-8 shadow-lg border ${item.color} border-gray-300 hover:shadow-2xl transition-shadow duration-200` }
     >
       <div className="flex gap-4 items-center text-center">
         <Icon 
           icon={item.icon}
-          className="text-2xl mb-2"
+          className={`text-2xl  ${item.iconcolor} `}
         />
-        <p className="text-sm text-gray-600">{item.label}</p>
+        <p className={`text-md  ${item.iconcolor}`}>{item.label}</p>
       </div>
 
-      <p className="text-2xl font-bold text-gray-800">{item.value}</p>
+      <p className={`text-2xl font-bold text-gray-800 ${item.iconcolor}`}>{item.value}</p>
     </div>
   ))}
 </div>
@@ -256,10 +257,10 @@ const achievements = [
           >
             <Icon 
               icon={item.icon} 
-              className="text-3xl mb-2 text-center"
+              className={`text-3xl mb-2 text-center ${item.textcolor}`}
             />            
-            <p className="font-semibold text-lg">{item.title}</p>
-            <p className="text-sm text-gray-600">{item.subtitle}</p>
+            <p className={`font-semibold text-lg ${item.textcolor}`}>{item.title}</p>
+            <p className={`text-sm text-gray-600 ${item.textcolor}`}>{item.subtitle}</p>
           </div>
         ))}
       </div>
